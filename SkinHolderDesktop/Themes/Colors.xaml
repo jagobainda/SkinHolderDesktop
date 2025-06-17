@@ -1,0 +1,10 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Color x:Key="PrimaryColor">#B8D600</Color>
+
+    <SolidColorBrush x:Key="PrimaryBrush" Color="#B8D600" />
+    <SolidColorBrush x:Key="GamerPayBrush" Color="#019EFF" />
+    <SolidColorBrush x:Key="SteamBrush" Color="#59BF40" />
+
+</ResourceDictionary>

@@ -1,8 +1,7 @@
 ﻿using System.Windows;
 
-namespace SkinHolderDesktop
+namespace SkinHolderDesktop;
+
+public partial class App : Application
 {
-    public partial class App : Application
-    {
-    }
 }

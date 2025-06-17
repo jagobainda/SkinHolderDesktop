@@ -4,6 +4,14 @@
              xmlns:local="clr-namespace:SkinHolderDesktop"
              StartupUri="/Core/MainWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Themes/Colors.xaml" />
+                <ResourceDictionary Source="Themes/ButtonStyles.xaml" />
+                <ResourceDictionary Source="Themes/TextBoxStyles.xaml" />
+                <ResourceDictionary Source="Themes/TextBlockStyles.xaml" />
+                <ResourceDictionary Source="Themes/ContainerStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
