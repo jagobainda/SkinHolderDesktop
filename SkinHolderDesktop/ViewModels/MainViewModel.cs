@@ -1,5 +1,15 @@
-﻿namespace SkinHolderDesktop.ViewModels;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-public class MainViewModel
+namespace SkinHolderDesktop.ViewModels;
+
+public partial class MainViewModel : ObservableObject
 {
+    [ObservableProperty]
+    private string? currentUsername;
+
+    [ObservableProperty]
+    private string? token;
+
+    [ObservableProperty]
+    private bool isAuthenticated;
 }

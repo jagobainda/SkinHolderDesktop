@@ -9,15 +9,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
+    <Content Include="bin\Debug\net9.0-windows\Images\icono.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Mappers\" />
     <Folder Include="Utils\" />
-    <Folder Include="Services\" />
-    <Folder Include="Views\" />
+    <Folder Include="Views\Partials\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.6" />
     <PackageReference Include="Polly" Version="8.5.2" />
     <PackageReference Include="Refit" Version="8.0.0" />

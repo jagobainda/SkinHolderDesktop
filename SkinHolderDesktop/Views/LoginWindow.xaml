@@ -1,0 +1,86 @@
+﻿<Window x:Class="SkinHolderDesktop.Views.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
+        xmlns:vm="clr-namespace:SkinHolderDesktop.ViewModels"
+        mc:Ignorable="d"
+        Title="SkinHolder - Login"
+        Height="800"
+        Width="600"
+        Background="#444444"
+        ResizeMode="CanMinimize"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="1.5*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Margin="40 40 40 20">
+            <Image Name="Logo" />
+            <TextBlock Style="{StaticResource TopMenuTitleTextBlockStyle}" 
+                       HorizontalAlignment="Right" 
+                       VerticalAlignment="Top" 
+                       FontSize="30" 
+                       Margin="30">
+                <Run Text="SKINHOLDER" Foreground="{StaticResource PrimaryBrush}" />
+            </TextBlock>
+        </Grid>
+
+        <Border Grid.Row="1" Style="{StaticResource RoundedPanelStyle}" Margin="40 20 40 40">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Margin="20">
+                    <TextBlock Style="{StaticResource TopMenuTitleTextBlockStyle}">
+                        <Run Text="USUARIO" Foreground="{StaticResource PrimaryBrush}" />
+                    </TextBlock>
+
+                    <TextBox Style="{StaticResource TextBoxStyleMenu}"
+                             Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+
+                <StackPanel Grid.Row="1" Margin="20">
+                    <TextBlock Style="{StaticResource TopMenuTitleTextBlockStyle}">
+                        <Run Text="CONTRASEÑA" Foreground="{StaticResource PrimaryBrush}" />
+                    </TextBlock>
+
+                    <PasswordBox Style="{StaticResource PasswordBoxStyleMenu}"
+                                 Name="PasswordBox"
+                                 PasswordChanged="PasswordBox_PasswordChanged" />
+
+                    <TextBlock Text="{Binding ErrorText}" 
+                               HorizontalAlignment="Center"
+                               Margin="0 10 0 0"
+                               Foreground="Red"
+                               FontSize="14" />
+                </StackPanel>
+
+                <StackPanel Grid.Row="2" Orientation="Horizontal">
+                    <Button Style="{StaticResource ButtonStyleWithBorderRadius}"
+                            Command="{Binding IniciarSesionCommand}"
+                            Margin="40 0"
+                            Width="300">
+                        <TextBlock Style="{StaticResource TitleTextBlockStyle}">
+                            <Run Text="INICIAR SESIÓN" Foreground="{StaticResource PrimaryBrush}" FontSize="22" />
+                        </TextBlock>
+                    </Button>
+
+                    <Button Style="{StaticResource ButtonStyleWithBorderRadius}"
+                            Command="{Binding RegistrarCommand}"
+                            Width="60">
+                        <fa:ImageAwesome Icon="UserPlus" Width="30" Height="30" Foreground="{StaticResource PrimaryBrush}" />
+                    </Button>
+                </StackPanel>
+
+            </Grid>
+        </Border>
+    </Grid>
+</Window>
