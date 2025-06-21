@@ -4,7 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
-        xmlns:vm="clr-namespace:SkinHolderDesktop.ViewModels"
+        xmlns:vm="clr-namespace:SkinHolderDesktop.ViewModels" 
+        d:DataContext="{d:DesignInstance Type=vm:LoginViewModel}"
         mc:Ignorable="d"
         Title="SkinHolder - Login"
         Height="800"
@@ -12,6 +13,10 @@
         Background="#444444"
         ResizeMode="CanMinimize"
         WindowStartupLocation="CenterScreen">
+
+    <Window.InputBindings>
+        <KeyBinding Key="Enter" Command="{Binding IniciarSesionCommand}" />
+    </Window.InputBindings>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -21,11 +26,7 @@
 
         <Grid Grid.Row="0" Margin="40 40 40 20">
             <Image Name="Logo" />
-            <TextBlock Style="{StaticResource TopMenuTitleTextBlockStyle}" 
-                       HorizontalAlignment="Right" 
-                       VerticalAlignment="Top" 
-                       FontSize="30" 
-                       Margin="30">
+            <TextBlock Style="{StaticResource TopMenuTitleTextBlockStyle}" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="30" Margin="30">
                 <Run Text="SKINHOLDER" Foreground="{StaticResource PrimaryBrush}" />
             </TextBlock>
         </Grid>
@@ -43,8 +44,7 @@
                         <Run Text="USUARIO" Foreground="{StaticResource PrimaryBrush}" />
                     </TextBlock>
 
-                    <TextBox Style="{StaticResource TextBoxStyleMenu}"
-                             Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBox Style="{StaticResource TextBoxStyleMenu}" Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
 
                 <StackPanel Grid.Row="1" Margin="20">
@@ -52,34 +52,46 @@
                         <Run Text="CONTRASEÑA" Foreground="{StaticResource PrimaryBrush}" />
                     </TextBlock>
 
-                    <PasswordBox Style="{StaticResource PasswordBoxStyleMenu}"
-                                 Name="PasswordBox"
-                                 PasswordChanged="PasswordBox_PasswordChanged" />
+                    <Grid>
+                        <PasswordBox x:Name="PasswordBox" Style="{StaticResource PasswordBoxStyleMenu}" PasswordChanged="PasswordBox_PasswordChanged" />
 
-                    <TextBlock Text="{Binding ErrorText}" 
-                               HorizontalAlignment="Center"
-                               Margin="0 10 0 0"
-                               Foreground="Red"
-                               FontSize="14" />
+                        <Button Width="30" Height="30" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0 0 15 0" BorderThickness="0" Background="Transparent" Cursor="Hand" Command="{Binding ToggleGuardarPasswordCommand}">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Grid>
+                                                    <fa:ImageAwesome x:Name="Icon" Icon="{Binding GuardarPassword, Converter={StaticResource SaveIconConverter}}"
+                                                 Width="18" Height="18" Foreground="{StaticResource PrimaryBrush}" />
+                                                </Grid>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="Icon" Property="Foreground" Value="#DDEEFF" />
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </Grid>
+
+                    <TextBlock Text="{Binding ErrorText}" HorizontalAlignment="Center" Margin="0 10 0 0" Foreground="Red" FontSize="14" />
                 </StackPanel>
 
                 <StackPanel Grid.Row="2" Orientation="Horizontal">
-                    <Button Style="{StaticResource ButtonStyleWithBorderRadius}"
-                            Command="{Binding IniciarSesionCommand}"
-                            Margin="40 0"
-                            Width="300">
+                    <Button Style="{StaticResource ButtonStyleWithBorderRadius}" Command="{Binding IniciarSesionCommand}" Margin="40 0" Width="300">
                         <TextBlock Style="{StaticResource TitleTextBlockStyle}">
                             <Run Text="INICIAR SESIÓN" Foreground="{StaticResource PrimaryBrush}" FontSize="22" />
                         </TextBlock>
                     </Button>
 
-                    <Button Style="{StaticResource ButtonStyleWithBorderRadius}"
-                            Command="{Binding RegistrarCommand}"
-                            Width="60">
+                    <Button Style="{StaticResource ButtonStyleWithBorderRadius}" Command="{Binding RegistrarCommand}" Width="60">
                         <fa:ImageAwesome Icon="UserPlus" Width="30" Height="30" Foreground="{StaticResource PrimaryBrush}" />
                     </Button>
                 </StackPanel>
-
             </Grid>
         </Border>
     </Grid>

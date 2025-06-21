@@ -1,7 +1,8 @@
 ﻿<Application x:Class="SkinHolderDesktop.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:SkinHolderDesktop">
+             xmlns:local="clr-namespace:SkinHolderDesktop"
+             xmlns:utils="clr-namespace:SkinHolderDesktop.Utils">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -11,6 +12,8 @@
                 <ResourceDictionary Source="Themes/TextBlockStyles.xaml" />
                 <ResourceDictionary Source="Themes/ContainerStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
+            <utils:SaveIconConverter x:Key="SaveIconConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>
