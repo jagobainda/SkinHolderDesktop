@@ -13,7 +13,7 @@ public static class DependencyInjection
         var services = new ServiceCollection();
 
         // ViewModels
-        services.AddSingleton<MainViewModel>();
+        services.AddSingleton<GlobalViewModel>();
         services.AddSingleton<LoginViewModel>();
 
         // Services

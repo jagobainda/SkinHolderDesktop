@@ -2,7 +2,7 @@
 
 namespace SkinHolderDesktop.ViewModels;
 
-public partial class MainViewModel : ObservableObject
+public partial class GlobalViewModel : ObservableObject
 {
     [ObservableProperty]
     private string? currentUsername;

@@ -11,7 +11,7 @@ public partial class LoginViewModel : ObservableObject
 {
     private readonly ILoginService _loginService;
     private readonly IWindowService _windowService;
-    private readonly MainViewModel _mainViewModel;
+    private readonly GlobalViewModel _globalViewModel;
 
     [ObservableProperty]
     private string userName = "";
@@ -25,11 +25,11 @@ public partial class LoginViewModel : ObservableObject
     [ObservableProperty]
     private bool guardarPassword;
 
-    public LoginViewModel(ILoginService loginService, IWindowService windowService, MainViewModel mainViewModel)
+    public LoginViewModel(ILoginService loginService, IWindowService windowService, GlobalViewModel globalViewModel)
     {
         _loginService = loginService;
         _windowService = windowService;
-        _mainViewModel = mainViewModel;
+        _globalViewModel = globalViewModel;
 
         CargarUltimoUsername();
     }
@@ -58,9 +58,9 @@ public partial class LoginViewModel : ObservableObject
         {
             GuardarUsername();
 
-            _mainViewModel.CurrentUsername = _loginService.CurrentUsername;
-            _mainViewModel.Token = _loginService.Token;
-            _mainViewModel.IsAuthenticated = true;
+            _globalViewModel.CurrentUsername = _loginService.CurrentUsername;
+            _globalViewModel.Token = _loginService.Token;
+            _globalViewModel.IsAuthenticated = true;
             
             _windowService.ShowMainWindow();
             _windowService.CloseLoginWindow();
