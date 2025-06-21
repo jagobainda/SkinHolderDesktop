@@ -23,6 +23,11 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect BlurRadius="10" ShadowDepth="4" Opacity="0.2" />
+            </Setter.Value>
+        </Setter>
         <Setter Property="FontSize" Value="15" />
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="Background" Value="#222222" />

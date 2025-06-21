@@ -5,6 +5,11 @@
         <Setter Property="CornerRadius" Value="10" />
         <Setter Property="Background" Value="#333333" />
         <Setter Property="Margin" Value="30" />
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect BlurRadius="20" ShadowDepth="5" Opacity="0.4" Color="Black" />
+            </Setter.Value>
+        </Setter>
     </Style>
 
 </ResourceDictionary>
