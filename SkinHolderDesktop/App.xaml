@@ -11,6 +11,7 @@
                 <ResourceDictionary Source="Themes/TextBoxStyles.xaml" />
                 <ResourceDictionary Source="Themes/TextBlockStyles.xaml" />
                 <ResourceDictionary Source="Themes/ContainerStyles.xaml" />
+                <ResourceDictionary Source="Themes/ProgressBarStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <utils:SaveIconConverter x:Key="SaveIconConverter" />

@@ -21,13 +21,12 @@ public partial class LoginWindow : Window
         _viewModel = viewModel;
 
         Logo.Source = new BitmapImage(new Uri(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Images/icono.png")));
-        Icon = new BitmapImage(new Uri(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Images/logo_fondo.png")));
+        Icon = new BitmapImage(new Uri(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Images/logo.png")));
 
         PasswordBox.Password = _viewModel.Password;
         _viewModel.PropertyChanged += ViewModel_PropertyChanged;
 
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            Loaded += (_, _) => EnableDarkTitleBar(this);
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) Loaded += (_, _) => EnableDarkTitleBar(this);
     }
 
     private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)

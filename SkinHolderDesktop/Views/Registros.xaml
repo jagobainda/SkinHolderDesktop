@@ -1,0 +1,168 @@
+﻿<UserControl x:Class="SkinHolderDesktop.Views.Registros"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:viewmodels="clr-namespace:SkinHolderDesktop.ViewModels"
+             d:DataContext="{d:DesignInstance Type=viewmodels:RegistrosViewModel}"
+             mc:Ignorable="d"
+             d:DesignHeight="511" 
+             d:DesignWidth="834">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Column="0" Grid.Row="0" Style="{StaticResource RoundedPanelStyle}" Margin="30 30 30 15">
+            <Grid>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource TitleTextBlockStyle}" Foreground="WhiteSmoke" FontSize="20">
+                    <Run Text="TOTAL STEAM: " />
+                    <Run Text="{Binding TotalSteam, StringFormat={}{0:F2} €}" Foreground="{StaticResource PrimaryBrush}" />
+                </TextBlock>
+
+                <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource TitleTextBlockStyle}" Foreground="WhiteSmoke" FontSize="20">
+                    <Button Style="{StaticResource ButtonStyleWithBorderRadius}" Width="70" Height="50" IsEnabled="{Binding DetallesSteamEnabled}" Command="{Binding MostrarDetallesSteamCommand}">
+                        <fa:ImageAwesome Icon="Eye" Width="30" Height="30" Foreground="{StaticResource PrimaryBrush}" />
+                    </Button>
+                </TextBlock>
+
+                <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource TitleTextBlockStyle}" Foreground="DarkRed" FontSize="20">
+                    <Run Text="ERRORES: " />
+                    <Run Text="{Binding ItemsWarning}" Foreground="DarkOrange" />
+                    <Run Text=" | " />
+                    <Run Text="{Binding ItemsError}" />
+                </TextBlock>
+
+                <TextBlock Grid.Row="1" Grid.Column="2" Style="{StaticResource TitleTextBlockStyle}" Foreground="WhiteSmoke" FontSize="20">
+                    <Run Text="{Binding ProgresoSteam}" />
+                    <Run Text=" / " />
+                    <Run Text="{Binding TotalItems}" />
+                </TextBlock>
+
+                <ProgressBar Grid.Row="2" Grid.ColumnSpan="3" Style="{StaticResource ProgressBarRegistros}" Foreground="{StaticResource SteamBrush}" Minimum="0" Maximum="{Binding TotalItems}" Value="{Binding ProgresoSteam}" />
+            </Grid>
+        </Border>
+
+        <Border Grid.Column="0" Grid.Row="1" Style="{StaticResource RoundedPanelStyle}" Margin="30 15 30 30">
+            <Grid>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource TitleTextBlockStyle}" Foreground="WhiteSmoke" FontSize="20">
+                    <Run Text="TOTAL GAMERPAY: " />
+                    <Run Text="{Binding TotalGamerPay, StringFormat={}{0:F2} €}" Foreground="{StaticResource PrimaryBrush}" />
+                </TextBlock>
+
+                <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource TitleTextBlockStyle}" Foreground="WhiteSmoke" FontSize="20">
+                    <Button Style="{StaticResource ButtonStyleWithBorderRadius}" Width="70" Height="50" IsEnabled="{Binding DetallesGamerPayEnabled}" Command="{Binding MostrarDetallesGamerPayCommand}">
+                        <fa:ImageAwesome Icon="Eye" Width="30" Height="30" Foreground="{StaticResource PrimaryBrush}" />
+                    </Button>
+                </TextBlock>
+
+                <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource TitleTextBlockStyle}" Foreground="DarkRed" FontSize="20">
+                    <Run Text="NO LISTADOS: " />
+                    <Run Text="{Binding ItemsNoListados}" />
+                </TextBlock>
+
+                <TextBlock Grid.Row="1" Grid.Column="2" Style="{StaticResource TitleTextBlockStyle}" Foreground="WhiteSmoke" FontSize="20">
+                    <Run Text="{Binding ProgresoGamerPay}" />
+                    <Run Text=" / " />
+                    <Run Text="{Binding TotalItems}" />
+                </TextBlock>
+
+                <ProgressBar Grid.Row="2" Grid.ColumnSpan="3" Style="{StaticResource ProgressBarRegistros}" Foreground="{StaticResource GamerPayBrush}" Minimum="0" Maximum="{Binding TotalItems}" Value="{Binding ProgresoGamerPay}" />
+            </Grid>
+        </Border>
+
+        <Border Grid.Column="1" Grid.Row="1" Style="{StaticResource RoundedPanelStyle}" Margin="30 15 30 30">
+            <Grid>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource TitleTextBlockStyle}" Foreground="WhiteSmoke" FontSize="20">
+                <Run Text="TOTAL CSFLOAT: " />
+                <Run Text="{Binding TotalGamerPay, StringFormat={}{0:F2} €}" Foreground="{StaticResource PrimaryBrush}" />
+                </TextBlock>
+
+                <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource TitleTextBlockStyle}" Foreground="WhiteSmoke" FontSize="20">
+                    <Button Style="{StaticResource ButtonStyleWithBorderRadius}" Width="70" Height="50" IsEnabled="{Binding DetallesGamerPayEnabled}" Command="{Binding MostrarDetallesGamerPayCommand}">
+                        <fa:ImageAwesome Icon="Eye" Width="30" Height="30" Foreground="{StaticResource PrimaryBrush}" />
+                    </Button>
+                </TextBlock>
+
+                <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource TitleTextBlockStyle}" Foreground="DarkRed" FontSize="20">
+                    <Run Text="NO LISTADOS: " />
+                    <Run Text="{Binding ItemsNoListados}" />
+                </TextBlock>
+
+                <TextBlock Grid.Row="1" Grid.Column="2" Style="{StaticResource TitleTextBlockStyle}" Foreground="WhiteSmoke" FontSize="20">
+                    <Run Text="{Binding ProgresoGamerPay}" />
+                    <Run Text=" / " />
+                    <Run Text="{Binding TotalItems}" />
+                </TextBlock>
+
+                <ProgressBar Grid.Row="2" Grid.ColumnSpan="3" Style="{StaticResource ProgressBarRegistros}" Foreground="{StaticResource GamerPayBrush}" Minimum="0" Maximum="{Binding TotalItems}" Value="{Binding ProgresoGamerPay}" />
+            </Grid>
+        </Border>
+
+        <StackPanel Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="30 30 30 15">
+            <Button Style="{StaticResource ButtonStyleWithBorderRadius}" Command="{Binding ConsultarAmbosCommand}" IsEnabled="{Binding BotonesHabilitados}" Margin="5">
+                <TextBlock Style="{StaticResource TitleTextBlockStyle}" Padding="30 0">
+                    <Run Text="CONSULTAR" Foreground="{StaticResource PrimaryBrush}" FontSize="20" />
+                </TextBlock>
+            </Button>
+            <Button Style="{StaticResource ButtonStyleWithBorderRadius}" IsEnabled="False" Margin="5">
+                <TextBlock Style="{StaticResource TitleTextBlockStyle}" Padding="30 0">
+                    <Run Text="HISTORIAL DE REGISTROS" Foreground="{StaticResource PrimaryBrush}" FontSize="20" />
+                </TextBlock>
+            </Button>
+            <Button Style="{StaticResource ButtonStyleWithBorderRadius}" IsEnabled="False" Margin="5">
+                <TextBlock Style="{StaticResource TitleTextBlockStyle}" Padding="30 0">
+                    <Run Text="EXPORTAR JSON" Foreground="{StaticResource PrimaryBrush}" FontSize="20" />
+                </TextBlock>
+            </Button>
+        </StackPanel>
+
+    </Grid>
+</UserControl>
