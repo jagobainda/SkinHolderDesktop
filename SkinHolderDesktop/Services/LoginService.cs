@@ -9,12 +9,14 @@ public interface ILoginService
     Task<(bool Success, string? ErrorMessage)> LoginAsync(string username, string password);
     string? Token { get; }
     string? CurrentUsername { get; }
+    int UserId { get; }
 }
 
 public class LoginService(HttpClient httpClient, JsonSerializerOptions jsonOptions) : BaseService(httpClient, jsonOptions), ILoginService
 {
     public string? Token { get; private set; }
     public string? CurrentUsername { get; private set; }
+    public int UserId { get; private set; }
 
     public async Task<(bool Success, string? ErrorMessage)> LoginAsync(string username, string password)
     {
@@ -34,6 +36,7 @@ public class LoginService(HttpClient httpClient, JsonSerializerOptions jsonOptio
 
             Token = data.Token;
             CurrentUsername = data.Username;
+            UserId = data.UserId;
 
             return (true, null);
         }

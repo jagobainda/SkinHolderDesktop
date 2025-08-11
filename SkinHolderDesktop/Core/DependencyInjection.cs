@@ -19,19 +19,24 @@ public static class DependencyInjection
         services.AddSingleton<LoginViewModel>();
         services.AddSingleton<MainViewModel>();
         services.AddSingleton<RegistrosViewModel>();
+        services.AddSingleton<UserItemsViewModel>();
 
         // Services
         services.AddSingleton<IWindowService, WindowService>();
         services.AddSingleton<ILoginService, LoginService>();
+        services.AddSingleton<ILoggerService, LoggerService>();
         services.AddSingleton<IRegistroService, RegistroService>();
+        services.AddSingleton<IItemsService, ItemsService>();
+        services.AddSingleton<IUserItemService, UserItemService>();
 
         // Views
         services.AddSingleton<LoginWindow>();
         services.AddSingleton<MainWindow>();
-        services.AddSingleton<Registros>();
 
         // Partial Views
         services.AddTransient<Bienvenida>();
+        services.AddSingleton<Registros>();
+        services.AddSingleton<UserItems>();
 
         // Singletons
         services.AddSingleton(new JsonSerializerOptions

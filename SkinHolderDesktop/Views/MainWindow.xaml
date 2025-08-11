@@ -70,7 +70,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="2"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="1.5*"/>
                 <ColumnDefinition Width="2"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
@@ -120,6 +120,7 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Grid.Column="0" Style="{StaticResource TopMenuTextBlockStyle}">
@@ -127,7 +128,11 @@
                     </TextBlock>
 
                     <TextBlock Grid.Column="1" Style="{StaticResource TopMenuTextBlockStyle}">
-                    GAMERPAY: <Run Text="{Binding GamerPayLast}" /> €
+                    GP: <Run Text="{Binding GamerPayLast}" /> €
+                    </TextBlock>
+                    
+                    <TextBlock Grid.Column="2" Style="{StaticResource TopMenuTextBlockStyle}">
+                    CSF: <Run Text="{Binding CsFloatLast}" /> €
                     </TextBlock>
 
                 </Grid>
@@ -179,7 +184,11 @@
             <Grid Grid.Row="0">
                 <Button Style="{StaticResource ButtonStyleWithBorderRadius}" Command="{Binding CargarRegistrosCommand}">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <fa:ImageAwesome Icon="Book" Width="40" Height="40" Foreground="{StaticResource PrimaryBrush}"/>
+                        <fa:ImageAwesome Icon="Book" Width="40" Height="40" Foreground="{StaticResource PrimaryBrush}">
+                            <fa:ImageAwesome.Effect>
+                                <DropShadowEffect Color="Black" Direction="320" ShadowDepth="3" BlurRadius="5" Opacity="0.5"/>
+                            </fa:ImageAwesome.Effect>
+                        </fa:ImageAwesome>
                     </StackPanel>
                 </Button>
             </Grid>
@@ -189,7 +198,11 @@
             <Grid Grid.Row="2">
                 <Button Style="{StaticResource ButtonStyleWithBorderRadius}" Command="{Binding CargarItemsCommand}">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <fa:ImageAwesome Icon="List" Width="40" Height="40" Foreground="{StaticResource PrimaryBrush}"/>
+                        <fa:ImageAwesome Icon="List" Width="40" Height="40" Foreground="{StaticResource PrimaryBrush}">
+                            <fa:ImageAwesome.Effect>
+                                <DropShadowEffect Color="Black" Direction="320" ShadowDepth="3" BlurRadius="5" Opacity="0.5"/>
+                            </fa:ImageAwesome.Effect>
+                        </fa:ImageAwesome>
                     </StackPanel>
                 </Button>
             </Grid>
@@ -199,7 +212,11 @@
             <Grid Grid.Row="4">
                 <Button Style="{StaticResource ButtonStyleWithBorderRadius}" Command="{Binding CargarPerfilCommand}">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <fa:ImageAwesome Icon="User" Width="40" Height="40" Foreground="{StaticResource PrimaryBrush}"/>
+                        <fa:ImageAwesome Icon="User" Width="40" Height="40" Foreground="{StaticResource PrimaryBrush}">
+                            <fa:ImageAwesome.Effect>
+                                <DropShadowEffect Color="Black" Direction="320" ShadowDepth="3" BlurRadius="5" Opacity="0.5"/>
+                            </fa:ImageAwesome.Effect>
+                        </fa:ImageAwesome>
                     </StackPanel>
                 </Button>
             </Grid>
@@ -209,7 +226,11 @@
             <Grid Grid.Row="6">
                 <Button Style="{StaticResource ButtonStyleWithBorderRadius}" Command="{Binding SalirCommand}">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <fa:ImageAwesome Icon="SignOut" Width="40" Height="40" Foreground="{StaticResource PrimaryBrush}"/>
+                        <fa:ImageAwesome Icon="SignOut" Width="40" Height="40" Foreground="{StaticResource PrimaryBrush}">
+                            <fa:ImageAwesome.Effect>
+                                <DropShadowEffect Color="Black" Direction="320" ShadowDepth="3" BlurRadius="5" Opacity="0.5"/>
+                            </fa:ImageAwesome.Effect>
+                        </fa:ImageAwesome>
                     </StackPanel>
                 </Button>
             </Grid>

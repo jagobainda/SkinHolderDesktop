@@ -1,10 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Win32;
-using SkinHolderDesktop.Enums;
 using SkinHolderDesktop.Models;
 using SkinHolderDesktop.Services;
 using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace SkinHolderDesktop.ViewModels;
 
@@ -19,9 +18,8 @@ public partial class RegistrosViewModel : ObservableObject
         _registroService = registroService;
         _userItemService = userItemService;
         _global = globalViewModel;
-
+        
         ItemPrecios = [];
-        //Registro = new RegistroViewModel();
     }
 
     public ObservableCollection<ItemPrecio> ItemPrecios { get; }
@@ -39,28 +37,6 @@ public partial class RegistrosViewModel : ObservableObject
     [ObservableProperty] private bool detallesSteamEnabled;
     [ObservableProperty] private bool detallesGamerPayEnabled;
     [ObservableProperty] private bool botonesHabilitados = true;
-
-    [RelayCommand]
-    private async Task ConsultarSteamAsync()
-    {
-        await EjecutarConsulta(async () =>
-        {
-            //await ObtenerItems();
-            //await ObtenerPreciosSteam();
-            //Registro.RegistroTypeId = ERegistroType.Steam.GetHashCode();
-        });
-    }
-
-    [RelayCommand]
-    private async Task ConsultarGamerPayAsync()
-    {
-        await EjecutarConsulta(async () =>
-        {
-            //await ObtenerItems();
-            //await ObtenerPreciosGamerPay();
-            //Registro.RegistroTypeId = ERegistroType.GamerPay.GetHashCode();
-        });
-    }
 
     [RelayCommand]
     private async Task ConsultarAmbosAsync()
@@ -179,5 +155,23 @@ public partial class RegistrosViewModel : ObservableObject
         //ItemPrecios.ToList().ForEach(i => i.RegistroId = registroId);
 
         //await _registroService.GuardarItems(ItemPrecios.ToList(), _global.Token!);
+    }
+
+    [RelayCommand]
+    private void MostrarDetallesSteamCommand()
+    {
+        MessageBox.Show("Detalles de Steam no implementados aún.", "Información", MessageBoxButton.OK, MessageBoxImage.Information);
+    }
+
+    [RelayCommand]
+    private void MostrarDetallesGamerPayCommand()
+    {
+
+    }
+
+    [RelayCommand]
+    private void MostrarDetallesCSFloatCommand()
+    {
+
     }
 }

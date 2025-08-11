@@ -1,9 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
+using SkinHolderDesktop.Services;
 using SkinHolderDesktop.Utils;
-using SkinHolderDesktop.Views;
 using SkinHolderDesktop.Views.Partials;
+using System.Text.Json;
 using System.Windows;
 using System.Windows.Media;
 
@@ -17,6 +18,7 @@ public partial class MainViewModel : ObservableObject
     [ObservableProperty] private string estadoSkinHolderDb = "-";
     [ObservableProperty] private string steamLast = "0.00";
     [ObservableProperty] private string gamerPayLast = "0.00";
+    [ObservableProperty] private string csFloatLast = "0.00";
 
     [ObservableProperty] private Brush steamPingBrush = Brushes.White;
     [ObservableProperty] private Brush gamerPayPingBrush = Brushes.White;
@@ -31,9 +33,13 @@ public partial class MainViewModel : ObservableObject
 
     private readonly IServiceProvider _services;
 
-    public MainViewModel(GlobalViewModel global, IServiceProvider services)
+    private readonly IRegistroService _registroService;
+
+    public MainViewModel(GlobalViewModel global, IRegistroService registroService, IServiceProvider services)
     {
         _global = global;
+
+        _registroService = registroService;
 
         _services = services;
 
@@ -76,20 +82,18 @@ public partial class MainViewModel : ObservableObject
 
     private async Task GetLastRegistroPrecioTotalAsync()
     {
-        // TODO: sustituir por tu servicio inyectado
-        //var json = await ;
-        //using var doc = JsonDocument.Parse(json);
-        //var root = doc.RootElement;
-
-        //SteamLast = root.GetProperty("totalSteam").GetDouble().ToString("F2");
-        //GamerPayLast = root.GetProperty("totalGamerPay").GetDouble().ToString("F2");
+        var lastRegistro = await _registroService.GetLastRegistroAsync();
+        
+        SteamLast = lastRegistro.Totalsteam.ToString();
+        GamerPayLast = lastRegistro.Totalgamerpay.ToString();
+        CsFloatLast = lastRegistro.Totalcsfloat.ToString();
     }
 
     [RelayCommand]
     private void CargarRegistros() => CurrentContent = _services.GetRequiredService<Registros>();
 
     [RelayCommand]
-    private void CargarItems() => CurrentContent = _services.GetRequiredService<Bienvenida>();
+    private void CargarItems() => CurrentContent = _services.GetRequiredService<UserItems>();
 
     [RelayCommand]
     private void CargarPerfil() => CurrentContent = _services.GetRequiredService<Bienvenida>();

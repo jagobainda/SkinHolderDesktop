@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="SkinHolderDesktop.Views.Registros"
+﻿<UserControl x:Class="SkinHolderDesktop.Views.Partials.Registros"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -126,7 +126,7 @@
                 </TextBlock>
 
                 <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource TitleTextBlockStyle}" Foreground="WhiteSmoke" FontSize="20">
-                    <Button Style="{StaticResource ButtonStyleWithBorderRadius}" Width="70" Height="50" IsEnabled="{Binding DetallesGamerPayEnabled}" Command="{Binding MostrarDetallesGamerPayCommand}">
+                    <Button Style="{StaticResource ButtonStyleWithBorderRadius}" Width="70" Height="50" IsEnabled="{Binding DetallesGamerPayEnabled}" Command="{Binding MostrarDetallesCSFloatCommand}">
                         <fa:ImageAwesome Icon="Eye" Width="30" Height="30" Foreground="{StaticResource PrimaryBrush}" />
                     </Button>
                 </TextBlock>
@@ -149,17 +149,17 @@
         <StackPanel Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="30 30 30 15">
             <Button Style="{StaticResource ButtonStyleWithBorderRadius}" Command="{Binding ConsultarAmbosCommand}" IsEnabled="{Binding BotonesHabilitados}" Margin="5">
                 <TextBlock Style="{StaticResource TitleTextBlockStyle}" Padding="30 0">
-                    <Run Text="CONSULTAR" Foreground="{StaticResource PrimaryBrush}" FontSize="20" />
+                    <Run Text="CONSULTAR" Foreground="{StaticResource PrimaryBrush}" FontSize="18" />
                 </TextBlock>
             </Button>
             <Button Style="{StaticResource ButtonStyleWithBorderRadius}" IsEnabled="False" Margin="5">
                 <TextBlock Style="{StaticResource TitleTextBlockStyle}" Padding="30 0">
-                    <Run Text="HISTORIAL DE REGISTROS" Foreground="{StaticResource PrimaryBrush}" FontSize="20" />
+                    <Run Text="HISTORIAL DE REGISTROS" Foreground="{StaticResource PrimaryBrush}" FontSize="18" />
                 </TextBlock>
             </Button>
             <Button Style="{StaticResource ButtonStyleWithBorderRadius}" IsEnabled="False" Margin="5">
                 <TextBlock Style="{StaticResource TitleTextBlockStyle}" Padding="30 0">
-                    <Run Text="EXPORTAR JSON" Foreground="{StaticResource PrimaryBrush}" FontSize="20" />
+                    <Run Text="EXPORTAR JSON" Foreground="{StaticResource PrimaryBrush}" FontSize="18" />
                 </TextBlock>
             </Button>
         </StackPanel>
