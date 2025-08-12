@@ -9,4 +9,5 @@ public class UserItem
     public int Itemid { get; set; }
 
     public int Userid { get; set; }
+    public string ItemName { get; set; } = string.Empty;
 }

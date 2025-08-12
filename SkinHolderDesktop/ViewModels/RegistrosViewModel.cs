@@ -2,16 +2,18 @@
 using CommunityToolkit.Mvvm.Input;
 using SkinHolderDesktop.Models;
 using SkinHolderDesktop.Services;
+using SkinHolderDesktop.Views.Partials;
 using System.Collections.ObjectModel;
 using System.Windows;
 
 namespace SkinHolderDesktop.ViewModels;
 
-public partial class RegistrosViewModel : ObservableObject
+public partial class RegistrosViewModel : ObservableObject, IDisposable
 {
     private readonly IRegistroService _registroService;
     private readonly IUserItemService _userItemService;
     private readonly GlobalViewModel _global;
+    private bool _disposed;
 
     public RegistrosViewModel(IRegistroService registroService, IUserItemService userItemService, GlobalViewModel globalViewModel)
     {
@@ -173,5 +175,15 @@ public partial class RegistrosViewModel : ObservableObject
     private void MostrarDetallesCSFloatCommand()
     {
 
+    }
+
+    public void Dispose()
+    {
+        if (_disposed) return;
+
+        ItemPrecios.Clear();
+
+        _disposed = true;
+        GC.SuppressFinalize(this);
     }
 }

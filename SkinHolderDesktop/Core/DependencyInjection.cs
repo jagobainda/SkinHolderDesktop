@@ -18,8 +18,11 @@ public static class DependencyInjection
         services.AddSingleton<GlobalViewModel>();
         services.AddSingleton<LoginViewModel>();
         services.AddSingleton<MainViewModel>();
-        services.AddSingleton<RegistrosViewModel>();
-        services.AddSingleton<UserItemsViewModel>();
+        services.AddTransient<RegistrosViewModel>();
+        services.AddTransient<UserItemsViewModel>();
+
+        // Partial ViewModels
+        services.AddTransient<UserItemViewModel>();
 
         // Services
         services.AddSingleton<IWindowService, WindowService>();
@@ -35,8 +38,8 @@ public static class DependencyInjection
 
         // Partial Views
         services.AddTransient<Bienvenida>();
-        services.AddSingleton<Registros>();
-        services.AddSingleton<UserItems>();
+        services.AddTransient<Registros>();
+        services.AddTransient<UserItems>();
 
         // Singletons
         services.AddSingleton(new JsonSerializerOptions

@@ -5,11 +5,41 @@ using System.Collections.ObjectModel;
 
 namespace SkinHolderDesktop.ViewModels;
 
-public partial class UserItemsViewModel : ObservableObject
+public partial class UserItemsViewModel : ObservableObject, IDisposable
 {
     private readonly IUserItemService _userItemService;
     private readonly IItemsService _itemsService;
     private readonly GlobalViewModel _globalViewModel;
+    private bool _disposed;
+
+    private string _searchText = string.Empty;
+    public string SearchText
+    {
+        get => _searchText;
+        set
+        {
+            if (SetProperty(ref _searchText, value))
+            {
+                OnPropertyChanged(nameof(FilteredItems));
+            }
+        }
+    }
+
+    public IEnumerable<Item> FilteredItems
+    {
+        get
+        {
+            if (string.IsNullOrWhiteSpace(SearchText))
+                return Items;
+            return Items.Where(i => i.Nombre?.Contains(SearchText, StringComparison.OrdinalIgnoreCase) == true);
+        }
+    }
+
+    [ObservableProperty]
+    private ObservableCollection<UserItemViewModel> _userItems = [];
+
+    [ObservableProperty]
+    private ObservableCollection<Item> _items = [];
 
     public UserItemsViewModel(IUserItemService userItemService, IItemsService itemsService, GlobalViewModel globalViewModel)
     {
@@ -20,14 +50,26 @@ public partial class UserItemsViewModel : ObservableObject
         _ = LoadItems();
     }
 
-    [ObservableProperty] private ObservableCollection<UserItem> _userItems = [];
-    [ObservableProperty] private ObservableCollection<Item> _items = [];
-
     public async Task LoadItems()
     {
-        UserItems = new ObservableCollection<UserItem>(await _userItemService.GetUserItemsAsync());
+        var userItems = await _userItemService.GetUserItemsAsync();
+
+        UserItems = new ObservableCollection<UserItemViewModel>(userItems.Select(u => new UserItemViewModel(u)));
+
         Items = new ObservableCollection<Item>(await _itemsService.GetItemsAsync());
+        OnPropertyChanged(nameof(FilteredItems));
+    }
 
+    public void Dispose()
+    {
+        if (_disposed) return;
 
+        foreach (var vm in UserItems) (vm as IDisposable)?.Dispose();
+
+        UserItems.Clear();
+        Items.Clear();
+
+        _disposed = true;
+        GC.SuppressFinalize(this);
     }
 }

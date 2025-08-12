@@ -89,14 +89,27 @@ public partial class MainViewModel : ObservableObject
         CsFloatLast = lastRegistro.Totalcsfloat.ToString();
     }
 
-    [RelayCommand]
-    private void CargarRegistros() => CurrentContent = _services.GetRequiredService<Registros>();
+    private void CargarVista<T>() where T : class
+    {
+        if (CurrentContent is T existente)
+        {
+            (existente as IDisposable)?.Dispose();
+            CurrentContent = null;
+            CurrentContent = _services.GetRequiredService<Bienvenida>();
+            return;
+        }
+
+        CurrentContent = _services.GetRequiredService<T>();
+    }
 
     [RelayCommand]
-    private void CargarItems() => CurrentContent = _services.GetRequiredService<UserItems>();
+    private void CargarRegistros() => CargarVista<Registros>();
 
     [RelayCommand]
-    private void CargarPerfil() => CurrentContent = _services.GetRequiredService<Bienvenida>();
+    private void CargarItems() => CargarVista<UserItems>();
+
+    [RelayCommand]
+    private void CargarPerfil() => CargarVista<Bienvenida>();
 
     [RelayCommand]
     private static void Salir() => Application.Current.Shutdown();

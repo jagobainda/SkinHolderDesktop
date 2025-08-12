@@ -1,0 +1,52 @@
+﻿<UserControl x:Class="SkinHolderDesktop.Views.Partials.UserItemPartials._UserItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SkinHolderDesktop.Views.Partials.UserItemPartials"
+             xmlns:fa="http://schemas.fontawesome.io/icons/" xmlns:viewmodels="clr-namespace:SkinHolderDesktop.ViewModels" 
+             d:DataContext="{d:DesignInstance Type=viewmodels:UserItemViewModel}"
+             mc:Ignorable="d" 
+             d:DesignHeight="150" 
+             d:DesignWidth="340" 
+             Margin="30 30 30 0"
+             MinHeight="150">
+
+    <Border Style="{StaticResource RoundedPanelStyle}" Margin="0">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.3*"/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Style="{StaticResource TitleTextBlockStyle}" Foreground="WhiteSmoke" FontSize="15" Text="{Binding Nombre}"/>
+
+            <TextBox Grid.Row="1" Grid.ColumnSpan="2" Width="85" Height="55" Margin="5" MaxLength="9" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Style="{StaticResource TextBoxStyleMenu}" Text="{Binding Cantidad, UpdateSourceTrigger=PropertyChanged}">
+                <TextBox.ToolTip>
+                    <ToolTip Content="Solo números enteros"/>
+                </TextBox.ToolTip>
+            </TextBox>
+
+            <Button Grid.Row="1" Grid.Column="2" Style="{StaticResource ButtonStyleWithBorderRadius}" Width="40" Height="40" HorizontalAlignment="Left" Margin="0" Command="{Binding DecrementarCommand}">
+                <fa:ImageAwesome Icon="Minus" Width="22" Height="22" Foreground="{StaticResource PrimaryBrush}" />
+            </Button>
+
+            <Button Grid.Row="1" Grid.Column="3" Style="{StaticResource ButtonStyleWithBorderRadius}" Width="40" Height="40" HorizontalAlignment="Left" Margin="0" Command="{Binding IncrementarCommand}">
+                <fa:ImageAwesome Icon="Plus" Width="22" Height="22" Foreground="{StaticResource PrimaryBrush}" />
+            </Button>
+
+            <Button Grid.Row="1" Grid.Column="4" Style="{StaticResource ButtonStyleWithBorderRadius}" Width="40" Height="40" HorizontalAlignment="Left" Margin="0" Command="{Binding GuardarCommand}">
+                <fa:ImageAwesome Icon="Save" Width="22" Height="22" Foreground="{StaticResource PrimaryBrush}" />
+            </Button>
+        </Grid>
+    </Border>
+
+</UserControl>

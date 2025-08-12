@@ -6,6 +6,7 @@
              xmlns:fa="http://schemas.fontawesome.io/icons/"
              xmlns:local="clr-namespace:SkinHolderDesktop.Views.Partials" 
              xmlns:viewmodels="clr-namespace:SkinHolderDesktop.ViewModels" 
+             xmlns:useritem="clr-namespace:SkinHolderDesktop.Views.Partials.UserItemPartials"
              d:DataContext="{d:DesignInstance Type=viewmodels:UserItemsViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="511" 
@@ -21,27 +22,23 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Border Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Style="{StaticResource RoundedPanelStyle}" Margin="30">
-            <Grid>
+        <ScrollViewer Grid.RowSpan="2"
+              VerticalScrollBarVisibility="Hidden"
+              HorizontalScrollBarVisibility="Disabled">
+            <ItemsControl ItemsSource="{Binding UserItems}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <useritem:_UserItem />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
 
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="0.4*"/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-
-                <TextBlock Grid.Row="0" Grid.ColumnSpan="3" Style="{StaticResource TitleTextBlockStyle}" Foreground="WhiteSmoke" FontSize="20">
-                    <Run Text="TUS ITEMS" />
-                </TextBlock>
-
-            </Grid>
-        </Border>
 
         <Border Grid.Column="1" Grid.Row="0" Style="{StaticResource RoundedPanelStyle}" Margin="30 30 30 0">
             <Grid>
@@ -50,6 +47,7 @@
                     <RowDefinition Height="0.55*"/>
                     <RowDefinition/>
                     <RowDefinition/>
+                    <RowDefinition Height="0.55*"/>
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
@@ -61,25 +59,69 @@
                 <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Style="{StaticResource TitleTextBlockStyle}" Foreground="WhiteSmoke" FontSize="20">
                     <Run Text="NUEVO ITEM" />
                 </TextBlock>
+
+                <ListBox Grid.Row="1"
+                    Grid.RowSpan="2"
+                    Grid.ColumnSpan="3"
+                    Margin="15"
+                    ItemsSource="{Binding FilteredItems}"
+                    Background="Transparent"
+                    ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                    BorderThickness="0"
+                    ItemTemplate="{StaticResource ItemNombreTemplate}"
+                    ItemContainerStyle="{StaticResource ListBoxItemTransparentStyle}"
+                    VirtualizingStackPanel.IsVirtualizing="True"
+                    VirtualizingStackPanel.VirtualizationMode="Standard">
+                    <ListBox.ToolTip>
+                        <ToolTip Content="Selecciona un item de la lista para añadirlo."/>
+                    </ListBox.ToolTip>
+                </ListBox>
+
+                <Grid Grid.Row="3" Grid.ColumnSpan="3">
+                    <TextBox x:Name="SearchBox"
+                        Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                        Style="{StaticResource TextBoxStyleMenu}"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Padding="36,0,8,0"
+                        Margin="0"
+                        MaxWidth="340"
+                        MaxHeight="45"
+                        VerticalContentAlignment="Center"
+                        HorizontalContentAlignment="Center">
+                        <TextBox.ToolTip>
+                            <ToolTip Content="Busca por items" />
+                        </TextBox.ToolTip>
+                    </TextBox>
+
+                    <fa:ImageAwesome
+                        Icon="Search"
+                        Width="18" Height="18"
+                        Foreground="{StaticResource PrimaryBrush}"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Left"
+                        Margin="20,0,0,0"
+                        IsHitTestVisible="False" />
+                </Grid>
+
             </Grid>
         </Border>
 
         <StackPanel Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal" Margin="30">
-            <TextBox Width="150" Height="55" Margin="5"
-                     
-                     MaxLength="9"
-                     HorizontalContentAlignment="Center"
-                     VerticalContentAlignment="Center"
-                     Style="{StaticResource TextBoxStyleMenu}">
+            
+            <TextBox Width="150" Height="55" Margin="5" MaxLength="9" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Style="{StaticResource TextBoxStyleMenu}">
                 <TextBox.ToolTip>
                     <ToolTip Content="Solo números enteros"/>
                 </TextBox.ToolTip>
             </TextBox>
+            
             <Button Style="{StaticResource ButtonStyleWithBorderRadius}" Margin="5">
                 <TextBlock Style="{StaticResource TitleTextBlockStyle}" Padding="30 0">
                     <Run Text="AÑADIR ITEM" Foreground="{StaticResource PrimaryBrush}" FontSize="18" />
                 </TextBlock>
             </Button>
+            
         </StackPanel>
 
     </Grid>
