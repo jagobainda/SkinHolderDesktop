@@ -54,7 +54,7 @@ public partial class UserItemsViewModel : ObservableObject, IDisposable
     {
         var userItems = await _userItemService.GetUserItemsAsync();
 
-        UserItems = new ObservableCollection<UserItemViewModel>(userItems.Select(u => new UserItemViewModel(u)));
+        UserItems = new ObservableCollection<UserItemViewModel>(userItems.Select(u => new UserItemViewModel(u, _userItemService)));
 
         Items = new ObservableCollection<Item>(await _itemsService.GetItemsAsync());
         OnPropertyChanged(nameof(FilteredItems));
