@@ -39,7 +39,13 @@
                Foreground="{Binding NombreForeground}"
                Text="{Binding Nombre}"/>
 
-            <TextBox Grid.Row="1" Grid.ColumnSpan="2" Width="85" Height="55" Margin="5" MaxLength="9" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Style="{StaticResource TextBoxStyleMenu}" Text="{Binding Cantidad, UpdateSourceTrigger=PropertyChanged}">
+            <TextBox Grid.Row="1" Grid.ColumnSpan="2" 
+                     Width="85" Height="55" 
+                     Margin="5" MaxLength="9" 
+                     HorizontalContentAlignment="Center" 
+                     VerticalContentAlignment="Center" 
+                     Style="{StaticResource TextBoxStyleMenu}" 
+                     Text="{Binding Cantidad, UpdateSourceTrigger=PropertyChanged}">
                 <TextBox.ToolTip>
                     <ToolTip Content="Solo números enteros"/>
                 </TextBox.ToolTip>

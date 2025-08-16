@@ -10,7 +10,7 @@ namespace SkinHolderDesktop.Services;
 public interface IUserItemService
 {
     Task<List<UserItem>> GetUserItemsAsync();
-    Task AddUserItemAsync(UserItem userItem);
+    Task<bool> AddUserItemAsync(UserItem userItem);
     Task<bool> UpdateUserItemAsync(UserItem userItem, int cantidad);
 }
 
@@ -42,15 +42,24 @@ public class UserItemService(HttpClient httpClient, JsonSerializerOptions jsonOp
         }
     }
 
-    public async Task AddUserItemAsync(UserItem userItem)
+    public async Task<bool> AddUserItemAsync(UserItem userItem)
     {
         try
         {
-            // TODO
+            var token = GlobalViewModel.Token;
+
+            HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var content = CreateJsonContent(userItem);
+
+            var response = await HttpClient.PostAsync("/UserItems", content);
+
+            return response.IsSuccessStatusCode;
         }
         catch (Exception ex)
         {
             await LoggerService.SendLog($"Error al agregar el item del usuario: {ex.Message}", 3);
+            return false;
         }
     }
 

@@ -23,9 +23,9 @@
         </Grid.RowDefinitions>
 
         <ScrollViewer Grid.RowSpan="2"
-              VerticalScrollBarVisibility="Hidden"
-              HorizontalScrollBarVisibility="Disabled">
-            <ItemsControl ItemsSource="{Binding UserItems}">
+            VerticalScrollBarVisibility="Hidden"
+            HorizontalScrollBarVisibility="Disabled">
+            <ItemsControl ItemsSource="{Binding UserItems}" Margin="0 0 0 30">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Orientation="Vertical"/>
@@ -56,7 +56,9 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Style="{StaticResource TitleTextBlockStyle}" Foreground="WhiteSmoke" FontSize="20">
+                <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" 
+                           Style="{StaticResource TitleTextBlockStyle}" 
+                           Foreground="WhiteSmoke" FontSize="20">
                     <Run Text="NUEVO ITEM" />
                 </TextBlock>
 
@@ -65,6 +67,7 @@
                     Grid.ColumnSpan="3"
                     Margin="15"
                     ItemsSource="{Binding FilteredItems}"
+                    SelectedItem="{Binding SelectedFilteredItem, Mode=TwoWay}"
                     Background="Transparent"
                     ScrollViewer.VerticalScrollBarVisibility="Hidden"
                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
@@ -110,13 +113,21 @@
 
         <StackPanel Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal" Margin="30">
             
-            <TextBox Width="150" Height="55" Margin="5" MaxLength="9" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Style="{StaticResource TextBoxStyleMenu}">
+            <TextBox 
+                Width="150" Height="55" 
+                Margin="5" MaxLength="9" 
+                HorizontalContentAlignment="Center" 
+                VerticalContentAlignment="Center" 
+                Style="{StaticResource TextBoxStyleMenu}"
+                Text="{Binding NewItemNum}">
                 <TextBox.ToolTip>
                     <ToolTip Content="Solo números enteros"/>
                 </TextBox.ToolTip>
             </TextBox>
             
-            <Button Style="{StaticResource ButtonStyleWithBorderRadius}" Margin="5">
+            <Button Style="{StaticResource ButtonStyleWithBorderRadius}" 
+                    Margin="5" 
+                    Command="{Binding AddItemCommand}">
                 <TextBlock Style="{StaticResource TitleTextBlockStyle}" Padding="30 0">
                     <Run Text="AÑADIR ITEM" Foreground="{StaticResource PrimaryBrush}" FontSize="18" />
                 </TextBlock>
