@@ -121,5 +121,17 @@ public partial class UserItemsViewModel : ObservableObject, IDisposable
         };
 
         var success = await _userItemService.AddUserItemAsync(newUserItem);
+
+        if (!success)
+        {
+            MessageBox.Show("Error al agregar el item.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            return;
+        }
+
+        SearchText = string.Empty;
+
+        NewItemNum = string.Empty;
+
+        _ = LoadItems();
     }
 }

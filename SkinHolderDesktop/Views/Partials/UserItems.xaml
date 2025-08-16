@@ -92,7 +92,7 @@
                         MaxWidth="340"
                         MaxHeight="45"
                         VerticalContentAlignment="Center"
-                        HorizontalContentAlignment="Center">
+                        HorizontalContentAlignment="Left">
                         <TextBox.ToolTip>
                             <ToolTip Content="Busca por items" />
                         </TextBox.ToolTip>

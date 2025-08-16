@@ -3,7 +3,6 @@ using SkinHolderDesktop.ViewModels;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
-using System.Windows;
 
 namespace SkinHolderDesktop.Services;
 
@@ -35,7 +34,7 @@ public class UserItemService(HttpClient httpClient, JsonSerializerOptions jsonOp
 
             return userItems!;
         }
-        catch (Exception ex) 
+        catch (Exception ex)
         {
             await LoggerService.SendLog($"Error al obtener los items del usuario: {ex.Message}", 3);
             return [];
@@ -68,7 +67,7 @@ public class UserItemService(HttpClient httpClient, JsonSerializerOptions jsonOp
         try
         {
             var token = GlobalViewModel.Token;
-            
+
             HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             var updatedUserItem = new UserItem
