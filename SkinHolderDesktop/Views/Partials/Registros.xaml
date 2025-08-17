@@ -36,9 +36,12 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource TitleTextBlockStyle}" Foreground="WhiteSmoke" FontSize="20">
-                    <Run Text="TOTAL STEAM: " />
-                    <Run Text="{Binding TotalSteam, StringFormat={}{0:F2} €}" Foreground="{StaticResource PrimaryBrush}" />
+                <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" 
+                           Style="{StaticResource TitleTextBlockStyle}" 
+                           Foreground="WhiteSmoke" FontSize="20">
+                    <Run Text="{Binding ProgresoSteam}" />
+                    <Run Text=" / " />
+                    <Run Text="{Binding TotalItems}" />
                 </TextBlock>
 
                 <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource TitleTextBlockStyle}" Foreground="WhiteSmoke" FontSize="20">
@@ -47,20 +50,16 @@
                     </Button>
                 </TextBlock>
 
-                <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource TitleTextBlockStyle}" Foreground="DarkRed" FontSize="20">
-                    <Run Text="ERRORES: " />
-                    <Run Text="{Binding ItemsWarning}" Foreground="DarkOrange" />
-                    <Run Text=" | " />
-                    <Run Text="{Binding ItemsError}" />
+                <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Style="{StaticResource TitleTextBlockStyle}" Foreground="WhiteSmoke" FontSize="20">
+                    <Run Text="TOTAL STEAM: " />
+                    <Run Text="{Binding TotalSteam, StringFormat={}{0:F2} €}" Foreground="{StaticResource PrimaryBrush}" />
                 </TextBlock>
 
-                <TextBlock Grid.Row="1" Grid.Column="2" Style="{StaticResource TitleTextBlockStyle}" Foreground="WhiteSmoke" FontSize="20">
-                    <Run Text="{Binding ProgresoSteam}" />
-                    <Run Text=" / " />
-                    <Run Text="{Binding TotalItems}" />
-                </TextBlock>
-
-                <ProgressBar Grid.Row="2" Grid.ColumnSpan="3" Style="{StaticResource ProgressBarRegistros}" Foreground="{StaticResource SteamBrush}" Minimum="0" Maximum="{Binding TotalItems}" Value="{Binding ProgresoSteam}" />
+                <ProgressBar Grid.Row="2" Grid.ColumnSpan="3" 
+                             Style="{StaticResource ProgressBarRegistros}" 
+                             Foreground="{StaticResource SteamBrush}" 
+                             Minimum="0" Maximum="{Binding TotalItems}" 
+                             Value="{Binding ProgresoSteam}" />
             </Grid>
         </Border>
 
@@ -79,7 +78,15 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource TitleTextBlockStyle}" Foreground="WhiteSmoke" FontSize="20">
+                <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" 
+                           Style="{StaticResource TitleTextBlockStyle}" 
+                           Foreground="WhiteSmoke" FontSize="20">
+                    <Run Text="{Binding ProgresoGamerPay}" />
+                    <Run Text=" / " />
+                    <Run Text="{Binding TotalItems}" />
+                </TextBlock>
+
+                <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Style="{StaticResource TitleTextBlockStyle}" Foreground="WhiteSmoke" FontSize="20">
                     <Run Text="TOTAL GAMERPAY: " />
                     <Run Text="{Binding TotalGamerPay, StringFormat={}{0:F2} €}" Foreground="{StaticResource PrimaryBrush}" />
                 </TextBlock>
@@ -89,19 +96,12 @@
                         <fa:ImageAwesome Icon="Eye" Width="30" Height="30" Foreground="{StaticResource PrimaryBrush}" />
                     </Button>
                 </TextBlock>
-
-                <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource TitleTextBlockStyle}" Foreground="DarkRed" FontSize="20">
-                    <Run Text="NO LISTADOS: " />
-                    <Run Text="{Binding ItemsNoListados}" />
-                </TextBlock>
-
-                <TextBlock Grid.Row="1" Grid.Column="2" Style="{StaticResource TitleTextBlockStyle}" Foreground="WhiteSmoke" FontSize="20">
-                    <Run Text="{Binding ProgresoGamerPay}" />
-                    <Run Text=" / " />
-                    <Run Text="{Binding TotalItems}" />
-                </TextBlock>
-
-                <ProgressBar Grid.Row="2" Grid.ColumnSpan="3" Style="{StaticResource ProgressBarRegistros}" Foreground="{StaticResource GamerPayBrush}" Minimum="0" Maximum="{Binding TotalItems}" Value="{Binding ProgresoGamerPay}" />
+                
+                <ProgressBar Grid.Row="2" Grid.ColumnSpan="3" 
+                             Style="{StaticResource ProgressBarRegistros}" 
+                             Foreground="{StaticResource GamerPayBrush}" 
+                             Minimum="0" Maximum="{Binding TotalItems}" 
+                             Value="{Binding ProgresoGamerPay}" />
             </Grid>
         </Border>
 
@@ -120,29 +120,34 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource TitleTextBlockStyle}" Foreground="WhiteSmoke" FontSize="20">
-                <Run Text="TOTAL CSFLOAT: " />
-                <Run Text="{Binding TotalGamerPay, StringFormat={}{0:F2} €}" Foreground="{StaticResource PrimaryBrush}" />
-                </TextBlock>
-
-                <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource TitleTextBlockStyle}" Foreground="WhiteSmoke" FontSize="20">
-                    <Button Style="{StaticResource ButtonStyleWithBorderRadius}" Width="70" Height="50" IsEnabled="{Binding DetallesGamerPayEnabled}" Command="{Binding MostrarDetallesCSFloatCommand}">
-                        <fa:ImageAwesome Icon="Eye" Width="30" Height="30" Foreground="{StaticResource PrimaryBrush}" />
-                    </Button>
-                </TextBlock>
-
-                <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource TitleTextBlockStyle}" Foreground="DarkRed" FontSize="20">
-                    <Run Text="NO LISTADOS: " />
-                    <Run Text="{Binding ItemsNoListados}" />
-                </TextBlock>
-
-                <TextBlock Grid.Row="1" Grid.Column="2" Style="{StaticResource TitleTextBlockStyle}" Foreground="WhiteSmoke" FontSize="20">
+                <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                           Style="{StaticResource TitleTextBlockStyle}" 
+                           Foreground="WhiteSmoke" FontSize="20">
                     <Run Text="{Binding ProgresoGamerPay}" />
                     <Run Text=" / " />
                     <Run Text="{Binding TotalItems}" />
                 </TextBlock>
 
-                <ProgressBar Grid.Row="2" Grid.ColumnSpan="3" Style="{StaticResource ProgressBarRegistros}" Foreground="{StaticResource GamerPayBrush}" Minimum="0" Maximum="{Binding TotalItems}" Value="{Binding ProgresoGamerPay}" />
+                <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource TitleTextBlockStyle}" Foreground="WhiteSmoke" FontSize="20">
+                    <Button Style="{StaticResource ButtonStyleWithBorderRadius}" 
+                            Width="70" Height="50" IsEnabled="{Binding DetallesCSFloatEnabled}" 
+                            Command="{Binding MostrarDetallesCSFloatCommand}">
+                        <fa:ImageAwesome Icon="Eye" Width="30" Height="30" Foreground="{StaticResource PrimaryBrush}" />
+                    </Button>
+                </TextBlock>
+
+                <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" 
+                           Style="{StaticResource TitleTextBlockStyle}" 
+                           Foreground="WhiteSmoke" FontSize="20">
+                    <Run Text="TOTAL CSFLOAT: " />
+                    <Run Text="{Binding TotalCSFloat, StringFormat={}{0:F2} €}" Foreground="{StaticResource PrimaryBrush}" />
+                </TextBlock>
+
+                <ProgressBar Grid.Row="2" Grid.ColumnSpan="3" 
+                             Style="{StaticResource ProgressBarRegistros}" 
+                             Foreground="{StaticResource CSFloatBrush}" 
+                             Minimum="0" Maximum="{Binding TotalItems}" 
+                             Value="{Binding ProgresoGamerPay}" />
             </Grid>
         </Border>
 

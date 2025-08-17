@@ -8,27 +8,25 @@ using System.Windows;
 
 namespace SkinHolderDesktop.ViewModels;
 
-public partial class RegistrosViewModel : ObservableObject, IDisposable
+public partial class RegistrosViewModel(IRegistroService registroService, IUserItemService userItemService, ISteamRequestService steamRequestService, ILoggerService loggerService, GlobalViewModel globalViewModel) : ObservableObject, IDisposable
 {
-    private readonly IRegistroService _registroService;
-    private readonly IUserItemService _userItemService;
-    private readonly GlobalViewModel _global;
+    private readonly IRegistroService _registroService = registroService;
+    private readonly IUserItemService _userItemService = userItemService;
+    private readonly ISteamRequestService _steamRequestService = steamRequestService;
+    private readonly ILoggerService _loggerService = loggerService;
+    private readonly GlobalViewModel _global = globalViewModel;
+
+    private List<UserItem> _userItems = [];
+
+    private Registro _registro = new();
+
+    private List<ItemPrecio> _itemPrecios = [];
+
     private bool _disposed;
 
-    public RegistrosViewModel(IRegistroService registroService, IUserItemService userItemService, GlobalViewModel globalViewModel)
-    {
-        _registroService = registroService;
-        _userItemService = userItemService;
-        _global = globalViewModel;
-        
-        ItemPrecios = [];
-    }
-
-    public ObservableCollection<ItemPrecio> ItemPrecios { get; }
-
-    [ObservableProperty] private RegistrosViewModel registro;
-    [ObservableProperty] private float totalSteam = 0.0f;
-    [ObservableProperty] private float totalGamerPay = 0.0f;
+    [ObservableProperty] private double totalSteam = 0.0;
+    [ObservableProperty] private double totalGamerPay = 0.0;
+    [ObservableProperty] private double totalCSFloat = 0.0;
     [ObservableProperty] private int progresoSteam = 0;
     [ObservableProperty] private int progresoGamerPay = 0;
     [ObservableProperty] private int totalItems = 0;
@@ -38,6 +36,7 @@ public partial class RegistrosViewModel : ObservableObject, IDisposable
 
     [ObservableProperty] private bool detallesSteamEnabled;
     [ObservableProperty] private bool detallesGamerPayEnabled;
+    [ObservableProperty] private bool detallesCSFloatEnabled;
     [ObservableProperty] private bool botonesHabilitados = true;
 
     [RelayCommand]
@@ -45,7 +44,7 @@ public partial class RegistrosViewModel : ObservableObject, IDisposable
     {
         await EjecutarConsulta(async () =>
         {
-            //await ObtenerItems();
+            await ObtenerItems();
             //await Task.WhenAll(ObtenerPreciosSteam(), ObtenerPreciosGamerPay());
             //Registro.RegistroTypeId = ERegistroType.All.GetHashCode();
         });
@@ -82,43 +81,12 @@ public partial class RegistrosViewModel : ObservableObject, IDisposable
 
     private async Task ObtenerItems()
     {
-        //var items = await _userItemService.ObtenerItemsUsuario(_global.Token!);
-        //if (items.Count == 0) return;
-
-        //Registro.UserId = items.First().UserId;
-
-        //foreach (var item in items)
-        //    ItemPrecios.Add(item);
-
-        //TotalItems = ItemPrecios.Count;
+        _userItems = await _userItemService.GetUserItemsAsync();
     }
 
     private async Task ObtenerPreciosSteam()
     {
-        //DetallesSteamEnabled = false;
-
-        //var hashes = ItemPrecios.Select(x => x.SteamHashName).ToList();
-        //var resultados = await _steamService.ObtenerPrecios(hashes);
-
-        //foreach (var resultado in resultados)
-        //{
-        //    var item = ItemPrecios.FirstOrDefault(i => i.SteamHashName == resultado.HashName);
-        //    if (item == null) continue;
-
-        //    item.PrecioSteam = resultado.Precio;
-        //    item.Fallo = resultado.Fallo;
-
-        //    ProgresoSteam++;
-        //}
-
-        //TotalSteam = ItemPrecios
-        //    .Where(i => i.PrecioSteam > 0)
-        //    .Sum(i => i.PrecioSteam * i.Cantidad);
-
-        //ItemsWarning = ItemPrecios.Count(i => i.Fallo && i.PrecioSteam > 0);
-        //ItemsError = ItemPrecios.Count(i => i.PrecioSteam < 0);
-
-        //DetallesSteamEnabled = true;
+        
     }
 
     private async Task ObtenerPreciosGamerPay()
@@ -168,20 +136,20 @@ public partial class RegistrosViewModel : ObservableObject, IDisposable
     [RelayCommand]
     private void MostrarDetallesGamerPayCommand()
     {
-
+        MessageBox.Show("Detalles de GamerPay no implementados aún.", "Información", MessageBoxButton.OK, MessageBoxImage.Information);
     }
 
     [RelayCommand]
     private void MostrarDetallesCSFloatCommand()
     {
-
+        MessageBox.Show("Detalles de CSFloat no implementados aún.", "Información", MessageBoxButton.OK, MessageBoxImage.Information);
     }
 
     public void Dispose()
     {
         if (_disposed) return;
 
-        ItemPrecios.Clear();
+        //ItemPrecios.Clear();
 
         _disposed = true;
         GC.SuppressFinalize(this);

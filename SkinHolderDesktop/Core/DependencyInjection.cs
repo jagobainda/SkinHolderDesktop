@@ -28,6 +28,7 @@ public static class DependencyInjection
         services.AddSingleton<IWindowService, WindowService>();
         services.AddSingleton<ILoginService, LoginService>();
         services.AddSingleton<ILoggerService, LoggerService>();
+        services.AddSingleton<ISteamRequestService, SteamRequestService>();
         services.AddSingleton<IRegistroService, RegistroService>();
         services.AddSingleton<IItemsService, ItemsService>();
         services.AddSingleton<IUserItemService, UserItemService>();

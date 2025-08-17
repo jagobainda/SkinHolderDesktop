@@ -13,5 +13,28 @@
         <Setter Property="Margin" Value="22"/>
         <Setter Property="Minimum" Value="0"/>
         <Setter Property="Maximum" Value="100"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ProgressBar">
+                    <Grid x:Name="GridRoot" SnapsToDevicePixels="true">
+                        <Border 
+                            x:Name="PART_Track"
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="5"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                            <Grid>
+                                <Rectangle 
+                                    x:Name="PART_Indicator"
+                                    Fill="{TemplateBinding Foreground}"
+                                    RadiusX="5" RadiusY="5"
+                                    HorizontalAlignment="Left"/>
+                            </Grid>
+                        </Border>
+                        <ContentPresenter />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 </ResourceDictionary>
