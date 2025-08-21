@@ -139,6 +139,8 @@ public partial class RegistrosViewModel(IRegistroService registroService, IUserI
         var success = await _registroService.CreateRegistroAsync(_registro);
 
         if (success) _messenger.Send(new RefreshLastRegistroMessage());
+
+        // TODO: Save ItemPrecios to database
     }
 
     [RelayCommand]
