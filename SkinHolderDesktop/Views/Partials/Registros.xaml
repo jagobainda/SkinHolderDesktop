@@ -44,13 +44,17 @@
                     <Run Text="{Binding TotalItems}" />
                 </TextBlock>
 
-                <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource TitleTextBlockStyle}" Foreground="WhiteSmoke" FontSize="20">
-                    <Button Style="{StaticResource ButtonStyleWithBorderRadius}" Width="70" Height="50" IsEnabled="{Binding DetallesSteamEnabled}" Command="{Binding MostrarDetallesSteamCommand}">
+                <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource TitleTextBlockStyle}" 
+                           Foreground="WhiteSmoke" FontSize="20">
+                    <Button Style="{StaticResource ButtonStyleWithBorderRadius}" Width="70" Height="50" 
+                            IsEnabled="{Binding DetallesSteamEnabled}" 
+                            Command="{Binding MostrarDetallesSteamCommand}">
                         <fa:ImageAwesome Icon="Eye" Width="30" Height="30" Foreground="{StaticResource PrimaryBrush}" />
                     </Button>
                 </TextBlock>
 
-                <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Style="{StaticResource TitleTextBlockStyle}" Foreground="WhiteSmoke" FontSize="20">
+                <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Style="{StaticResource TitleTextBlockStyle}" 
+                           Foreground="WhiteSmoke" FontSize="20">
                     <Run Text="TOTAL STEAM: " />
                     <Run Text="{Binding TotalSteam, StringFormat={}{0:F2} €}" Foreground="{StaticResource PrimaryBrush}" />
                 </TextBlock>
@@ -86,13 +90,17 @@
                     <Run Text="{Binding TotalItems}" />
                 </TextBlock>
 
-                <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Style="{StaticResource TitleTextBlockStyle}" Foreground="WhiteSmoke" FontSize="20">
+                <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Style="{StaticResource TitleTextBlockStyle}" 
+                           Foreground="WhiteSmoke" FontSize="20">
                     <Run Text="TOTAL GAMERPAY: " />
                     <Run Text="{Binding TotalGamerPay, StringFormat={}{0:F2} €}" Foreground="{StaticResource PrimaryBrush}" />
                 </TextBlock>
 
-                <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource TitleTextBlockStyle}" Foreground="WhiteSmoke" FontSize="20">
-                    <Button Style="{StaticResource ButtonStyleWithBorderRadius}" Width="70" Height="50" IsEnabled="{Binding DetallesGamerPayEnabled}" Command="{Binding MostrarDetallesGamerPayCommand}">
+                <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource TitleTextBlockStyle}" 
+                           Foreground="WhiteSmoke" FontSize="20">
+                    <Button Style="{StaticResource ButtonStyleWithBorderRadius}" Width="70" Height="50" 
+                            IsEnabled="{Binding DetallesGamerPayEnabled}" 
+                            Command="{Binding MostrarDetallesGamerPayCommand}">
                         <fa:ImageAwesome Icon="Eye" Width="30" Height="30" Foreground="{StaticResource PrimaryBrush}" />
                     </Button>
                 </TextBlock>
@@ -123,12 +131,13 @@
                 <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
                            Style="{StaticResource TitleTextBlockStyle}" 
                            Foreground="WhiteSmoke" FontSize="20">
-                    <Run Text="{Binding ProgresoGamerPay}" />
+                    <Run Text="{Binding ProgresoCSFloat}" />
                     <Run Text=" / " />
                     <Run Text="{Binding TotalItems}" />
                 </TextBlock>
 
-                <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource TitleTextBlockStyle}" Foreground="WhiteSmoke" FontSize="20">
+                <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource TitleTextBlockStyle}" 
+                           Foreground="WhiteSmoke" FontSize="20">
                     <Button Style="{StaticResource ButtonStyleWithBorderRadius}" 
                             Width="70" Height="50" IsEnabled="{Binding DetallesCSFloatEnabled}" 
                             Command="{Binding MostrarDetallesCSFloatCommand}">
@@ -147,12 +156,14 @@
                              Style="{StaticResource ProgressBarRegistros}" 
                              Foreground="{StaticResource CSFloatBrush}" 
                              Minimum="0" Maximum="{Binding TotalItems}" 
-                             Value="{Binding ProgresoGamerPay}" />
+                             Value="{Binding ProgresoCSFloat}" />
             </Grid>
         </Border>
 
         <StackPanel Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="30 30 30 15">
-            <Button Style="{StaticResource ButtonStyleWithBorderRadius}" Command="{Binding ConsultarAmbosCommand}" IsEnabled="{Binding BotonesHabilitados}" Margin="5">
+            <Button Style="{StaticResource ButtonStyleWithBorderRadius}" 
+                    Command="{Binding ConsultarAmbosCommand}" 
+                    IsEnabled="{Binding BotonesHabilitados}" Margin="5">
                 <TextBlock Style="{StaticResource TitleTextBlockStyle}" Padding="30 0">
                     <Run Text="CONSULTAR" Foreground="{StaticResource PrimaryBrush}" FontSize="18" />
                 </TextBlock>

@@ -2,6 +2,7 @@
 using SkinHolderDesktop.ViewModels;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Text.Json;
 
 namespace SkinHolderDesktop.Services;
@@ -9,6 +10,9 @@ namespace SkinHolderDesktop.Services;
 public interface IRegistroService
 {
     Task<Registro> GetLastRegistroAsync();
+    Task<List<Registro>> GetRegistrosAsync();
+    Task<bool> CreateRegistroAsync(Registro registroDto);
+    Task<bool> DeleteRegistroAsync(long registroId);
 }
 
 public class RegistroService(HttpClient httpClient, JsonSerializerOptions jsonOptions, GlobalViewModel globalViewModel) : BaseService(httpClient, jsonOptions), IRegistroService
@@ -38,4 +42,65 @@ public class RegistroService(HttpClient httpClient, JsonSerializerOptions jsonOp
         }
     }
 
+    public async Task<List<Registro>> GetRegistrosAsync()
+    {
+        try
+        {
+            var token = GlobalViewModel.Token;
+
+            HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var response = await HttpClient.GetAsync("/Registros");
+
+            response.EnsureSuccessStatusCode();
+
+            var contentStream = await response.Content.ReadAsStreamAsync();
+            var registros = await JsonSerializer.DeserializeAsync<List<Registro>>(contentStream, JsonOptions);
+
+            return registros ?? [];
+        }
+        catch
+        {
+            return [];
+        }
+    }
+
+    public async Task<bool> CreateRegistroAsync(Registro registro)
+    {
+        try
+        {
+            var token = GlobalViewModel.Token;
+
+            HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var jsonContent = JsonSerializer.Serialize(registro, JsonOptions);
+            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+            var response = await HttpClient.PostAsync("/Registros", content);
+
+            return response.IsSuccessStatusCode;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    public async Task<bool> DeleteRegistroAsync(long registroId)
+    {
+        try
+        {
+            var token = GlobalViewModel.Token;
+
+            HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var response = await HttpClient.DeleteAsync($"/Registros?registroId={registroId}");
+
+            return response.IsSuccessStatusCode;
+        }
+        catch
+        {
+            return false;
+        }
+    }
 }

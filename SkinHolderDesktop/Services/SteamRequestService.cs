@@ -35,7 +35,8 @@ public class SteamRequestService(ILoggerService loggerService) : ISteamRequestSe
                     {
                         HashName = marketHashName,
                         Price = await ExtractPriceFromJson(responseContent),
-                        IsError = attempts != 0
+                        IsError = false,
+                        IsWarning = attempts != 0
                     };
                 }
             }
@@ -51,15 +52,16 @@ public class SteamRequestService(ILoggerService loggerService) : ISteamRequestSe
         {
             HashName = marketHashName,
             Price = -1,
-            IsError = true
+            IsError = true,
+            IsWarning = false
         };
     }
 
-    private async Task<double> ExtractPriceFromJson(string input)
+    private async Task<decimal> ExtractPriceFromJson(string input)
     {
         if (string.IsNullOrEmpty(input))
         {
-            return -1f;
+            return -1m;
         }
 
         try
@@ -70,12 +72,12 @@ public class SteamRequestService(ILoggerService loggerService) : ISteamRequestSe
                 .Replace("-", "0")
                 .Replace("€", "") ?? string.Empty;
 
-            return float.TryParse(priceString, out var price) ? price : -1f;
+            return decimal.TryParse(priceString, out var price) ? price : -1m;
         }
         catch (JsonException ex)
         {
             await _loggerService.SendLog($"Error parsing JSON response: {ex.Message}", 3);
-            return -1f;
+            return -1m;
         }
     }
 }

@@ -3,6 +3,7 @@
 public class SteamItemInfo
 {
     public string HashName { get; set; } = string.Empty;
-    public double Price { get; set; } = 0.0;
+    public decimal Price { get; set; } = 0.0m;
     public bool IsError { get; set; } = false;
+    public bool IsWarning { get; set; } = false;
 }

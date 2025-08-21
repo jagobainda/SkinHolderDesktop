@@ -1,16 +1,18 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
 using SkinHolderDesktop.Services;
 using SkinHolderDesktop.Utils;
 using SkinHolderDesktop.Views.Partials;
-using System.Text.Json;
 using System.Windows;
 using System.Windows.Media;
 
 namespace SkinHolderDesktop.ViewModels;
 
-public partial class MainViewModel : ObservableObject
+public class RefreshLastRegistroMessage { }
+
+public partial class MainViewModel : ObservableObject, IRecipient<RefreshLastRegistroMessage>
 {
     [ObservableProperty] private string steamPing = "-";
     [ObservableProperty] private string gamerPayPing = "-";
@@ -26,6 +28,7 @@ public partial class MainViewModel : ObservableObject
     [ObservableProperty] private Brush estadoSkinHolderDbBrush = Brushes.White;
 
     [ObservableProperty] private object? currentContent;
+    private readonly IMessenger _messenger;
 
     private readonly GlobalViewModel _global;
     private readonly Brush _failBrush = new SolidColorBrush(Colors.DarkRed);
@@ -35,7 +38,7 @@ public partial class MainViewModel : ObservableObject
 
     private readonly IRegistroService _registroService;
 
-    public MainViewModel(GlobalViewModel global, IRegistroService registroService, IServiceProvider services)
+    public MainViewModel(GlobalViewModel global, IRegistroService registroService, IServiceProvider services, IMessenger messenger)
     {
         _global = global;
 
@@ -46,6 +49,8 @@ public partial class MainViewModel : ObservableObject
         _primaryBrush = (Brush)Application.Current.Resources["PrimaryBrush"]!;
 
         CurrentContent = _services.GetRequiredService<Bienvenida>();
+        _messenger = messenger;
+        _messenger.Register(this);
 
         _ = GetPingsAsync();
         _ = GetLastRegistroPrecioTotalAsync();
@@ -80,13 +85,18 @@ public partial class MainViewModel : ObservableObject
         }
     }
 
-    private async Task GetLastRegistroPrecioTotalAsync()
+    public async Task GetLastRegistroPrecioTotalAsync()
     {
         var lastRegistro = await _registroService.GetLastRegistroAsync();
-        
+
         SteamLast = lastRegistro.Totalsteam.ToString();
         GamerPayLast = lastRegistro.Totalgamerpay.ToString();
         CsFloatLast = lastRegistro.Totalcsfloat.ToString();
+    }
+
+    public void Receive(RefreshLastRegistroMessage message)
+    {
+        _ = GetLastRegistroPrecioTotalAsync();
     }
 
     private void CargarVista<T>() where T : class

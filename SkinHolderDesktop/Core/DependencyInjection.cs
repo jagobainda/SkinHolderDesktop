@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Extensions.DependencyInjection;
 using SkinHolderDesktop.Services;
 using SkinHolderDesktop.ViewModels;
 using SkinHolderDesktop.Views;
@@ -43,6 +44,8 @@ public static class DependencyInjection
         services.AddTransient<UserItems>();
 
         // Singletons
+        services.AddSingleton<IMessenger, WeakReferenceMessenger>();
+
         services.AddSingleton(new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true
