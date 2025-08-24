@@ -79,7 +79,7 @@ public partial class LoginViewModel : ObservableObject
     [RelayCommand]
     private static void Registrar()
     {
-        MessageBox.Show("De momento el registro de nuevos usuarios es privado. El correo para solicitar un usuario es skinholder@jagoba.dev; copiado al portapapeles.");
+        MessageBox.Show("De momento el registro de nuevos usuarios es privado. El correo para solicitar un usuario es skinholder@jagoba.dev -> copiado al portapapeles.");
 
         Clipboard.SetText("skinholder@jagoba.dev");
     }
