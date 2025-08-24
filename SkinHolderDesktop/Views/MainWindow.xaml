@@ -12,7 +12,8 @@
         Height="650"
         Width="1000"
         ResizeMode="CanMinimize"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        Icon="https://cdn.jagoba.dev/imgs/logo.ico">
     
     <Window.Resources>
 

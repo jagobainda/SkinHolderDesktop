@@ -15,8 +15,6 @@ public partial class MainWindow : Window
         InitializeComponent();
         DataContext = viewModel;
 
-        Icon = new BitmapImage(new Uri(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Images/logo.png")));
-
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) Loaded += (_, _) => EnableDarkTitleBar(this);
     }
 
