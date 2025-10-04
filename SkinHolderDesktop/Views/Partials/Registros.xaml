@@ -21,7 +21,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Border Grid.Column="0" Grid.Row="0" Style="{StaticResource RoundedPanelStyle}" Margin="30 30 30 15">
+        <Border Grid.Column="0" Grid.Row="0" Style="{StaticResource RoundedPanelStyle}" Margin="30 30 15 15">
             <Grid>
 
                 <Grid.RowDefinitions>
@@ -67,7 +67,7 @@
             </Grid>
         </Border>
 
-        <Border Grid.Column="0" Grid.Row="1" Style="{StaticResource RoundedPanelStyle}" Margin="30 15 30 30">
+        <Border Grid.Column="0" Grid.Row="1" Style="{StaticResource RoundedPanelStyle}" Margin="30 15 15 30">
             <Grid>
 
                 <Grid.RowDefinitions>
@@ -113,7 +113,7 @@
             </Grid>
         </Border>
 
-        <Border Grid.Column="1" Grid.Row="1" Style="{StaticResource RoundedPanelStyle}" Margin="30 15 30 30">
+        <Border Grid.Column="1" Grid.Row="1" Style="{StaticResource RoundedPanelStyle}" Margin="15 15 30 30">
             <Grid>
 
                 <Grid.RowDefinitions>
@@ -160,9 +160,9 @@
             </Grid>
         </Border>
 
-        <StackPanel Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="30 30 30 15">
+        <StackPanel Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15 30 30 15">
             <Button Style="{StaticResource ButtonStyleWithBorderRadius}" 
-                    Command="{Binding ConsultarAmbosCommand}" 
+                    Command="{Binding ConsultarCommand}" 
                     IsEnabled="{Binding BotonesHabilitados}" Margin="5">
                 <TextBlock Style="{StaticResource TitleTextBlockStyle}" Padding="30 0">
                     <Run Text="CONSULTAR" Foreground="{StaticResource PrimaryBrush}" FontSize="18" />

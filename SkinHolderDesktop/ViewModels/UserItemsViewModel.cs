@@ -18,7 +18,14 @@ public partial class UserItemsViewModel : ObservableObject, IDisposable
     public string SearchText
     {
         get => _searchText;
-        set { if (SetProperty(ref _searchText, value)) OnPropertyChanged(nameof(FilteredItems)); }
+        set
+        {
+            if (SetProperty(ref _searchText, value))
+            {
+                OnPropertyChanged(nameof(FilteredItems));
+                OnPropertyChanged(nameof(FilteredUserItems));
+            }
+        }
     }
 
     public IEnumerable<Item> FilteredItems
@@ -28,6 +35,16 @@ public partial class UserItemsViewModel : ObservableObject, IDisposable
             if (string.IsNullOrWhiteSpace(SearchText)) return Items;
 
             return Items.Where(i => i.Nombre?.Contains(SearchText, StringComparison.OrdinalIgnoreCase) == true);
+        }
+    }
+
+    public IEnumerable<UserItemViewModel> FilteredUserItems
+    {
+        get
+        {
+            if (string.IsNullOrWhiteSpace(SearchText)) return UserItems;
+
+            return UserItems.Where(ui => ui.Nombre?.Contains(SearchText, StringComparison.OrdinalIgnoreCase) == true);
         }
     }
 
@@ -65,7 +82,9 @@ public partial class UserItemsViewModel : ObservableObject, IDisposable
         UserItems = new ObservableCollection<UserItemViewModel>(_rawUserItems.Select(u => new UserItemViewModel(u, _userItemService)));
 
         Items = new ObservableCollection<Item>(await _itemsService.GetItemsAsync());
+
         OnPropertyChanged(nameof(FilteredItems));
+        OnPropertyChanged(nameof(FilteredUserItems));
     }
 
     public void Dispose()

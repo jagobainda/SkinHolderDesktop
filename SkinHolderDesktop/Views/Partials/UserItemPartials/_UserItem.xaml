@@ -11,7 +11,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="150" 
              d:DesignWidth="340" 
-             Margin="30 30 30 0"
+             Margin="30 30 15 0"
              MinHeight="150">
     
     <UserControl.Resources>

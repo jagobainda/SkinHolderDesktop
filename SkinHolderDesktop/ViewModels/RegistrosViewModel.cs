@@ -40,7 +40,7 @@ public partial class RegistrosViewModel(IRegistroService registroService, IUserI
     [ObservableProperty] private bool botonesHabilitados = true;
 
     [RelayCommand]
-    private async Task ConsultarAmbosAsync()
+    private async Task ConsultarAsync()
     {
         await EjecutarConsulta(async () =>
         {
