@@ -7,5 +7,6 @@
     <SolidColorBrush x:Key="GamerPayBrush" Color="#019EFF" />
     <SolidColorBrush x:Key="SteamBrush" Color="#59BF40" />
     <SolidColorBrush x:Key="CSFloatBrush" Color="#4A4A4A" />
+    <SolidColorBrush x:Key="CSFloatBrushSecondary" Color="#FFFFFF" />
 
 </ResourceDictionary>

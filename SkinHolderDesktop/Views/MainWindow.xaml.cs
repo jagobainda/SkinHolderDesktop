@@ -1,10 +1,8 @@
 ﻿using SkinHolderDesktop.ViewModels;
-using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 using System.Windows;
 using System.Windows.Interop;
-using System.Windows.Media.Imaging;
 
 namespace SkinHolderDesktop.Views;
 

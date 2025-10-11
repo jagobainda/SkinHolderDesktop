@@ -1,19 +1,24 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Extensions.DependencyInjection;
 using SkinHolderDesktop.Models;
 using SkinHolderDesktop.Services;
+using SkinHolderDesktop.Views.Shared;
 
 namespace SkinHolderDesktop.ViewModels;
 
-public partial class RegistrosViewModel(IRegistroService registroService, IUserItemService userItemService, ISteamRequestService steamRequestService, ILoggerService loggerService, GlobalViewModel globalViewModel, IMessenger messenger) : ObservableObject, IDisposable
+public partial class RegistrosViewModel(IRegistroService registroService, IItemPrecioService itemPrecioService, IUserItemService userItemService, ISteamRequestService steamRequestService, IExtSitesRequestService extSitesRequestService, ILoggerService loggerService, GlobalViewModel globalViewModel, IMessenger messenger, IServiceProvider serviceProvider) : ObservableObject, IDisposable
 {
     private readonly IRegistroService _registroService = registroService;
+    private readonly IItemPrecioService _itemPrecioService = itemPrecioService;
     private readonly IUserItemService _userItemService = userItemService;
     private readonly ISteamRequestService _steamRequestService = steamRequestService;
+    private readonly IExtSitesRequestService _extSitesRequestService = extSitesRequestService;
     private readonly ILoggerService _loggerService = loggerService;
     private readonly GlobalViewModel _global = globalViewModel;
     private readonly IMessenger _messenger = messenger;
+    private readonly IServiceProvider _serviceProvider = serviceProvider;
 
     private List<UserItem> _userItems = [];
 
@@ -34,9 +39,9 @@ public partial class RegistrosViewModel(IRegistroService registroService, IUserI
     [ObservableProperty] private int itemsWarningSteam = 0;
     [ObservableProperty] private int itemsErrorSteam = 0;
 
-    [ObservableProperty] private bool detallesSteamEnabled;
-    [ObservableProperty] private bool detallesGamerPayEnabled;
-    [ObservableProperty] private bool detallesCSFloatEnabled;
+    [ObservableProperty] private bool detallesSteamEnabled = false;
+    [ObservableProperty] private bool detallesGamerPayEnabled = false;
+    [ObservableProperty] private bool detallesCSFloatEnabled = false;
     [ObservableProperty] private bool botonesHabilitados = true;
 
     [RelayCommand]
@@ -57,6 +62,9 @@ public partial class RegistrosViewModel(IRegistroService registroService, IUserI
     private async Task EjecutarConsulta(Func<Task> accion)
     {
         BotonesHabilitados = false;
+        DetallesSteamEnabled = false;
+        DetallesGamerPayEnabled = false;
+        DetallesCSFloatEnabled = false;
 
         try
         {
@@ -71,6 +79,9 @@ public partial class RegistrosViewModel(IRegistroService registroService, IUserI
         finally
         {
             BotonesHabilitados = true;
+            DetallesSteamEnabled = TotalSteam > 0;
+            DetallesGamerPayEnabled = TotalGamerPay > 0;
+            DetallesCSFloatEnabled = TotalCSFloat > 0;
         }
     }
 
@@ -97,9 +108,15 @@ public partial class RegistrosViewModel(IRegistroService registroService, IUserI
 
     private async Task ObtenerPrecios()
     {
+        var gamerPayResponse = await _extSitesRequestService.MakeGamerPayRequestAsync();
+
+        if (gamerPayResponse.Length == 0) await _loggerService.SendLog("Consulta cancelada porque no se han podido obtener los items de GamerPay.", 3);
+
         foreach (var userItem in _userItems)
         {
             var steamResponse = await _steamRequestService.MakeRequestAsync(userItem.SteamHashName);
+
+            var gamerPayItem = gamerPayResponse.FirstOrDefault(gp => gp.Name == userItem.GamerPayName);
 
             if (steamResponse.IsWarning) ItemsWarningSteam++;
 
@@ -107,19 +124,21 @@ public partial class RegistrosViewModel(IRegistroService registroService, IUserI
 
             if (steamResponse.Price > 0) TotalSteam += steamResponse.Price * userItem.Cantidad;
 
-            // TODO: Implementar GamerPay y CSFloat
+            if (gamerPayItem != null) TotalGamerPay += gamerPayItem.Price * userItem.Cantidad;
+
+            // TODO: Implement CSFloat
 
             _itemPrecios.Add(new ItemPrecio
             {
-                Preciosteam = steamResponse.Price,
-                Preciogamerpay = 0.0m,
+                Preciosteam = Math.Max(steamResponse.Price, 0.0m),
+                Preciogamerpay = gamerPayItem?.Price ?? 0.0m,
                 Preciocsfloat = 0.0m,
                 Useritemid = userItem.Useritemid
             });
 
             ProgresoSteam++;
-            //ProgresoGamerPay++;
-            //ProgresoCSFloat++;
+            ProgresoGamerPay++;
+            ProgresoCSFloat++;
 
             await Task.Delay(3000);
         }
@@ -136,29 +155,27 @@ public partial class RegistrosViewModel(IRegistroService registroService, IUserI
             Userid = _global.UserId
         };
 
-        var success = await _registroService.CreateRegistroAsync(_registro);
+        var registroId = await _registroService.CreateRegistroAsync(_registro);
 
-        if (success) _messenger.Send(new RefreshLastRegistroMessage());
+        _itemPrecios.ForEach(ip => ip.Registroid = registroId);
 
-        // TODO: Save ItemPrecios to database
+        var successItemPrecios = await _itemPrecioService.CreateItemPreciosAsync(_itemPrecios);
+
+        if (registroId == 0 || !successItemPrecios) return;
+
+        _messenger.Send(new RefreshLastRegistroMessage());
     }
 
     [RelayCommand]
-    private void MostrarDetallesSteam()
+    private void MostrarDetalles()
     {
-        // TODO
-    }
+        var viewModel = _serviceProvider.GetRequiredService<RegistroDetailsViewModel>();
+        viewModel.Initialize(_registro, _userItems, _itemPrecios, "Detalles");
 
-    [RelayCommand]
-    private void MostrarDetallesGamerPay()
-    {
-        // TODO
-    }
+        var detailsWindow = _serviceProvider.GetRequiredService<RegistroDetails>();
+        detailsWindow.DataContext = viewModel;
 
-    [RelayCommand]
-    private void MostrarDetallesCSFloat()
-    {
-        // TODO
+        detailsWindow.ShowDialog();
     }
 
     public void Dispose()

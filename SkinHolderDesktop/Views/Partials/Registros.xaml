@@ -48,7 +48,7 @@
                            Foreground="WhiteSmoke" FontSize="20">
                     <Button Style="{StaticResource ButtonStyleWithBorderRadius}" Width="70" Height="50" 
                             IsEnabled="{Binding DetallesSteamEnabled}" 
-                            Command="{Binding MostrarDetallesSteamCommand}">
+                            Command="{Binding MostrarDetallesCommand}">
                         <fa:ImageAwesome Icon="Eye" Width="30" Height="30" Foreground="{StaticResource PrimaryBrush}" />
                     </Button>
                 </TextBlock>
@@ -100,7 +100,7 @@
                            Foreground="WhiteSmoke" FontSize="20">
                     <Button Style="{StaticResource ButtonStyleWithBorderRadius}" Width="70" Height="50" 
                             IsEnabled="{Binding DetallesGamerPayEnabled}" 
-                            Command="{Binding MostrarDetallesGamerPayCommand}">
+                            Command="{Binding MostrarDetallesCommand}">
                         <fa:ImageAwesome Icon="Eye" Width="30" Height="30" Foreground="{StaticResource PrimaryBrush}" />
                     </Button>
                 </TextBlock>
@@ -138,9 +138,9 @@
 
                 <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource TitleTextBlockStyle}" 
                            Foreground="WhiteSmoke" FontSize="20">
-                    <Button Style="{StaticResource ButtonStyleWithBorderRadius}" 
-                            Width="70" Height="50" IsEnabled="{Binding DetallesCSFloatEnabled}" 
-                            Command="{Binding MostrarDetallesCSFloatCommand}">
+                    <Button Style="{StaticResource ButtonStyleWithBorderRadius}" Width="70" Height="50" 
+                            IsEnabled="{Binding DetallesCSFloatEnabled}" 
+                            Command="{Binding MostrarDetallesCommand}">
                         <fa:ImageAwesome Icon="Eye" Width="30" Height="30" Foreground="{StaticResource PrimaryBrush}" />
                     </Button>
                 </TextBlock>

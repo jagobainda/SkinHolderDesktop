@@ -11,7 +11,7 @@ public interface IRegistroService
 {
     Task<Registro> GetLastRegistroAsync();
     Task<List<Registro>> GetRegistrosAsync();
-    Task<bool> CreateRegistroAsync(Registro registroDto);
+    Task<long> CreateRegistroAsync(Registro registroDto);
     Task<bool> DeleteRegistroAsync(long registroId);
 }
 
@@ -65,7 +65,7 @@ public class RegistroService(HttpClient httpClient, JsonSerializerOptions jsonOp
         }
     }
 
-    public async Task<bool> CreateRegistroAsync(Registro registro)
+    public async Task<long> CreateRegistroAsync(Registro registro)
     {
         try
         {
@@ -78,11 +78,15 @@ public class RegistroService(HttpClient httpClient, JsonSerializerOptions jsonOp
 
             var response = await HttpClient.PostAsync("/Registros", content);
 
-            return response.IsSuccessStatusCode;
+            if (!response.IsSuccessStatusCode) return 0;
+
+            var registroIdString = await response.Content.ReadAsStringAsync();
+
+            return long.TryParse(registroIdString, out var registroId) ? registroId : 0;
         }
         catch
         {
-            return false;
+            return 0;
         }
     }
 

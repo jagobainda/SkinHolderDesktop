@@ -4,6 +4,7 @@ using SkinHolderDesktop.Services;
 using SkinHolderDesktop.ViewModels;
 using SkinHolderDesktop.Views;
 using SkinHolderDesktop.Views.Partials;
+using SkinHolderDesktop.Views.Shared;
 using System.Net.Http;
 using System.Text.Json;
 
@@ -22,6 +23,9 @@ public static class DependencyInjection
         services.AddTransient<RegistrosViewModel>();
         services.AddTransient<UserItemsViewModel>();
 
+        // Shared ViewModels
+        services.AddTransient<RegistroDetailsViewModel>();
+
         // Partial ViewModels
         services.AddTransient<UserItemViewModel>();
 
@@ -30,13 +34,16 @@ public static class DependencyInjection
         services.AddSingleton<ILoginService, LoginService>();
         services.AddSingleton<ILoggerService, LoggerService>();
         services.AddSingleton<ISteamRequestService, SteamRequestService>();
+        services.AddSingleton<IExtSitesRequestService, ExtSitesRequestService>();
         services.AddSingleton<IRegistroService, RegistroService>();
+        services.AddSingleton<IItemPrecioService, ItemPrecioService>();
         services.AddSingleton<IItemsService, ItemsService>();
         services.AddSingleton<IUserItemService, UserItemService>();
 
         // Views
         services.AddSingleton<LoginWindow>();
         services.AddSingleton<MainWindow>();
+        services.AddTransient<RegistroDetails>();
 
         // Partial Views
         services.AddTransient<Bienvenida>();
