@@ -1,4 +1,4 @@
-﻿using SkinHolderDesktop.ViewModels;
+﻿using SkinHolderDesktop.ViewModels.Shared;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 using System.Windows;
@@ -13,8 +13,7 @@ namespace SkinHolderDesktop.Views.Shared
             InitializeComponent();
             DataContext = viewModel;
 
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                Loaded += (_, _) => EnableDarkTitleBar(this);
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) Loaded += (_, _) => EnableDarkTitleBar(this);
         }
 
         [SupportedOSPlatform("windows")]

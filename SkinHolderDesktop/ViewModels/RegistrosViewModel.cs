@@ -4,7 +4,11 @@ using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
 using SkinHolderDesktop.Models;
 using SkinHolderDesktop.Services;
+using SkinHolderDesktop.ViewModels.Shared;
 using SkinHolderDesktop.Views.Shared;
+using System.Diagnostics;
+using System.IO;
+using System.Text.Json;
 
 namespace SkinHolderDesktop.ViewModels;
 
@@ -54,8 +58,6 @@ public partial class RegistrosViewModel(IRegistroService registroService, IItemP
             TotalItems = _userItems.Count;
 
             await ObtenerPrecios();
-
-            await GuardarRegistro();
         });
     }
 
@@ -97,7 +99,7 @@ public partial class RegistrosViewModel(IRegistroService registroService, IItemP
         ItemsNoListadosGamerPay = 0;
         ItemsWarningSteam = 0;
         ItemsErrorSteam = 0;
-        _itemPrecios.Clear();
+        _itemPrecios = [];
         _registro = new Registro();
     }
 
@@ -161,7 +163,7 @@ public partial class RegistrosViewModel(IRegistroService registroService, IItemP
 
         var successItemPrecios = await _itemPrecioService.CreateItemPreciosAsync(_itemPrecios);
 
-        if (registroId == 0 || !successItemPrecios) return;
+        if (registroId < 1 || !successItemPrecios) return;
 
         _messenger.Send(new RefreshLastRegistroMessage());
     }
@@ -176,6 +178,42 @@ public partial class RegistrosViewModel(IRegistroService registroService, IItemP
         detailsWindow.DataContext = viewModel;
 
         detailsWindow.ShowDialog();
+    }
+
+    [RelayCommand]
+    private void HistorialRegistros()
+    {
+        var viewModel = _serviceProvider.GetRequiredService<RegistroListViewModel>();
+        _ = viewModel.InitializeAsync();
+
+        var listWindow = _serviceProvider.GetRequiredService<RegistroList>();
+        listWindow.DataContext = viewModel;
+
+        listWindow.ShowDialog();
+    }
+
+    [RelayCommand]
+    private async Task ExportarJsonAsync()
+    {
+        var registros = await _registroService.GetRegistrosAsync();
+
+        var jsonString = JsonSerializer.Serialize(registros, new JsonSerializerOptions { WriteIndented = true });
+
+        var saveFileDialog = new Microsoft.Win32.SaveFileDialog
+        {
+            FileName = $"registros_{_global.CurrentUsername}_{DateTime.Now:yyyy-MM-dd}.json",
+            Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*"
+        };
+
+        if (saveFileDialog.ShowDialog() != true) return;
+
+        var filePath = saveFileDialog.FileName;
+
+        await File.WriteAllTextAsync(filePath, jsonString);
+
+        var folderPath = Path.GetDirectoryName(filePath);
+
+        if (folderPath != null) Process.Start("explorer.exe", folderPath);
     }
 
     public void Dispose()

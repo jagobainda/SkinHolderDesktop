@@ -30,7 +30,6 @@ public partial class MainViewModel : ObservableObject, IRecipient<RefreshLastReg
     [ObservableProperty] private object? currentContent;
     private readonly IMessenger _messenger;
 
-    private readonly GlobalViewModel _global;
     private readonly Brush _failBrush = new SolidColorBrush(Colors.DarkRed);
     private readonly Brush _primaryBrush;
 
@@ -40,8 +39,6 @@ public partial class MainViewModel : ObservableObject, IRecipient<RefreshLastReg
 
     public MainViewModel(GlobalViewModel global, IRegistroService registroService, IServiceProvider services, IMessenger messenger)
     {
-        _global = global;
-
         _registroService = registroService;
 
         _services = services;
@@ -119,7 +116,7 @@ public partial class MainViewModel : ObservableObject, IRecipient<RefreshLastReg
     private void CargarItems() => CargarVista<UserItems>();
 
     [RelayCommand]
-    private void CargarPerfil() => CargarVista<Bienvenida>();
+    private void CargarPerfil() => CargarVista<UserSettings>();
 
     [RelayCommand]
     private static void Salir() => Application.Current.Shutdown();

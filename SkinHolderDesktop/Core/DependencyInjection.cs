@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using SkinHolderDesktop.Services;
 using SkinHolderDesktop.ViewModels;
+using SkinHolderDesktop.ViewModels.Shared;
 using SkinHolderDesktop.Views;
 using SkinHolderDesktop.Views.Partials;
 using SkinHolderDesktop.Views.Shared;
@@ -25,6 +26,7 @@ public static class DependencyInjection
 
         // Shared ViewModels
         services.AddTransient<RegistroDetailsViewModel>();
+        services.AddTransient<RegistroListViewModel>();
 
         // Partial ViewModels
         services.AddTransient<UserItemViewModel>();
@@ -44,11 +46,13 @@ public static class DependencyInjection
         services.AddSingleton<LoginWindow>();
         services.AddSingleton<MainWindow>();
         services.AddTransient<RegistroDetails>();
+        services.AddTransient<RegistroList>();
 
         // Partial Views
         services.AddTransient<Bienvenida>();
         services.AddTransient<Registros>();
         services.AddTransient<UserItems>();
+        services.AddTransient<UserSettings>();
 
         // Singletons
         services.AddSingleton<IMessenger, WeakReferenceMessenger>();

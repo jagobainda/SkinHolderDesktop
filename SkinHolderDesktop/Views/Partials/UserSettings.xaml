@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="SkinHolderDesktop.Views.Partials.UserSettings"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SkinHolderDesktop.Views.Partials"
+             mc:Ignorable="d" 
+             d:DesignHeight="511" 
+             d:DesignWidth="834">
+    
+    <UserControl.Resources>
+        <Style x:Key="TitleTextBlockStyle" TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="30"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="Gray"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Style="{StaticResource TitleTextBlockStyle}">
+                AJUSTES DE CUENTA
+            </TextBlock>
+
+            <TextBlock Style="{StaticResource TitleTextBlockStyle}">
+                DESACTIVADOS POR EL MOMENTO
+            </TextBlock>
+        </StackPanel>
+    </Grid>
+</UserControl>

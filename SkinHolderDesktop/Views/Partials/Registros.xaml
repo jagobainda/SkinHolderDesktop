@@ -168,12 +168,16 @@
                     <Run Text="CONSULTAR" Foreground="{StaticResource PrimaryBrush}" FontSize="18" />
                 </TextBlock>
             </Button>
-            <Button Style="{StaticResource ButtonStyleWithBorderRadius}" IsEnabled="False" Margin="5">
+            <Button Style="{StaticResource ButtonStyleWithBorderRadius}" 
+                    Command="{Binding HistorialRegistrosCommand}"
+                    IsEnabled="{Binding BotonesHabilitados}" Margin="5">
                 <TextBlock Style="{StaticResource TitleTextBlockStyle}" Padding="30 0">
                     <Run Text="HISTORIAL DE REGISTROS" Foreground="{StaticResource PrimaryBrush}" FontSize="18" />
                 </TextBlock>
             </Button>
-            <Button Style="{StaticResource ButtonStyleWithBorderRadius}" IsEnabled="False" Margin="5">
+            <Button Style="{StaticResource ButtonStyleWithBorderRadius}" 
+                    Command="{Binding ExportarJsonCommand}"
+                    IsEnabled="True" Margin="5">
                 <TextBlock Style="{StaticResource TitleTextBlockStyle}" Padding="30 0">
                     <Run Text="EXPORTAR JSON" Foreground="{StaticResource PrimaryBrush}" FontSize="18" />
                 </TextBlock>

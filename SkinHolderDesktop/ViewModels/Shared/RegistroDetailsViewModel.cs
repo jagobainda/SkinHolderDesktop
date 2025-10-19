@@ -5,7 +5,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Data;
 
-namespace SkinHolderDesktop.ViewModels;
+namespace SkinHolderDesktop.ViewModels.Shared;
 
 public class ItemDetalle
 {
@@ -56,7 +56,7 @@ public partial class RegistroDetailsViewModel : ObservableObject
     [ObservableProperty] private string csFloatSortIndicator = "";
 
     private ICollectionView? _itemsView;
-    private List<ItemDetalle> _originalItems = new();
+    private List<ItemDetalle> _originalItems = [];
 
     public RegistroDetailsViewModel()
     {
@@ -128,9 +128,9 @@ public partial class RegistroDetailsViewModel : ObservableObject
         if (_itemsView == null) return;
 
         var newDirection = ListSortDirection.Ascending;
-    
+
         if (CurrentSortColumn == column && CurrentSortDirection == ListSortDirection.Ascending) newDirection = ListSortDirection.Descending;
-    
+
         CurrentSortColumn = column;
         CurrentSortDirection = newDirection;
 
