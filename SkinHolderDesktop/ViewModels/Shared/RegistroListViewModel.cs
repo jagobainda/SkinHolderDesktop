@@ -187,7 +187,7 @@ public partial class RegistroListViewModel : ObservableObject
             var detailsWindow = _serviceProvider.GetRequiredService<RegistroDetails>();
             detailsWindow.DataContext = viewModel;
 
-            detailsWindow.ShowDialog();
+            detailsWindow.Show();
         }
         finally
         {
