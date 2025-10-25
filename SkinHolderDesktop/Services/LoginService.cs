@@ -10,6 +10,8 @@ public interface ILoginService
     string? Token { get; }
     string? CurrentUsername { get; }
     int UserId { get; }
+
+    Task<bool> ValidateToken(string token);
 }
 
 public class LoginService(HttpClient httpClient, JsonSerializerOptions jsonOptions) : BaseService(httpClient, jsonOptions), ILoginService
@@ -47,6 +49,24 @@ public class LoginService(HttpClient httpClient, JsonSerializerOptions jsonOptio
         catch (JsonException)
         {
             return (false, "Error interpretando la respuesta");
+        }
+    }
+
+    public async Task<bool> ValidateToken(string token)
+    {
+        var request = new HttpRequestMessage(HttpMethod.Get, "Auth/validate");
+
+        request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
+        try
+        {
+            var response = await HttpClient.SendAsync(request);
+
+            return response.IsSuccessStatusCode;
+        }
+        catch (HttpRequestException)
+        {
+            return false;
         }
     }
 }

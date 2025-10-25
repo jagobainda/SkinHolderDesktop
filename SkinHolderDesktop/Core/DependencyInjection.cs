@@ -62,9 +62,15 @@ public static class DependencyInjection
             PropertyNameCaseInsensitive = true
         });
 
+        // HttpClient with session handling
+        services.AddTransient<UnauthorizedHandler>();
+
         services.AddSingleton(provider =>
         {
-            return new HttpClient
+            var handler = provider.GetRequiredService<UnauthorizedHandler>();
+            handler.InnerHandler = new HttpClientHandler();
+            
+            return new HttpClient(handler)
             {
                 BaseAddress = new Uri("https://shapi.jagoba.dev")
             };

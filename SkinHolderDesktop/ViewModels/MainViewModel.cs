@@ -37,9 +37,15 @@ public partial class MainViewModel : ObservableObject, IRecipient<RefreshLastReg
 
     private readonly IRegistroService _registroService;
 
-    public MainViewModel(GlobalViewModel global, IRegistroService registroService, IServiceProvider services, IMessenger messenger)
+    private readonly GlobalViewModel _global;
+
+    private readonly ILoginService _loginService;
+
+    public MainViewModel(GlobalViewModel global, ILoginService loginService, IRegistroService registroService, IServiceProvider services, IMessenger messenger)
     {
         _registroService = registroService;
+        _global = global;
+        _loginService = loginService;
 
         _services = services;
 
@@ -49,8 +55,9 @@ public partial class MainViewModel : ObservableObject, IRecipient<RefreshLastReg
         _messenger = messenger;
         _messenger.Register(this);
 
-        _ = GetPingsAsync();
-        _ = GetLastRegistroPrecioTotalAsync();
+        Task.Run(GetPingsAsync);
+        Task.Run(ValidateSessionTokenAsync);
+        Task.Run(GetLastRegistroPrecioTotalAsync);
     }
 
     private async Task GetPingsAsync()
@@ -82,6 +89,23 @@ public partial class MainViewModel : ObservableObject, IRecipient<RefreshLastReg
         }
     }
 
+    public async Task ValidateSessionTokenAsync()
+    {
+        while (true)
+        {
+            var db = ConnectionPing.GetPingTime("shapi.jagoba.dev");
+
+            if (db > 0 && !await _loginService.ValidateToken(_global.Token!))
+            {
+                ProcessUtils.SaveErrorMessageToFile("Sesión expirada");
+
+                ProcessUtils.RestartApplication();
+            }
+
+            await Task.Delay(6000000);
+        }
+    }
+
     public async Task GetLastRegistroPrecioTotalAsync()
     {
         var lastRegistro = await _registroService.GetLastRegistroAsync();
@@ -93,7 +117,7 @@ public partial class MainViewModel : ObservableObject, IRecipient<RefreshLastReg
 
     public void Receive(RefreshLastRegistroMessage message)
     {
-        _ = GetLastRegistroPrecioTotalAsync();
+        Task.Run(GetLastRegistroPrecioTotalAsync);
     }
 
     private void CargarVista<T>() where T : class

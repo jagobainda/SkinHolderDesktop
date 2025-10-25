@@ -34,6 +34,7 @@ public partial class LoginViewModel : ObservableObject
         _loggerService = loggerService;
 
         CargarUltimoUsername();
+        LoadErrorMessage();
     }
 
     [RelayCommand]
@@ -113,5 +114,29 @@ public partial class LoginViewModel : ObservableObject
 
         var jsonString = JsonSerializer.Serialize(data);
         File.WriteAllText(path, jsonString);
+    }
+
+    private void LoadErrorMessage()
+    {
+        var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "close_error.json");
+
+        if (!File.Exists(path)) return;
+
+        try
+        {
+            var jsonString = File.ReadAllText(path);
+            var data = JsonSerializer.Deserialize<JsonElement>(jsonString);
+
+            if (data.TryGetProperty("error_message", out var errorProp))
+            {
+                ErrorText = errorProp.GetString();
+            }
+
+            File.Delete(path);
+        }
+        catch
+        {
+            ErrorText = string.Empty;
+        }
     }
 }
