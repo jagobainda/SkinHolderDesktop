@@ -70,10 +70,7 @@ public static class DependencyInjection
             var handler = provider.GetRequiredService<UnauthorizedHandler>();
             handler.InnerHandler = new HttpClientHandler();
             
-            return new HttpClient(handler)
-            {
-                BaseAddress = new Uri("https://shapi.jagoba.dev")
-            };
+            return new HttpClient(handler) { BaseAddress = new Uri("https://shapi.jagoba.dev") };
         });
 
         return services.BuildServiceProvider();

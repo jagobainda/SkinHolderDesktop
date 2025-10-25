@@ -95,12 +95,7 @@ public partial class MainViewModel : ObservableObject, IRecipient<RefreshLastReg
         {
             var db = ConnectionPing.GetPingTime("shapi.jagoba.dev");
 
-            if (db > 0 && !await _loginService.ValidateToken(_global.Token!))
-            {
-                ProcessUtils.SaveErrorMessageToFile("Sesión expirada");
-
-                ProcessUtils.RestartApplication();
-            }
+            if (db > 0) await _loginService.ValidateToken(_global.Token!);
 
             await Task.Delay(6000000);
         }
