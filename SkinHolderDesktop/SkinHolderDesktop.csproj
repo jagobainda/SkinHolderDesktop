@@ -20,11 +20,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="bin\Debug\net9.0-windows\Images\icono.png" />
+    <Compile Remove="Mappers\**" />
+    <EmbeddedResource Remove="Mappers\**" />
+    <None Remove="Mappers\**" />
+    <Page Remove="Mappers\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Mappers\" />
+    <Content Include="bin\Debug\net9.0-windows\Images\icono.png" />
   </ItemGroup>
 
   <ItemGroup>
