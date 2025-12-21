@@ -120,6 +120,7 @@
                 Margin="5" MaxLength="9" 
                 HorizontalContentAlignment="Center" 
                 VerticalContentAlignment="Center" 
+                behaviors:TextBoxSelectAllBehavior.SelectAllOnFocus="True"
                 Style="{StaticResource TextBoxStyleMenu}"
                 Text="{Binding NewItemNum}">
                 <TextBox.ToolTip>

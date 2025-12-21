@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:vm="clr-namespace:SkinHolderDesktop.ViewModels" 
+        xmlns:behaviors="clr-namespace:SkinHolderDesktop.Behaviors"
         d:DataContext="{d:DesignInstance Type=vm:LoginViewModel}"
         mc:Ignorable="d"
         Title="SkinHolder - Login"
@@ -52,7 +53,11 @@
                         <Run Text="USUARIO" Foreground="{StaticResource PrimaryBrush}" />
                     </TextBlock>
 
-                    <TextBox Style="{StaticResource TextBoxStyleMenu}" Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBox 
+                        Style="{StaticResource TextBoxStyleMenu}" 
+                        Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged}"
+                        behaviors:TextBoxSelectAllBehavior.SelectAllOnFocus="True"
+                        />
                 </StackPanel>
 
                 <StackPanel Grid.Row="1" Margin="20">
@@ -61,7 +66,11 @@
                     </TextBlock>
 
                     <Grid>
-                        <PasswordBox x:Name="PasswordBox" Style="{StaticResource PasswordBoxStyleMenu}" PasswordChanged="PasswordBox_PasswordChanged" />
+                        <PasswordBox 
+                            x:Name="PasswordBox" Style="{StaticResource PasswordBoxStyleMenu}" 
+                            PasswordChanged="PasswordBox_PasswordChanged" 
+                            behaviors:TextBoxSelectAllBehavior.SelectAllOnFocus="True"
+                            />
 
                         <Button Width="30" Height="30" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0 0 15 0" BorderThickness="0" Background="Transparent" Cursor="Hand" Command="{Binding ToggleGuardarPasswordCommand}">
                             <Button.Style>

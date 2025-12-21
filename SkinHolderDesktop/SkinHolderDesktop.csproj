@@ -9,14 +9,14 @@
     <UseWPF>true</UseWPF>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 
-    <Version>0.6.1</Version>
-    <FileVersion>0.6.1.0</FileVersion>
-    <AssemblyVersion>0.6.1.0</AssemblyVersion>
+    <Version>0.8.0</Version>
+    <FileVersion>0.8.0.0</FileVersion>
+    <AssemblyVersion>0.8.0.0</AssemblyVersion>
 
-    <AssemblyTitle>Skinholder Desktop</AssemblyTitle>
-    <AssemblyDescription>Aplicación para trackear skins de CS:GO</AssemblyDescription>
+    <AssemblyTitle>Skinholder</AssemblyTitle>
+    <AssemblyDescription>Aplicación para trackear skins de Counter-Strike</AssemblyDescription>
     <Company>jagoba.dev</Company>
-    <Product>Skinholder Desktop</Product>
+    <Product>Skinholder</Product>
   </PropertyGroup>
 
   <ItemGroup>
