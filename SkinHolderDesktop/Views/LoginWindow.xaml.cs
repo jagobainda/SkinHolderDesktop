@@ -20,8 +20,6 @@ public partial class LoginWindow : Window
         DataContext = viewModel;
         _viewModel = viewModel;
 
-        Logo.Source = new BitmapImage(new Uri(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Images/icono.png")));
-
         PasswordBox.Password = _viewModel.Password;
         _viewModel.PropertyChanged += ViewModel_PropertyChanged;
 
