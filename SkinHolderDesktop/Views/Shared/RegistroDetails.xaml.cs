@@ -8,10 +8,9 @@ namespace SkinHolderDesktop.Views.Shared
 {
     public partial class RegistroDetails : Window
     {
-        public RegistroDetails(RegistroDetailsViewModel viewModel)
+        public RegistroDetails()
         {
             InitializeComponent();
-            DataContext = viewModel;
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) Loaded += (_, _) => EnableDarkTitleBar(this);
         }

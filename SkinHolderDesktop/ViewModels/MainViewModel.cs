@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using Microsoft.Extensions.DependencyInjection;
+using SkinHolderDesktop.Core;
 using SkinHolderDesktop.Services;
 using SkinHolderDesktop.Utils;
 using SkinHolderDesktop.Views.Partials;
@@ -12,7 +12,7 @@ namespace SkinHolderDesktop.ViewModels;
 
 public class RefreshLastRegistroMessage { }
 
-public partial class MainViewModel : ObservableObject, IRecipient<RefreshLastRegistroMessage>
+public partial class MainViewModel : ObservableObject, IRecipient<RefreshLastRegistroMessage>, IDisposable
 {
     [ObservableProperty] private string steamPing = "-";
     [ObservableProperty] private string gamerPayPing = "-";
@@ -33,36 +33,43 @@ public partial class MainViewModel : ObservableObject, IRecipient<RefreshLastReg
     private readonly Brush _failBrush = new SolidColorBrush(Colors.DarkRed);
     private readonly Brush _primaryBrush;
 
-    private readonly IServiceProvider _services;
-
     private readonly IRegistroService _registroService;
-
-    private readonly GlobalViewModel _global;
-
+    private readonly ITokenProvider _tokenProvider;
     private readonly ILoginService _loginService;
+    private readonly CancellationTokenSource _cts = new();
+    private readonly Func<Bienvenida> _bienvenidaFactory;
+    private readonly Func<Registros> _registrosFactory;
+    private readonly Func<UserItems> _userItemsFactory;
+    private readonly Func<UserSettings> _userSettingsFactory;
 
-    public MainViewModel(GlobalViewModel global, ILoginService loginService, IRegistroService registroService, IServiceProvider services, IMessenger messenger)
+    public MainViewModel(ITokenProvider tokenProvider, ILoginService loginService, IRegistroService registroService, IMessenger messenger,
+        Func<Bienvenida> bienvenidaFactory, Func<Registros> registrosFactory, Func<UserItems> userItemsFactory, Func<UserSettings> userSettingsFactory)
     {
         _registroService = registroService;
-        _global = global;
+        _tokenProvider = tokenProvider;
         _loginService = loginService;
-
-        _services = services;
+        _bienvenidaFactory = bienvenidaFactory;
+        _registrosFactory = registrosFactory;
+        _userItemsFactory = userItemsFactory;
+        _userSettingsFactory = userSettingsFactory;
 
         _primaryBrush = (Brush)Application.Current.Resources["PrimaryBrush"]!;
 
-        CurrentContent = _services.GetRequiredService<Bienvenida>();
+        CurrentContent = _bienvenidaFactory();
         _messenger = messenger;
         _messenger.Register(this);
-
-        Task.Run(GetPingsAsync);
-        Task.Run(ValidateSessionTokenAsync);
-        Task.Run(GetLastRegistroPrecioTotalAsync);
     }
 
-    private async Task GetPingsAsync()
+    public async Task InitializeAsync()
     {
-        while (true)
+        _ = Task.Run(() => GetPingsAsync(_cts.Token), _cts.Token);
+        _ = Task.Run(() => ValidateSessionTokenAsync(_cts.Token), _cts.Token);
+        await GetLastRegistroPrecioTotalAsync();
+    }
+
+    private async Task GetPingsAsync(CancellationToken cancellationToken)
+    {
+        while (!cancellationToken.IsCancellationRequested)
         {
             var steam = ConnectionPing.GetPingTime("steamcommunity.com");
             var gamer = ConnectionPing.GetPingTime("gamerpay.gg");
@@ -78,30 +85,30 @@ public partial class MainViewModel : ObservableObject, IRecipient<RefreshLastReg
             SkinHolderDbPingBrush = _primaryBrush;
             EstadoSkinHolderDbBrush = db > -1 ? _primaryBrush : _failBrush;
 
-            await Task.Delay(1000);
+            await Task.Delay(1000, cancellationToken);
 
             SteamPingBrush = Brushes.White;
             GamerPayPingBrush = Brushes.White;
             SkinHolderDbPingBrush = Brushes.White;
             EstadoSkinHolderDbBrush = Brushes.White;
 
-            await Task.Delay(9000);
+            await Task.Delay(9000, cancellationToken);
         }
     }
 
-    public async Task ValidateSessionTokenAsync()
+    private async Task ValidateSessionTokenAsync(CancellationToken cancellationToken)
     {
-        while (true)
+        while (!cancellationToken.IsCancellationRequested)
         {
             var db = ConnectionPing.GetPingTime("shapi.jagoba.dev");
 
-            if (db > 0) await _loginService.ValidateToken(_global.Token!);
+            if (db > 0) await _loginService.ValidateToken(_tokenProvider.Token!);
 
-            await Task.Delay(6000000);
+            await Task.Delay(6000000, cancellationToken);
         }
     }
 
-    public async Task GetLastRegistroPrecioTotalAsync()
+    private async Task GetLastRegistroPrecioTotalAsync()
     {
         var lastRegistro = await _registroService.GetLastRegistroAsync();
 
@@ -112,31 +119,38 @@ public partial class MainViewModel : ObservableObject, IRecipient<RefreshLastReg
 
     public void Receive(RefreshLastRegistroMessage message)
     {
-        Task.Run(GetLastRegistroPrecioTotalAsync);
+        _ = Task.Run(GetLastRegistroPrecioTotalAsync, _cts.Token);
     }
 
-    private void CargarVista<T>() where T : class
+    private void CargarVista<T>(Func<T> factory) where T : class
     {
         if (CurrentContent is T existente)
         {
             (existente as IDisposable)?.Dispose();
             CurrentContent = null;
-            CurrentContent = _services.GetRequiredService<Bienvenida>();
+            CurrentContent = _bienvenidaFactory();
             return;
         }
 
-        CurrentContent = _services.GetRequiredService<T>();
+        CurrentContent = factory();
     }
 
     [RelayCommand]
-    private void CargarRegistros() => CargarVista<Registros>();
+    private void CargarRegistros() => CargarVista(_registrosFactory);
 
     [RelayCommand]
-    private void CargarItems() => CargarVista<UserItems>();
+    private void CargarItems() => CargarVista(_userItemsFactory);
 
     [RelayCommand]
-    private void CargarPerfil() => CargarVista<UserSettings>();
+    private void CargarPerfil() => CargarVista(_userSettingsFactory);
 
     [RelayCommand]
     private static void Salir() => Application.Current.Shutdown();
+
+    public void Dispose()
+    {
+        _messenger.UnregisterAll(this);
+        _cts.Cancel();
+        _cts.Dispose();
+    }
 }

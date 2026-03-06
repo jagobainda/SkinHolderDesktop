@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using Microsoft.Extensions.DependencyInjection;
+using SkinHolderDesktop.Core;
 using SkinHolderDesktop.Models;
 using SkinHolderDesktop.Services;
 using SkinHolderDesktop.ViewModels.Shared;
@@ -12,7 +12,7 @@ using System.Text.Json;
 
 namespace SkinHolderDesktop.ViewModels;
 
-public partial class RegistrosViewModel(IRegistroService registroService, IItemPrecioService itemPrecioService, IUserItemService userItemService, ISteamRequestService steamRequestService, IExtSitesRequestService extSitesRequestService, ILoggerService loggerService, GlobalViewModel globalViewModel, IMessenger messenger, IServiceProvider serviceProvider) : ObservableObject, IDisposable
+public partial class RegistrosViewModel(IRegistroService registroService, IItemPrecioService itemPrecioService, IUserItemService userItemService, ISteamRequestService steamRequestService, IExtSitesRequestService extSitesRequestService, ILoggerService loggerService, IAuthSession authSession, IMessenger messenger, Func<RegistroDetailsViewModel> detailsViewModelFactory, Func<RegistroDetails> detailsWindowFactory, Func<RegistroListViewModel> listViewModelFactory, Func<RegistroList> listWindowFactory) : ObservableObject, IDisposable
 {
     private readonly IRegistroService _registroService = registroService;
     private readonly IItemPrecioService _itemPrecioService = itemPrecioService;
@@ -20,9 +20,12 @@ public partial class RegistrosViewModel(IRegistroService registroService, IItemP
     private readonly ISteamRequestService _steamRequestService = steamRequestService;
     private readonly IExtSitesRequestService _extSitesRequestService = extSitesRequestService;
     private readonly ILoggerService _loggerService = loggerService;
-    private readonly GlobalViewModel _global = globalViewModel;
+    private readonly IAuthSession _authSession = authSession;
     private readonly IMessenger _messenger = messenger;
-    private readonly IServiceProvider _serviceProvider = serviceProvider;
+    private readonly Func<RegistroDetailsViewModel> _detailsViewModelFactory = detailsViewModelFactory;
+    private readonly Func<RegistroDetails> _detailsWindowFactory = detailsWindowFactory;
+    private readonly Func<RegistroListViewModel> _listViewModelFactory = listViewModelFactory;
+    private readonly Func<RegistroList> _listWindowFactory = listWindowFactory;
 
     private List<UserItem> _userItems = [];
 
@@ -154,7 +157,7 @@ public partial class RegistrosViewModel(IRegistroService registroService, IItemP
             Totalsteam = TotalSteam,
             Totalgamerpay = TotalGamerPay,
             Totalcsfloat = TotalCSFloat,
-            Userid = _global.UserId
+            Userid = _authSession.UserId
         };
 
         var registroId = await _registroService.CreateRegistroAsync(_registro);
@@ -171,10 +174,10 @@ public partial class RegistrosViewModel(IRegistroService registroService, IItemP
     [RelayCommand]
     private void MostrarDetalles()
     {
-        var viewModel = _serviceProvider.GetRequiredService<RegistroDetailsViewModel>();
+        var viewModel = _detailsViewModelFactory();
         viewModel.Initialize(_registro, _userItems, _itemPrecios, "Detalles");
 
-        var detailsWindow = _serviceProvider.GetRequiredService<RegistroDetails>();
+        var detailsWindow = _detailsWindowFactory();
         detailsWindow.DataContext = viewModel;
 
         detailsWindow.ShowDialog();
@@ -183,10 +186,10 @@ public partial class RegistrosViewModel(IRegistroService registroService, IItemP
     [RelayCommand]
     private void HistorialRegistros()
     {
-        var viewModel = _serviceProvider.GetRequiredService<RegistroListViewModel>();
+        var viewModel = _listViewModelFactory();
         _ = viewModel.InitializeAsync();
 
-        var listWindow = _serviceProvider.GetRequiredService<RegistroList>();
+        var listWindow = _listWindowFactory();
         listWindow.DataContext = viewModel;
 
         listWindow.ShowDialog();
@@ -201,7 +204,7 @@ public partial class RegistrosViewModel(IRegistroService registroService, IItemP
 
         var saveFileDialog = new Microsoft.Win32.SaveFileDialog
         {
-            FileName = $"registros_{_global.CurrentUsername}_{DateTime.Now:yyyy-MM-dd}.json",
+            FileName = $"registros_{_authSession.CurrentUsername}_{DateTime.Now:yyyy-MM-dd}.json",
             Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*"
         };
 

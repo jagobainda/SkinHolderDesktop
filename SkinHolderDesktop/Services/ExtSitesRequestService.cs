@@ -1,4 +1,5 @@
-﻿using SkinHolderDesktop.Models;
+﻿using Microsoft.Extensions.DependencyInjection;
+using SkinHolderDesktop.Models;
 using System.Net.Http;
 using System.Text.Json;
 
@@ -9,17 +10,16 @@ public interface IExtSitesRequestService
     Task<GamerPayItemInfo[]> MakeGamerPayRequestAsync();
 }
 
-public class ExtSitesRequestService(ILoggerService loggerService) : IExtSitesRequestService
+public class ExtSitesRequestService([FromKeyedServices("extsites")] HttpClient httpClient, ILoggerService loggerService) : IExtSitesRequestService
 {
     private readonly ILoggerService _loggerService = loggerService;
+    private readonly HttpClient _client = httpClient;
 
     public async Task<GamerPayItemInfo[]> MakeGamerPayRequestAsync()
     {
         try
         {
-            using var client = new HttpClient();
-
-            var response = await client.GetAsync("https://api.gamerpay.gg/prices");
+            var response = await _client.GetAsync("https://api.gamerpay.gg/prices");
             response.EnsureSuccessStatusCode();
             var jsonContent = await response.Content.ReadAsStringAsync();
 

@@ -1,8 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using SkinHolderDesktop.Core;
 
 namespace SkinHolderDesktop.ViewModels;
 
-public partial class GlobalViewModel : ObservableObject
+public partial class GlobalViewModel : ObservableObject, IAuthSession
 {
     [ObservableProperty]
     private string? currentUsername;

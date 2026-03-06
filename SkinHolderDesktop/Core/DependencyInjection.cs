@@ -19,6 +19,8 @@ public static class DependencyInjection
 
         // ViewModels
         services.AddSingleton<GlobalViewModel>();
+        services.AddSingleton<IAuthSession>(provider => provider.GetRequiredService<GlobalViewModel>());
+        services.AddSingleton<ITokenProvider>(provider => provider.GetRequiredService<IAuthSession>());
         services.AddSingleton<LoginViewModel>();
         services.AddSingleton<MainViewModel>();
         services.AddTransient<RegistrosViewModel>();
@@ -54,6 +56,16 @@ public static class DependencyInjection
         services.AddTransient<UserItems>();
         services.AddTransient<UserSettings>();
 
+        // View factories
+        services.AddSingleton<Func<Bienvenida>>(p => () => p.GetRequiredService<Bienvenida>());
+        services.AddSingleton<Func<Registros>>(p => () => p.GetRequiredService<Registros>());
+        services.AddSingleton<Func<UserItems>>(p => () => p.GetRequiredService<UserItems>());
+        services.AddSingleton<Func<UserSettings>>(p => () => p.GetRequiredService<UserSettings>());
+        services.AddSingleton<Func<RegistroDetailsViewModel>>(p => () => p.GetRequiredService<RegistroDetailsViewModel>());
+        services.AddSingleton<Func<RegistroDetails>>(p => () => p.GetRequiredService<RegistroDetails>());
+        services.AddSingleton<Func<RegistroListViewModel>>(p => () => p.GetRequiredService<RegistroListViewModel>());
+        services.AddSingleton<Func<RegistroList>>(p => () => p.GetRequiredService<RegistroList>());
+
         // Singletons
         services.AddSingleton<IMessenger, WeakReferenceMessenger>();
 
@@ -63,15 +75,22 @@ public static class DependencyInjection
         });
 
         // HttpClient with session handling
+        services.AddSingleton<AuthenticationHandler>();
         services.AddTransient<UnauthorizedHandler>();
 
         services.AddSingleton(provider =>
         {
-            var handler = provider.GetRequiredService<UnauthorizedHandler>();
-            handler.InnerHandler = new HttpClientHandler();
-            
-            return new HttpClient(handler) { BaseAddress = new Uri("https://shapi.jagoba.dev") };
+            var authHandler = provider.GetRequiredService<AuthenticationHandler>();
+            var unauthorizedHandler = provider.GetRequiredService<UnauthorizedHandler>();
+
+            unauthorizedHandler.InnerHandler = new HttpClientHandler();
+            authHandler.InnerHandler = unauthorizedHandler;
+
+            return new HttpClient(authHandler) { BaseAddress = new Uri("https://shapi.jagoba.dev") };
         });
+
+        services.AddKeyedSingleton<HttpClient>("steam", (_, _) => new HttpClient());
+        services.AddKeyedSingleton<HttpClient>("extsites", (_, _) => new HttpClient());
 
         return services.BuildServiceProvider();
     }

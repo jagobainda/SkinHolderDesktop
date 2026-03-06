@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Extensions.DependencyInjection;
 using SkinHolderDesktop.Models;
 using SkinHolderDesktop.Services;
 using SkinHolderDesktop.Views.Shared;
@@ -38,7 +37,8 @@ public partial class RegistroListViewModel : ObservableObject
     private readonly IRegistroService _registroService;
     private readonly IItemPrecioService _itemPrecioService;
     private readonly IUserItemService _userItemService;
-    private readonly IServiceProvider _serviceProvider;
+    private readonly Func<RegistroDetailsViewModel> _detailsViewModelFactory;
+    private readonly Func<RegistroDetails> _detailsWindowFactory;
 
     [ObservableProperty] private ObservableCollection<RegistroItem> registros;
     [ObservableProperty] private string title = "Historial de Registros";
@@ -55,12 +55,13 @@ public partial class RegistroListViewModel : ObservableObject
     private ICollectionView? _registrosView;
     private List<Registro> _fullRegistros = [];
 
-    public RegistroListViewModel(IRegistroService registroService, IItemPrecioService itemPrecioService, IUserItemService userItemService, IServiceProvider serviceProvider)
+    public RegistroListViewModel(IRegistroService registroService, IItemPrecioService itemPrecioService, IUserItemService userItemService, Func<RegistroDetailsViewModel> detailsViewModelFactory, Func<RegistroDetails> detailsWindowFactory)
     {
         _registroService = registroService;
         _itemPrecioService = itemPrecioService;
         _userItemService = userItemService;
-        _serviceProvider = serviceProvider;
+        _detailsViewModelFactory = detailsViewModelFactory;
+        _detailsWindowFactory = detailsWindowFactory;
 
         Registros = [];
     }
@@ -181,10 +182,10 @@ public partial class RegistroListViewModel : ObservableObject
                 .Where(ui => itemPrecios.Any(ip => ip.Useritemid == ui.Useritemid))
                 .ToList();
 
-            var viewModel = _serviceProvider.GetRequiredService<RegistroDetailsViewModel>();
+            var viewModel = _detailsViewModelFactory();
             viewModel.Initialize(registro, relevantUserItems, itemPrecios, $"Detalles - {registro.Fechahora:dd/MM/yyyy HH:mm}");
 
-            var detailsWindow = _serviceProvider.GetRequiredService<RegistroDetails>();
+            var detailsWindow = _detailsWindowFactory();
             detailsWindow.DataContext = viewModel;
 
             detailsWindow.Show();

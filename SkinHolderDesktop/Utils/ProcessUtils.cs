@@ -1,4 +1,8 @@
-﻿namespace SkinHolderDesktop.Utils;
+﻿using System.IO;
+using System.Text.Json;
+using System.Windows;
+
+namespace SkinHolderDesktop.Utils;
 
 public static class ProcessUtils
 {
@@ -6,18 +10,19 @@ public static class ProcessUtils
     {
         var exePath = System.Diagnostics.Process.GetCurrentProcess().MainModule?.FileName;
 
-        if (exePath is not null)System.Diagnostics.Process.Start(exePath);
+        if (exePath is not null) System.Diagnostics.Process.Start(exePath);
 
-        System.Diagnostics.Process.GetCurrentProcess().Kill();
+        Application.Current.Shutdown();
     }
 
     public static void SaveErrorMessageToFile(string errorMessage)
     {
-        var path = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "close_error.json");
+        var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "close_error.json");
 
         var data = new { error_message = errorMessage };
 
-        var jsonString = System.Text.Json.JsonSerializer.Serialize(data);
-        System.IO.File.WriteAllText(path, jsonString);
+        var jsonString = JsonSerializer.Serialize(data);
+
+        File.WriteAllText(path, jsonString);
     }
 }

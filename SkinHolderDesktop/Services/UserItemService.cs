@@ -1,7 +1,5 @@
 ﻿using SkinHolderDesktop.Models;
-using SkinHolderDesktop.ViewModels;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text.Json;
 
 namespace SkinHolderDesktop.Services;
@@ -13,19 +11,14 @@ public interface IUserItemService
     Task<bool> UpdateUserItemAsync(UserItem userItem, int cantidad);
 }
 
-public class UserItemService(HttpClient httpClient, JsonSerializerOptions jsonOptions, GlobalViewModel globalViewModel, ILoggerService loggerService) : BaseService(httpClient, jsonOptions), IUserItemService
+public class UserItemService(HttpClient httpClient, JsonSerializerOptions jsonOptions, ILoggerService loggerService) : BaseService(httpClient, jsonOptions), IUserItemService
 {
-    public GlobalViewModel GlobalViewModel { get; } = globalViewModel;
     public ILoggerService LoggerService { get; } = loggerService;
 
     public async Task<List<UserItem>> GetUserItemsAsync()
     {
         try
         {
-            var token = GlobalViewModel.Token;
-
-            HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
             var response = await HttpClient.GetAsync("/UserItems");
 
             response.EnsureSuccessStatusCode();
@@ -45,10 +38,6 @@ public class UserItemService(HttpClient httpClient, JsonSerializerOptions jsonOp
     {
         try
         {
-            var token = GlobalViewModel.Token;
-
-            HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
             var content = CreateJsonContent(userItem);
 
             var response = await HttpClient.PostAsync("/UserItems", content);
@@ -66,10 +55,6 @@ public class UserItemService(HttpClient httpClient, JsonSerializerOptions jsonOp
     {
         try
         {
-            var token = GlobalViewModel.Token;
-
-            HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
             var updatedUserItem = new UserItem
             {
                 Useritemid = userItem.Useritemid,

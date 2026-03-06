@@ -1,4 +1,5 @@
-﻿using SkinHolderDesktop.Models.Auth;
+﻿using SkinHolderDesktop.Core;
+using SkinHolderDesktop.Models.Auth;
 using System.Net.Http;
 using System.Text.Json;
 
@@ -7,18 +8,11 @@ namespace SkinHolderDesktop.Services;
 public interface ILoginService
 {
     Task<(bool Success, string? ErrorMessage)> LoginAsync(string username, string password);
-    string? Token { get; }
-    string? CurrentUsername { get; }
-    int UserId { get; }
-
     Task<bool> ValidateToken(string token);
 }
 
-public class LoginService(HttpClient httpClient, JsonSerializerOptions jsonOptions) : BaseService(httpClient, jsonOptions), ILoginService
+public class LoginService(HttpClient httpClient, JsonSerializerOptions jsonOptions, IAuthSession authSession) : BaseService(httpClient, jsonOptions), ILoginService
 {
-    public string? Token { get; private set; }
-    public string? CurrentUsername { get; private set; }
-    public int UserId { get; private set; }
 
     public async Task<(bool Success, string? ErrorMessage)> LoginAsync(string username, string password)
     {
@@ -36,9 +30,10 @@ public class LoginService(HttpClient httpClient, JsonSerializerOptions jsonOptio
 
             if (data is null || string.IsNullOrWhiteSpace(data.Token)) return (false, "Respuesta inválida del servidor");
 
-            Token = data.Token;
-            CurrentUsername = data.Username;
-            UserId = data.UserId;
+            authSession.Token = data.Token;
+            authSession.CurrentUsername = data.Username;
+            authSession.UserId = data.UserId;
+            authSession.IsAuthenticated = true;
 
             return (true, null);
         }

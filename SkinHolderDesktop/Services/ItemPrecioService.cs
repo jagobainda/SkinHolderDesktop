@@ -1,7 +1,5 @@
 ﻿using SkinHolderDesktop.Models;
-using SkinHolderDesktop.ViewModels;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 
@@ -14,18 +12,13 @@ public interface IItemPrecioService
     Task<bool> DeleteItemPreciosAsync(long registroId);
 }
 
-public class ItemPrecioService(HttpClient httpClient, JsonSerializerOptions jsonOptions, GlobalViewModel globalViewModel) : BaseService(httpClient, jsonOptions), IItemPrecioService
+public class ItemPrecioService(HttpClient httpClient, JsonSerializerOptions jsonOptions) : BaseService(httpClient, jsonOptions), IItemPrecioService
 {
-    public GlobalViewModel GlobalViewModel { get; } = globalViewModel;
 
     public async Task<List<ItemPrecio>> GetItemPreciosAsync(long registroId)
     {
         try
         {
-            var token = GlobalViewModel.Token;
-
-            HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
             var response = await HttpClient.GetAsync($"/ItemPrecio/{registroId}");
 
             response.EnsureSuccessStatusCode();
@@ -45,10 +38,6 @@ public class ItemPrecioService(HttpClient httpClient, JsonSerializerOptions json
     {
         try
         {
-            var token = GlobalViewModel.Token;
-
-            HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
             var jsonContent = JsonSerializer.Serialize(itemPrecios, JsonOptions);
             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
@@ -66,10 +55,6 @@ public class ItemPrecioService(HttpClient httpClient, JsonSerializerOptions json
     {
         try
         {
-            var token = GlobalViewModel.Token;
-
-            HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
             var response = await HttpClient.DeleteAsync($"/ItemPrecio/{registroId}");
 
             return response.IsSuccessStatusCode;

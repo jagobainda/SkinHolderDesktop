@@ -1,7 +1,5 @@
 ﻿using SkinHolderDesktop.Models;
-using SkinHolderDesktop.ViewModels;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 
@@ -15,18 +13,13 @@ public interface IRegistroService
     Task<bool> DeleteRegistroAsync(long registroId);
 }
 
-public class RegistroService(HttpClient httpClient, JsonSerializerOptions jsonOptions, GlobalViewModel globalViewModel) : BaseService(httpClient, jsonOptions), IRegistroService
+public class RegistroService(HttpClient httpClient, JsonSerializerOptions jsonOptions) : BaseService(httpClient, jsonOptions), IRegistroService
 {
-    public GlobalViewModel GlobalViewModel { get; } = globalViewModel;
 
     public async Task<Registro> GetLastRegistroAsync()
     {
         try
         {
-            var token = GlobalViewModel.Token;
-
-            HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
             var response = await HttpClient.GetAsync("/Registros/GetLastRegistro");
 
             response.EnsureSuccessStatusCode();
@@ -46,10 +39,6 @@ public class RegistroService(HttpClient httpClient, JsonSerializerOptions jsonOp
     {
         try
         {
-            var token = GlobalViewModel.Token;
-
-            HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
             var response = await HttpClient.GetAsync("/Registros");
 
             response.EnsureSuccessStatusCode();
@@ -69,10 +58,6 @@ public class RegistroService(HttpClient httpClient, JsonSerializerOptions jsonOp
     {
         try
         {
-            var token = GlobalViewModel.Token;
-
-            HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
             var jsonContent = JsonSerializer.Serialize(registro, JsonOptions);
             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
@@ -94,10 +79,6 @@ public class RegistroService(HttpClient httpClient, JsonSerializerOptions jsonOp
     {
         try
         {
-            var token = GlobalViewModel.Token;
-
-            HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
             var response = await HttpClient.DeleteAsync($"/Registros?registroId={registroId}");
 
             return response.IsSuccessStatusCode;

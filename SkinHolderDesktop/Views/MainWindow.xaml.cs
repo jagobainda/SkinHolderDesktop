@@ -13,7 +13,12 @@ public partial class MainWindow : Window
         InitializeComponent();
         DataContext = viewModel;
 
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) Loaded += (_, _) => EnableDarkTitleBar(this);
+        Closed += (_, _) => viewModel.Dispose();
+        Loaded += async (_, _) =>
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) EnableDarkTitleBar(this);
+            await viewModel.InitializeAsync();
+        };
     }
 
     [SupportedOSPlatform("windows")]

@@ -1,4 +1,5 @@
-﻿using SkinHolderDesktop.Models;
+﻿using Microsoft.Extensions.DependencyInjection;
+using SkinHolderDesktop.Models;
 using System.Net.Http;
 using System.Text.Json;
 
@@ -9,10 +10,10 @@ public interface ISteamRequestService
     Task<SteamItemInfo> MakeRequestAsync(string marketHashName, string country = "ES", int currency = 3, int appId = 730);
 }
 
-public class SteamRequestService(ILoggerService loggerService) : ISteamRequestService
+public class SteamRequestService([FromKeyedServices("steam")] HttpClient httpClient, ILoggerService loggerService) : ISteamRequestService
 {
     private const int MaxRetryAttempts = 5;
-    private readonly HttpClient Client = new();
+    private readonly HttpClient _client = httpClient;
     private const string BaseUrl = "https://steamcommunity.com/market/priceoverview/?country={0}&currency={1}&appid={2}&market_hash_name={3}";
 
     private readonly ILoggerService _loggerService = loggerService;
@@ -26,7 +27,7 @@ public class SteamRequestService(ILoggerService loggerService) : ISteamRequestSe
         {
             try
             {
-                var response = await Client.GetAsync(url);
+                var response = await _client.GetAsync(url);
                 if (response.IsSuccessStatusCode)
                 {
                     var responseContent = await response.Content.ReadAsStringAsync();

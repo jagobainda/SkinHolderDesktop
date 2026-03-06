@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using SkinHolderDesktop.Core;
 using SkinHolderDesktop.Models;
 using SkinHolderDesktop.Services;
 using System.Collections.ObjectModel;
@@ -11,7 +12,7 @@ public partial class UserItemsViewModel : ObservableObject, IDisposable
 {
     private readonly IUserItemService _userItemService;
     private readonly IItemsService _itemsService;
-    private readonly GlobalViewModel _globalViewModel;
+    private readonly IAuthSession _authSession;
     private bool _disposed;
 
     private string _searchText = string.Empty;
@@ -64,11 +65,11 @@ public partial class UserItemsViewModel : ObservableObject, IDisposable
 
     public IAsyncRelayCommand AddItemCommand { get; }
 
-    public UserItemsViewModel(IUserItemService userItemService, IItemsService itemsService, GlobalViewModel globalViewModel)
+    public UserItemsViewModel(IUserItemService userItemService, IItemsService itemsService, IAuthSession authSession)
     {
         _userItemService = userItemService;
         _itemsService = itemsService;
-        _globalViewModel = globalViewModel;
+        _authSession = authSession;
 
         AddItemCommand = new AsyncRelayCommand(AddItem);
 
@@ -136,7 +137,7 @@ public partial class UserItemsViewModel : ObservableObject, IDisposable
             Itemid = selectedItem.ItemId,
             ItemName = selectedItem.Nombre,
             Cantidad = cantidad,
-            Userid = _globalViewModel.UserId
+            Userid = _authSession.UserId
         };
 
         var success = await _userItemService.AddUserItemAsync(newUserItem);
