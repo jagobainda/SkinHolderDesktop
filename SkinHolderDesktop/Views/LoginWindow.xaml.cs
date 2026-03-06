@@ -1,6 +1,7 @@
 ﻿using SkinHolderDesktop.ViewModels;
 using System.ComponentModel;
 using System.IO;
+using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 using System.Windows;
@@ -24,6 +25,27 @@ public partial class LoginWindow : Window
         _viewModel.PropertyChanged += ViewModel_PropertyChanged;
 
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) Loaded += (_, _) => EnableDarkTitleBar(this);
+        Loaded += async (_, _) => await LoadLogoAsync();
+    }
+
+    private static readonly HttpClient _httpClient = new();
+    private const string LogoUrl = "https://cdn.jagoba.dev/imgs/bg_login.png";
+
+    private async Task LoadLogoAsync()
+    {
+        try
+        {
+            var bytes = await _httpClient.GetByteArrayAsync(LogoUrl);
+            using var stream = new MemoryStream(bytes);
+            var bitmap = new BitmapImage();
+            bitmap.BeginInit();
+            bitmap.CacheOption = BitmapCacheOption.OnLoad;
+            bitmap.StreamSource = stream;
+            bitmap.EndInit();
+            bitmap.Freeze();
+            Logo.Source = bitmap;
+        }
+        catch { }
     }
 
     private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)

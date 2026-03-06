@@ -59,10 +59,7 @@ public class SteamRequestService(ILoggerService loggerService) : ISteamRequestSe
 
     private async Task<decimal> ExtractPriceFromJson(string input)
     {
-        if (string.IsNullOrEmpty(input))
-        {
-            return -1m;
-        }
+        if (string.IsNullOrEmpty(input)) return -1m;
 
         try
         {
