@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:local="clr-namespace:SkinHolderDesktop.Views.Partials" 
              xmlns:viewmodels="clr-namespace:SkinHolderDesktop.ViewModels" 
              xmlns:useritem="clr-namespace:SkinHolderDesktop.Views.Partials.UserItemPartials"
@@ -100,8 +100,8 @@
                         </TextBox.ToolTip>
                     </TextBox>
 
-                    <fa:ImageAwesome
-                        Icon="Search"
+                    <iconPacks:PackIconFontAwesome
+                        Kind="MagnifyingGlassSolid"
                         Width="18" Height="18"
                         Foreground="{StaticResource PrimaryBrush}"
                         VerticalAlignment="Center"

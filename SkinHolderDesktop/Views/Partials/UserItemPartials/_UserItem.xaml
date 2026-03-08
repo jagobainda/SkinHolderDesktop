@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SkinHolderDesktop.Views.Partials.UserItemPartials"
-             xmlns:fa="http://schemas.fontawesome.io/icons/" 
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks" 
              xmlns:viewmodels="clr-namespace:SkinHolderDesktop.ViewModels" 
              xmlns:local1="clr-namespace:SkinHolderDesktop.Utils"
              d:DataContext="{d:DesignInstance Type=viewmodels:UserItemViewModel}"
@@ -56,7 +56,7 @@
                 Width="40" Height="40" Margin="0"
                 Command="{Binding DecrementarCommand}" 
                 IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBooleanConverter}}">
-                <fa:ImageAwesome Icon="Minus" Width="22" Height="22" Foreground="{StaticResource PrimaryBrush}" />
+                <iconPacks:PackIconFontAwesome Kind="MinusSolid" Width="22" Height="22" Foreground="{StaticResource PrimaryBrush}" />
             </Button>
 
             <Button Grid.Row="1" Grid.Column="3"
@@ -64,7 +64,7 @@
                 Width="40" Height="40" Margin="0"
                 Command="{Binding IncrementarCommand}" 
                 IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBooleanConverter}}">
-                <fa:ImageAwesome Icon="Plus" Width="22" Height="22" Foreground="{StaticResource PrimaryBrush}" />
+                <iconPacks:PackIconFontAwesome Kind="PlusSolid" Width="22" Height="22" Foreground="{StaticResource PrimaryBrush}" />
             </Button>
 
             <Button Grid.Row="1" Grid.Column="4"
@@ -72,7 +72,7 @@
                 Width="40" Height="40" Margin="0"
                 Command="{Binding GuardarCommand}" 
                 IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBooleanConverter}}">
-                <fa:ImageAwesome Icon="Save" Width="22" Height="22" Foreground="{StaticResource PrimaryBrush}" />
+                <iconPacks:PackIconFontAwesome Kind="FloppyDiskSolid" Width="22" Height="22" Foreground="{StaticResource PrimaryBrush}" />
             </Button>
 
         </Grid>

@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:fa="http://schemas.fontawesome.io/icons/"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:local="clr-namespace:SkinHolderDesktop.Views.Shared"
         xmlns:viewmodels="clr-namespace:SkinHolderDesktop.ViewModels.Shared"
         d:DataContext="{d:DesignInstance Type=viewmodels:RegistroListViewModel}"
@@ -242,10 +242,10 @@
                                                     Command="{Binding DataContext.VerDetallesCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                                                     CommandParameter="{Binding Registroid}"
                                                     ToolTip="Ver detalles">
-                                                <fa:ImageAwesome Icon="Eye" 
-                                                                 Width="20" 
-                                                                 Height="20" 
-                                                                 Foreground="{StaticResource PrimaryBrush}" />
+                                                <iconPacks:PackIconFontAwesome Kind="EyeSolid" 
+                                                                                Width="20" 
+                                                                                Height="20" 
+                                                                                Foreground="{StaticResource PrimaryBrush}" />
                                             </Button>
 
                                             <Button Style="{StaticResource ButtonStyleWithBorderRadius}" 
@@ -255,10 +255,10 @@
                                                     Command="{Binding DataContext.EliminarRegistroCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                                                     CommandParameter="{Binding Registroid}"
                                                     ToolTip="Eliminar registro">
-                                                <fa:ImageAwesome Icon="Trash" 
-                                                                 Width="20" 
-                                                                 Height="20" 
-                                                                 Foreground="#E74C3C" />
+                                                <iconPacks:PackIconFontAwesome Kind="TrashSolid" 
+                                                                                Width="20" 
+                                                                                Height="20" 
+                                                                                Foreground="#E74C3C" />
                                             </Button>
                                         </StackPanel>
                                     </Grid>
