@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using SkinHolderDesktop.Enums;
 using SkinHolderDesktop.Views;
 using System.Windows;
 
@@ -10,19 +11,37 @@ public interface IWindowService
     void CloseLoginWindow();
 }
 
-public class WindowService : IWindowService
+public class WindowService(ILoggerService loggerService) : IWindowService
 {
+    private readonly ILoggerService _loggerService = loggerService;
+
     public void ShowMainWindow()
     {
-        var mainWindow = App.Services.GetRequiredService<MainWindow>();
-        mainWindow.Show();
+        try
+        {
+            var mainWindow = App.Services.GetRequiredService<MainWindow>();
+            mainWindow.Show();
+        }
+        catch (Exception ex)
+        {
+            _ = _loggerService.SendLog($"Error mostrando MainWindow: {ex.Message}", ELogType.Error);
+        }
     }
 
     public void CloseLoginWindow()
     {
-        foreach (Window w in Application.Current.Windows)
+        try
         {
-            if (w is LoginWindow) { w.Close(); break; }
+            if (Application.Current is null) return;
+
+            foreach (Window w in Application.Current.Windows)
+            {
+                if (w is LoginWindow) { w.Close(); break; }
+            }
+        }
+        catch (Exception ex)
+        {
+            _ = _loggerService.SendLog($"Error cerrando LoginWindow: {ex.Message}", ELogType.Error);
         }
     }
 }

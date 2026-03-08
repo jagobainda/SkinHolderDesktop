@@ -26,6 +26,16 @@ public class ItemsService(HttpClient httpClient, JsonSerializerOptions jsonOptio
             var items = await JsonSerializer.DeserializeAsync<List<Item>>(contentStream, JsonOptions);
             return items!;
         }
+        catch (HttpRequestException ex)
+        {
+            await _loggerService.SendLog($"Error de conexión al obtener los items del usuario: {ex.Message}", ELogType.Error);
+            return [];
+        }
+        catch (JsonException ex)
+        {
+            await _loggerService.SendLog($"Error parseando items del usuario: {ex.Message}", ELogType.Error);
+            return [];
+        }
         catch (Exception ex)
         {
             await _loggerService.SendLog($"Error al obtener los items del usuario: {ex.Message}", ELogType.Error);

@@ -28,6 +28,16 @@ public class UserItemService(HttpClient httpClient, JsonSerializerOptions jsonOp
 
             return userItems!;
         }
+        catch (HttpRequestException ex)
+        {
+            await _loggerService.SendLog($"Error de conexión al obtener los items del usuario: {ex.Message}", ELogType.Error);
+            return [];
+        }
+        catch (JsonException ex)
+        {
+            await _loggerService.SendLog($"Error parseando items del usuario: {ex.Message}", ELogType.Error);
+            return [];
+        }
         catch (Exception ex)
         {
             await _loggerService.SendLog($"Error al obtener los items del usuario: {ex.Message}", ELogType.Error);
@@ -44,6 +54,11 @@ public class UserItemService(HttpClient httpClient, JsonSerializerOptions jsonOp
             var response = await HttpClient.PostAsync("/UserItems", content);
 
             return response.IsSuccessStatusCode;
+        }
+        catch (HttpRequestException ex)
+        {
+            await _loggerService.SendLog($"Error de conexión al agregar el item del usuario: {ex.Message}", ELogType.Error);
+            return false;
         }
         catch (Exception ex)
         {
@@ -70,6 +85,11 @@ public class UserItemService(HttpClient httpClient, JsonSerializerOptions jsonOp
             var response = await HttpClient.PutAsync($"/UserItems", content);
 
             return response.IsSuccessStatusCode;
+        }
+        catch (HttpRequestException ex)
+        {
+            await _loggerService.SendLog($"Error de conexión al actualizar el item del usuario: {ex.Message}", ELogType.Error);
+            return false;
         }
         catch (Exception ex)
         {

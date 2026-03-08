@@ -41,10 +41,20 @@ public class SteamRequestService([FromKeyedServices("steam")] HttpClient httpCli
                         IsWarning = attempts != 0
                     };
                 }
+
+                await _loggerService.SendLog($"Respuesta no satisfactoria de Steam para '{marketHashName}'. Código: {(int)response.StatusCode}. Intento {attempts + 1}/{MaxRetryAttempts + 1}", ELogType.Warning);
+            }
+            catch (HttpRequestException ex)
+            {
+                await _loggerService.SendLog($"Error de conexión con Steam API para '{marketHashName}': {ex.Message}", ELogType.Error);
+            }
+            catch (TaskCanceledException ex)
+            {
+                await _loggerService.SendLog($"Timeout con Steam API para '{marketHashName}': {ex.Message}", ELogType.Warning);
             }
             catch (Exception ex)
             {
-                await _loggerService.SendLog($"Error while making request to Steam API: {ex.Message}", ELogType.Error);
+                await _loggerService.SendLog($"Error inesperado en Steam API para '{marketHashName}': {ex.Message}", ELogType.Error);
             }
 
             attempts++;

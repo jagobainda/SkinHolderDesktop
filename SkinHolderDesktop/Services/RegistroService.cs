@@ -1,6 +1,7 @@
 ﻿using SkinHolderDesktop.Models;
 using System.Net.Http;
 using System.Text.Json;
+using SkinHolderDesktop.Enums;
 
 namespace SkinHolderDesktop.Services;
 
@@ -12,8 +13,9 @@ public interface IRegistroService
     Task<bool> DeleteRegistroAsync(long registroId);
 }
 
-public class RegistroService(HttpClient httpClient, JsonSerializerOptions jsonOptions) : BaseService(httpClient, jsonOptions), IRegistroService
+public class RegistroService(HttpClient httpClient, JsonSerializerOptions jsonOptions, ILoggerService loggerService) : BaseService(httpClient, jsonOptions), IRegistroService
 {
+    private readonly ILoggerService _loggerService = loggerService;
 
     public async Task<Registro> GetLastRegistroAsync()
     {
@@ -28,8 +30,19 @@ public class RegistroService(HttpClient httpClient, JsonSerializerOptions jsonOp
 
             return registro!;
         }
-        catch
+        catch (HttpRequestException ex)
         {
+            await _loggerService.SendLog($"Error de conexión obteniendo último registro: {ex.Message}", ELogType.Error);
+            return new Registro();
+        }
+        catch (JsonException ex)
+        {
+            await _loggerService.SendLog($"Error parseando último registro: {ex.Message}", ELogType.Error);
+            return new Registro();
+        }
+        catch (Exception ex)
+        {
+            await _loggerService.SendLog($"Error inesperado obteniendo último registro: {ex.Message}", ELogType.Error);
             return new Registro();
         }
     }
@@ -47,8 +60,19 @@ public class RegistroService(HttpClient httpClient, JsonSerializerOptions jsonOp
 
             return registros ?? [];
         }
-        catch
+        catch (HttpRequestException ex)
         {
+            await _loggerService.SendLog($"Error de conexión obteniendo registros: {ex.Message}", ELogType.Error);
+            return [];
+        }
+        catch (JsonException ex)
+        {
+            await _loggerService.SendLog($"Error parseando listado de registros: {ex.Message}", ELogType.Error);
+            return [];
+        }
+        catch (Exception ex)
+        {
+            await _loggerService.SendLog($"Error inesperado obteniendo registros: {ex.Message}", ELogType.Error);
             return [];
         }
     }
@@ -61,14 +85,24 @@ public class RegistroService(HttpClient httpClient, JsonSerializerOptions jsonOp
 
             var response = await HttpClient.PostAsync("/Registros", content);
 
-            if (!response.IsSuccessStatusCode) return 0;
+            if (!response.IsSuccessStatusCode)
+            {
+                await _loggerService.SendLog($"No se pudo crear el registro. Código: {(int)response.StatusCode}", ELogType.Warning);
+                return 0;
+            }
 
             var registroIdString = await response.Content.ReadAsStringAsync();
 
             return long.TryParse(registroIdString, out var registroId) ? registroId : 0;
         }
-        catch
+        catch (HttpRequestException ex)
         {
+            await _loggerService.SendLog($"Error de conexión creando registro: {ex.Message}", ELogType.Error);
+            return 0;
+        }
+        catch (Exception ex)
+        {
+            await _loggerService.SendLog($"Error inesperado creando registro: {ex.Message}", ELogType.Error);
             return 0;
         }
     }
@@ -79,10 +113,21 @@ public class RegistroService(HttpClient httpClient, JsonSerializerOptions jsonOp
         {
             var response = await HttpClient.DeleteAsync($"/Registros?registroId={registroId}");
 
+            if (!response.IsSuccessStatusCode)
+            {
+                await _loggerService.SendLog($"No se pudo borrar el registro {registroId}. Código: {(int)response.StatusCode}", ELogType.Warning);
+            }
+
             return response.IsSuccessStatusCode;
         }
-        catch
+        catch (HttpRequestException ex)
         {
+            await _loggerService.SendLog($"Error de conexión borrando registro {registroId}: {ex.Message}", ELogType.Error);
+            return false;
+        }
+        catch (Exception ex)
+        {
+            await _loggerService.SendLog($"Error inesperado borrando registro {registroId}: {ex.Message}", ELogType.Error);
             return false;
         }
     }
