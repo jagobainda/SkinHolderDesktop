@@ -10,7 +10,9 @@ public class UnauthorizedHandler : DelegatingHandler
     {
         var response = await base.SendAsync(request, cancellationToken);
 
-        if (response.StatusCode == HttpStatusCode.Unauthorized)
+        var isAuthenticatedRequest = request.Headers.Authorization is not null;
+
+        if (response.StatusCode == HttpStatusCode.Unauthorized && isAuthenticatedRequest)
         {
             ProcessUtils.SaveErrorMessageToFile("Sesión expirada");
             ProcessUtils.RestartApplication();
