@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using SkinHolderDesktop.Enums;
 using SkinHolderDesktop.Models;
 using System.Net.Http;
 using System.Text.Json;
@@ -39,15 +40,15 @@ public class ExtSitesRequestService([FromKeyedServices("extsites")] HttpClient h
         }
         catch (HttpRequestException e)
         {
-            await _loggerService.SendLog($"Error while making request to GamerPay API: {e.Message}", 3);
+            await _loggerService.SendLog($"Error while making request to GamerPay API: {e.Message}", ELogType.Error);
         }
         catch (JsonException e)
         {
-            await _loggerService.SendLog($"Error while parsing JSON from GamerPay API: {e.Message}", 3);
+            await _loggerService.SendLog($"Error while parsing JSON from GamerPay API: {e.Message}", ELogType.Error);
         }
         catch (Exception e)
         {
-            await _loggerService.SendLog($"Unexpected error: {e.Message}", 3);
+            await _loggerService.SendLog($"Unexpected error: {e.Message}", ELogType.Error);
         }
 
         return [];

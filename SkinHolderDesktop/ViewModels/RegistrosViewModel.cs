@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using SkinHolderDesktop.Core;
+using SkinHolderDesktop.Enums;
 using SkinHolderDesktop.Models;
 using SkinHolderDesktop.Services;
 using SkinHolderDesktop.ViewModels.Shared;
@@ -12,21 +13,10 @@ using System.Text.Json;
 
 namespace SkinHolderDesktop.ViewModels;
 
-public partial class RegistrosViewModel(IRegistroService registroService, IItemPrecioService itemPrecioService, IUserItemService userItemService, ISteamRequestService steamRequestService, IExtSitesRequestService extSitesRequestService, ILoggerService loggerService, IAuthSession authSession, IMessenger messenger, Func<RegistroDetailsViewModel> detailsViewModelFactory, Func<RegistroDetails> detailsWindowFactory, Func<RegistroListViewModel> listViewModelFactory, Func<RegistroList> listWindowFactory) : ObservableObject, IDisposable
+public partial class RegistrosViewModel(IRegistroService registroService, IItemPrecioService itemPrecioService, IUserItemService userItemService, ISteamRequestService steamRequestService, 
+    IExtSitesRequestService extSitesRequestService, ILoggerService loggerService, IAuthSession authSession, IMessenger messenger, 
+    Func<RegistroDetailsViewModel> detailsViewModelFactory, Func<RegistroDetails> detailsWindowFactory, Func<RegistroListViewModel> listViewModelFactory, Func<RegistroList> listWindowFactory) : ObservableObject, IDisposable
 {
-    private readonly IRegistroService _registroService = registroService;
-    private readonly IItemPrecioService _itemPrecioService = itemPrecioService;
-    private readonly IUserItemService _userItemService = userItemService;
-    private readonly ISteamRequestService _steamRequestService = steamRequestService;
-    private readonly IExtSitesRequestService _extSitesRequestService = extSitesRequestService;
-    private readonly ILoggerService _loggerService = loggerService;
-    private readonly IAuthSession _authSession = authSession;
-    private readonly IMessenger _messenger = messenger;
-    private readonly Func<RegistroDetailsViewModel> _detailsViewModelFactory = detailsViewModelFactory;
-    private readonly Func<RegistroDetails> _detailsWindowFactory = detailsWindowFactory;
-    private readonly Func<RegistroListViewModel> _listViewModelFactory = listViewModelFactory;
-    private readonly Func<RegistroList> _listWindowFactory = listWindowFactory;
-
     private List<UserItem> _userItems = [];
 
     private Registro _registro = new();
@@ -79,7 +69,7 @@ public partial class RegistrosViewModel(IRegistroService registroService, IItemP
         }
         catch (Exception ex)
         {
-            await _loggerService.SendLog($"Error al consultar precios: {ex.Message}", 3);
+            await loggerService.SendLog($"Error al consultar precios: {ex.Message}", ELogType.Error);
         }
         finally
         {
@@ -108,20 +98,23 @@ public partial class RegistrosViewModel(IRegistroService registroService, IItemP
 
     private async Task ObtenerUserItems()
     {
-        _userItems = await _userItemService.GetUserItemsAsync();
+        _userItems = await userItemService.GetUserItemsAsync();
     }
 
     private async Task ObtenerPrecios()
     {
-        var gamerPayResponse = await _extSitesRequestService.MakeGamerPayRequestAsync();
+        var gamerPayResponse = await extSitesRequestService.MakeGamerPayRequestAsync();
 
-        if (gamerPayResponse.Length == 0) await _loggerService.SendLog("Consulta cancelada porque no se han podido obtener los items de GamerPay.", 3);
+        if (gamerPayResponse.Length == 0) await loggerService.SendLog("Consulta cancelada porque no se han podido obtener los items de GamerPay.", ELogType.Error);
 
         foreach (var userItem in _userItems)
         {
-            var steamResponse = await _steamRequestService.MakeRequestAsync(userItem.SteamHashName);
+            var steamHashName = string.IsNullOrWhiteSpace(userItem.SteamHashName) ? userItem.ItemName : userItem.SteamHashName;
+            var gamerPayLookupName = string.IsNullOrWhiteSpace(userItem.GamerPayName) ? userItem.ItemName : userItem.GamerPayName;
 
-            var gamerPayItem = gamerPayResponse.FirstOrDefault(gp => gp.Name == userItem.GamerPayName);
+            var steamResponse = await steamRequestService.MakeRequestAsync(steamHashName);
+
+            var gamerPayItem = gamerPayResponse.FirstOrDefault(gp => string.Equals(gp.Name?.Trim(), gamerPayLookupName?.Trim(), StringComparison.OrdinalIgnoreCase));
 
             if (steamResponse.IsWarning) ItemsWarningSteam++;
 
@@ -157,27 +150,27 @@ public partial class RegistrosViewModel(IRegistroService registroService, IItemP
             Totalsteam = TotalSteam,
             Totalgamerpay = TotalGamerPay,
             Totalcsfloat = TotalCSFloat,
-            Userid = _authSession.UserId
+            Userid = authSession.UserId
         };
 
-        var registroId = await _registroService.CreateRegistroAsync(_registro);
+        var registroId = await registroService.CreateRegistroAsync(_registro);
 
         _itemPrecios.ForEach(ip => ip.Registroid = registroId);
 
-        var successItemPrecios = await _itemPrecioService.CreateItemPreciosAsync(_itemPrecios);
+        var successItemPrecios = await itemPrecioService.CreateItemPreciosAsync(_itemPrecios);
 
         if (registroId < 1 || !successItemPrecios) return;
 
-        _messenger.Send(new RefreshLastRegistroMessage());
+        messenger.Send(new RefreshLastRegistroMessage());
     }
 
     [RelayCommand]
     private void MostrarDetalles()
     {
-        var viewModel = _detailsViewModelFactory();
+        var viewModel = detailsViewModelFactory();
         viewModel.Initialize(_registro, _userItems, _itemPrecios, "Detalles");
 
-        var detailsWindow = _detailsWindowFactory();
+        var detailsWindow = detailsWindowFactory();
         detailsWindow.DataContext = viewModel;
 
         detailsWindow.ShowDialog();
@@ -186,10 +179,10 @@ public partial class RegistrosViewModel(IRegistroService registroService, IItemP
     [RelayCommand]
     private void HistorialRegistros()
     {
-        var viewModel = _listViewModelFactory();
+        var viewModel = listViewModelFactory();
         _ = viewModel.InitializeAsync();
 
-        var listWindow = _listWindowFactory();
+        var listWindow = listWindowFactory();
         listWindow.DataContext = viewModel;
 
         listWindow.ShowDialog();
@@ -198,13 +191,13 @@ public partial class RegistrosViewModel(IRegistroService registroService, IItemP
     [RelayCommand]
     private async Task ExportarJsonAsync()
     {
-        var registros = await _registroService.GetRegistrosAsync();
+        var registros = await registroService.GetRegistrosAsync();
 
         var jsonString = JsonSerializer.Serialize(registros, new JsonSerializerOptions { WriteIndented = true });
 
         var saveFileDialog = new Microsoft.Win32.SaveFileDialog
         {
-            FileName = $"registros_{_authSession.CurrentUsername}_{DateTime.Now:yyyy-MM-dd}.json",
+            FileName = $"registros_{authSession.CurrentUsername}_{DateTime.Now:yyyy-MM-dd}.json",
             Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*"
         };
 

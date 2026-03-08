@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using SkinHolderDesktop.Enums;
 using SkinHolderDesktop.Models;
 using System.Net.Http;
 using System.Text.Json;
@@ -41,12 +42,13 @@ public class SteamRequestService([FromKeyedServices("steam")] HttpClient httpCli
                     };
                 }
             }
-            catch (HttpRequestException ex)
+            catch (Exception ex)
             {
-                await _loggerService.SendLog($"Error while making request to Steam API: {ex.Message}", 3);
+                await _loggerService.SendLog($"Error while making request to Steam API: {ex.Message}", ELogType.Error);
             }
 
             attempts++;
+            if (attempts <= MaxRetryAttempts) await Task.Delay(TimeSpan.FromSeconds(2));
         }
 
         return new SteamItemInfo
@@ -66,7 +68,9 @@ public class SteamRequestService([FromKeyedServices("steam")] HttpClient httpCli
         {
             using var doc = JsonDocument.Parse(input);
 
-            var priceString = doc.RootElement.GetProperty("lowest_price").GetString()?
+            if (!doc.RootElement.TryGetProperty("lowest_price", out var lowestPriceElement)) return -1m;
+
+            var priceString = lowestPriceElement.GetString()?
                 .Replace("-", "0")
                 .Replace("€", "") ?? string.Empty;
 
@@ -74,7 +78,7 @@ public class SteamRequestService([FromKeyedServices("steam")] HttpClient httpCli
         }
         catch (JsonException ex)
         {
-            await _loggerService.SendLog($"Error parsing JSON response: {ex.Message}", 3);
+            await _loggerService.SendLog($"Error parsing JSON response: {ex.Message}", ELogType.Error);
             return -1m;
         }
     }

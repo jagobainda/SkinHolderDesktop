@@ -1,4 +1,5 @@
-﻿using SkinHolderDesktop.Models;
+﻿using SkinHolderDesktop.Enums;
+using SkinHolderDesktop.Models;
 using System.Net.Http;
 using System.Text.Json;
 
@@ -11,7 +12,7 @@ public interface IItemsService
 
 public class ItemsService(HttpClient httpClient, JsonSerializerOptions jsonOptions, ILoggerService loggerService) : BaseService(httpClient, jsonOptions), IItemsService
 {
-    public ILoggerService LoggerService { get; } = loggerService;
+    private readonly ILoggerService _loggerService = loggerService;
 
     public async Task<List<Item>> GetItemsAsync()
     {
@@ -27,7 +28,7 @@ public class ItemsService(HttpClient httpClient, JsonSerializerOptions jsonOptio
         }
         catch (Exception ex)
         {
-            await LoggerService.SendLog($"Error al obtener los items del usuario: {ex.Message}", 3);
+            await _loggerService.SendLog($"Error al obtener los items del usuario: {ex.Message}", ELogType.Error);
             return [];
         }
     }

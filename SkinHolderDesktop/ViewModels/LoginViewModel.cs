@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using SkinHolderDesktop.Enums;
 using SkinHolderDesktop.Services;
 using System.IO;
 using System.Text.Json;
@@ -62,7 +63,7 @@ public partial class LoginViewModel : ObservableObject
             _windowService.ShowMainWindow();
             _windowService.CloseLoginWindow();
 
-            await _loggerService.SendLog($"Login", 1);
+            await _loggerService.SendLog("Login", ELogType.Info);
 
             return;
         }

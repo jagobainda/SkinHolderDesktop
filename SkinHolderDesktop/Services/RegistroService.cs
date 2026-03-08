@@ -1,6 +1,5 @@
 ﻿using SkinHolderDesktop.Models;
 using System.Net.Http;
-using System.Text;
 using System.Text.Json;
 
 namespace SkinHolderDesktop.Services;
@@ -58,8 +57,7 @@ public class RegistroService(HttpClient httpClient, JsonSerializerOptions jsonOp
     {
         try
         {
-            var jsonContent = JsonSerializer.Serialize(registro, JsonOptions);
-            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+            var content = CreateJsonContent(registro);
 
             var response = await HttpClient.PostAsync("/Registros", content);
 

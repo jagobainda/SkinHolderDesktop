@@ -1,4 +1,5 @@
-﻿using SkinHolderDesktop.Models;
+﻿using SkinHolderDesktop.Enums;
+using SkinHolderDesktop.Models;
 using System.Net.Http;
 using System.Text.Json;
 
@@ -13,7 +14,7 @@ public interface IUserItemService
 
 public class UserItemService(HttpClient httpClient, JsonSerializerOptions jsonOptions, ILoggerService loggerService) : BaseService(httpClient, jsonOptions), IUserItemService
 {
-    public ILoggerService LoggerService { get; } = loggerService;
+    private readonly ILoggerService _loggerService = loggerService;
 
     public async Task<List<UserItem>> GetUserItemsAsync()
     {
@@ -29,7 +30,7 @@ public class UserItemService(HttpClient httpClient, JsonSerializerOptions jsonOp
         }
         catch (Exception ex)
         {
-            await LoggerService.SendLog($"Error al obtener los items del usuario: {ex.Message}", 3);
+            await _loggerService.SendLog($"Error al obtener los items del usuario: {ex.Message}", ELogType.Error);
             return [];
         }
     }
@@ -46,7 +47,7 @@ public class UserItemService(HttpClient httpClient, JsonSerializerOptions jsonOp
         }
         catch (Exception ex)
         {
-            await LoggerService.SendLog($"Error al agregar el item del usuario: {ex.Message}", 3);
+            await _loggerService.SendLog($"Error al agregar el item del usuario: {ex.Message}", ELogType.Error);
             return false;
         }
     }
@@ -72,7 +73,7 @@ public class UserItemService(HttpClient httpClient, JsonSerializerOptions jsonOp
         }
         catch (Exception ex)
         {
-            await LoggerService.SendLog($"Error al actualizar el item del usuario: {ex.Message}", 3);
+            await _loggerService.SendLog($"Error al actualizar el item del usuario: {ex.Message}", ELogType.Error);
             return false;
         }
     }
