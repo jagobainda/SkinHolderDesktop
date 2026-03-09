@@ -1,8 +1,9 @@
 ﻿using SkinHolderDesktop.ViewModels;
-using System.Runtime.InteropServices;
-using System.Runtime.Versioning;
+using System.IO;
+using System.Net.Http;
 using System.Windows;
-using System.Windows.Interop;
+using System.Windows.Input;
+using System.Windows.Media.Imaging;
 
 namespace SkinHolderDesktop.Views;
 
@@ -16,25 +17,34 @@ public partial class MainWindow : Window
         Closed += (_, _) => viewModel.Dispose();
         Loaded += async (_, _) =>
         {
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) EnableDarkTitleBar(this);
+            await LoadIconAsync();
             await viewModel.InitializeAsync();
         };
     }
 
-    [SupportedOSPlatform("windows")]
-    [DllImport("dwmapi.dll")]
-    private static extern int DwmSetWindowAttribute(IntPtr hwnd, int attr, ref int attrValue, int attrSize);
+    private static readonly HttpClient _httpClient = new();
+    private const string IconUrl = "https://cdn.jagoba.dev/imgs/logo.ico";
 
-    private const int DWMWA_USE_IMMERSIVE_DARK_MODE = 20;
-
-    [SupportedOSPlatform("windows")]
-    public static void EnableDarkTitleBar(Window window)
+    private async Task LoadIconAsync()
     {
-        var hwnd = new WindowInteropHelper(window).Handle;
-        if (Environment.OSVersion.Version.Build >= 17763)
+        try
         {
-            int useDarkMode = 1;
-            _ = DwmSetWindowAttribute(hwnd, DWMWA_USE_IMMERSIVE_DARK_MODE, ref useDarkMode, sizeof(int));
+            var bytes = await _httpClient.GetByteArrayAsync(IconUrl);
+            using var stream = new MemoryStream(bytes);
+            var bitmap = new BitmapImage();
+            bitmap.BeginInit();
+            bitmap.CacheOption = BitmapCacheOption.OnLoad;
+            bitmap.StreamSource = stream;
+            bitmap.EndInit();
+            bitmap.Freeze();
+            TitleBarIcon.Source = bitmap;
         }
+        catch { }
     }
+
+    private void TitleBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) => DragMove();
+
+    private void BtnMinimize_Click(object sender, RoutedEventArgs e) => WindowState = WindowState.Minimized;
+
+    private void BtnClose_Click(object sender, RoutedEventArgs e) => Close();
 }
