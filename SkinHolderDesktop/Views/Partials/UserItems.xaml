@@ -12,6 +12,33 @@
              mc:Ignorable="d" 
              d:DesignHeight="511" 
              d:DesignWidth="834">
+    <UserControl.Resources>
+        <ControlTemplate x:Key="LoadingSpinnerTemplate" TargetType="ContentControl">
+            <Grid Width="50" Height="50">
+                <Ellipse Stroke="#3A3A3A" StrokeThickness="4" Fill="Transparent"/>
+                <Ellipse Stroke="{StaticResource PrimaryBrush}" StrokeThickness="4" Fill="Transparent"
+                         StrokeDashArray="9 27"
+                         StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+                         RenderTransformOrigin="0.5,0.5">
+                    <Ellipse.RenderTransform>
+                        <RotateTransform/>
+                    </Ellipse.RenderTransform>
+                    <Ellipse.Triggers>
+                        <EventTrigger RoutedEvent="Loaded">
+                            <BeginStoryboard>
+                                <Storyboard RepeatBehavior="Forever">
+                                    <DoubleAnimation
+                                        Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"
+                                        From="0" To="360"
+                                        Duration="0:0:1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Ellipse.Triggers>
+                </Ellipse>
+            </Grid>
+        </ControlTemplate>
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -40,6 +67,12 @@
             </ItemsControl>
         </ScrollViewer>
 
+        <ContentControl Grid.RowSpan="2"
+                        Template="{StaticResource LoadingSpinnerTemplate}"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Panel.ZIndex="10"
+                        Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
         <Border Grid.Column="1" Grid.Row="0" Style="{StaticResource RoundedPanelStyle}" Margin="15 30 30 0">
             <Grid>
@@ -57,16 +90,18 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" 
-                           Style="{StaticResource TitleTextBlockStyle}" 
-                           Foreground="WhiteSmoke" FontSize="20">
-                    <Run Text="NUEVO ITEM" />
-                </TextBlock>
+                <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 0 0 10">
+                    <iconPacks:PackIconLucide Kind="Package" Width="24" Height="24" Foreground="{StaticResource PrimaryBrush}" VerticalAlignment="Center" Margin="0 0 10 0" />
+                    <TextBlock Style="{StaticResource TitleTextBlockStyle}" 
+                               Foreground="WhiteSmoke" FontSize="20"
+                               VerticalAlignment="Center"
+                               Text="NUEVO ITEM" />
+                </StackPanel>
 
                 <ListBox Grid.Row="1"
                     Grid.RowSpan="2"
                     Grid.ColumnSpan="3"
-                    Margin="15"
+                    Margin="15 0 15 15"
                     ItemsSource="{Binding FilteredItems}"
                     SelectedItem="{Binding SelectedFilteredItem, Mode=TwoWay}"
                     Background="Transparent"
@@ -85,7 +120,7 @@
                 <Grid Grid.Row="3" Grid.ColumnSpan="3">
                     <TextBox x:Name="SearchBox"
                         Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
-                        Style="{StaticResource TextBoxStyleMenu}"
+                        Style="{StaticResource LoginTextBoxStyle}"
                         behaviors:TextBoxSelectAllBehavior.SelectAllOnFocus="True"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
@@ -113,29 +148,42 @@
             </Grid>
         </Border>
 
+        <Border Grid.Column="1" Grid.Row="0"
+                CornerRadius="12"
+                Background="#CC1C1C1C"
+                Margin="15 30 30 0"
+                Panel.ZIndex="10"
+                Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <ContentControl Template="{StaticResource LoadingSpinnerTemplate}"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"/>
+        </Border>
+
         <StackPanel Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal" Margin="15 30 30 30">
-            
+
             <TextBox 
                 Width="150" Height="55" 
                 Margin="5" MaxLength="9" 
                 HorizontalContentAlignment="Center" 
                 VerticalContentAlignment="Center" 
                 behaviors:TextBoxSelectAllBehavior.SelectAllOnFocus="True"
-                Style="{StaticResource TextBoxStyleMenu}"
+                Style="{StaticResource LoginTextBoxStyle}"
                 Text="{Binding NewItemNum}">
                 <TextBox.ToolTip>
                     <ToolTip Content="Solo números enteros"/>
                 </TextBox.ToolTip>
             </TextBox>
-            
-            <Button Style="{StaticResource ButtonStyleWithBorderRadius}" 
-                    Margin="5" 
+
+            <Button Style="{StaticResource PrimaryButtonStyle}" 
+                    Margin="5"
+                    Width="200"
                     Command="{Binding AddItemCommand}">
-                <TextBlock Style="{StaticResource TitleTextBlockStyle}" Padding="30 0">
-                    <Run Text="AÑADIR ITEM" Foreground="{StaticResource PrimaryBrush}" FontSize="18" />
-                </TextBlock>
+                <StackPanel Style="{StaticResource PrimaryButtonContentStyle}">
+                    <iconPacks:PackIconLucide Kind="Plus" Width="18" Height="18" Foreground="{StaticResource PrimaryBrush}" VerticalAlignment="Center" Margin="0 0 10 0" />
+                    <TextBlock Text="AÑADIR ITEM" FontSize="14" FontWeight="SemiBold" Foreground="#E0E0E0" VerticalAlignment="Center" />
+                </StackPanel>
             </Button>
-            
+
         </StackPanel>
 
     </Grid>

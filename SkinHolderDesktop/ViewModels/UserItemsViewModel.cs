@@ -50,6 +50,9 @@ public partial class UserItemsViewModel : ObservableObject, IDisposable
     }
 
     [ObservableProperty]
+    private bool _isLoading;
+
+    [ObservableProperty]
     private ObservableCollection<UserItemViewModel> _userItems = [];
 
     [ObservableProperty]
@@ -78,14 +81,22 @@ public partial class UserItemsViewModel : ObservableObject, IDisposable
 
     public async Task LoadItems()
     {
-        _rawUserItems = await _userItemService.GetUserItemsAsync();
+        IsLoading = true;
+        try
+        {
+            _rawUserItems = await _userItemService.GetUserItemsAsync();
 
-        UserItems = new ObservableCollection<UserItemViewModel>(_rawUserItems.Select(u => new UserItemViewModel(u, _userItemService)));
+            UserItems = new ObservableCollection<UserItemViewModel>(_rawUserItems.Select(u => new UserItemViewModel(u, _userItemService)));
 
-        Items = new ObservableCollection<Item>(await _itemsService.GetItemsAsync());
+            Items = new ObservableCollection<Item>(await _itemsService.GetItemsAsync());
 
-        OnPropertyChanged(nameof(FilteredItems));
-        OnPropertyChanged(nameof(FilteredUserItems));
+            OnPropertyChanged(nameof(FilteredItems));
+            OnPropertyChanged(nameof(FilteredUserItems));
+        }
+        finally
+        {
+            IsLoading = false;
+        }
     }
 
     public void Dispose()

@@ -7,6 +7,7 @@
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks" 
              xmlns:viewmodels="clr-namespace:SkinHolderDesktop.ViewModels" 
              xmlns:local1="clr-namespace:SkinHolderDesktop.Utils"
+             xmlns:behaviors="clr-namespace:SkinHolderDesktop.Behaviors"
              d:DataContext="{d:DesignInstance Type=viewmodels:UserItemViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="150" 
@@ -44,7 +45,8 @@
                      Margin="5" MaxLength="9" 
                      HorizontalContentAlignment="Center" 
                      VerticalContentAlignment="Center" 
-                     Style="{StaticResource TextBoxStyleMenu}" 
+                     Style="{StaticResource LoginTextBoxStyle}" 
+                     behaviors:TextBoxSelectAllBehavior.SelectAllOnFocus="True"
                      Text="{Binding Cantidad, UpdateSourceTrigger=PropertyChanged}">
                 <TextBox.ToolTip>
                     <ToolTip Content="Solo números enteros"/>

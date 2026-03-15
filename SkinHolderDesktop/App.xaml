@@ -16,6 +16,7 @@
             </ResourceDictionary.MergedDictionaries>
 
             <utils:SaveIconConverter x:Key="SaveIconConverter" />
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
