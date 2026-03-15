@@ -11,7 +11,7 @@
 -   **Advanced visualization:** Modern interface with support for WPF and FontAwesome.
 -   **Automatic updates:** Integrated with Velopack to keep the app always up to date.
 -   **Sync & backup:** Keep your data safe and synchronized.
--   **Optimized performance:** Built on .NET 9 and modern technologies.
+-   **Optimized performance:** Built on .NET 10 and modern technologies.
 
 ---
 
@@ -31,13 +31,11 @@
 
 ## 🛠️ Technologies Used
 
--   [.NET 9.0](https://dotnet.microsoft.com/)
+-   [.NET 10.0](https://dotnet.microsoft.com/)
 -   [WPF](https://learn.microsoft.com/en-us/dotnet/desktop/wpf/)
 -   [CommunityToolkit.Mvvm](https://learn.microsoft.com/dotnet/communitytoolkit/mvvm/)
--   [FontAwesome.WPF](https://github.com/awesome-inc/FontAwesome.Sharp)
+-   [MahApps.Metro.IconPacks](https://github.com/MahApps/MahApps.Metro.IconPacks)
 -   [Velopack](https://velopack.io/)
--   [Polly](https://github.com/App-vNext/Polly)
--   [Refit](https://github.com/reactiveui/refit)
 
 ---
 
