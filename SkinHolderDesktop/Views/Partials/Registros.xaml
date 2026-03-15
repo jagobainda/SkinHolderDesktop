@@ -49,7 +49,7 @@
                     <Button Style="{StaticResource ButtonStyleWithBorderRadius}" Width="70" Height="50" 
                             IsEnabled="{Binding DetallesSteamEnabled}" 
                             Command="{Binding MostrarDetallesCommand}">
-                        <iconPacks:PackIconFontAwesome Kind="EyeSolid" Width="30" Height="30" Foreground="{StaticResource PrimaryBrush}" />
+                        <iconPacks:PackIconLucide Kind="Eye" Width="30" Height="30" Foreground="{StaticResource PrimaryBrush}" />
                     </Button>
                 </TextBlock>
 
@@ -101,7 +101,7 @@
                     <Button Style="{StaticResource ButtonStyleWithBorderRadius}" Width="70" Height="50" 
                             IsEnabled="{Binding DetallesGamerPayEnabled}" 
                             Command="{Binding MostrarDetallesCommand}">
-                        <iconPacks:PackIconFontAwesome Kind="EyeSolid" Width="30" Height="30" Foreground="{StaticResource PrimaryBrush}" />
+                        <iconPacks:PackIconLucide Kind="Eye" Width="30" Height="30" Foreground="{StaticResource PrimaryBrush}" />
                     </Button>
                 </TextBlock>
                 
@@ -141,7 +141,7 @@
                     <Button Style="{StaticResource ButtonStyleWithBorderRadius}" Width="70" Height="50" 
                             IsEnabled="{Binding DetallesCSFloatEnabled}" 
                             Command="{Binding MostrarDetallesCommand}">
-                        <iconPacks:PackIconFontAwesome Kind="EyeSolid" Width="30" Height="30" Foreground="{StaticResource PrimaryBrush}" />
+                        <iconPacks:PackIconLucide Kind="Eye" Width="30" Height="30" Foreground="{StaticResource PrimaryBrush}" />
                     </Button>
                 </TextBlock>
 
@@ -161,26 +161,29 @@
         </Border>
 
         <StackPanel Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15 30 30 15">
-            <Button Style="{StaticResource ButtonStyleWithBorderRadius}" 
-                    Command="{Binding ConsultarCommand}" 
+            <Button Style="{StaticResource PrimaryButtonStyle}"
+                    Command="{Binding ConsultarCommand}"
                     IsEnabled="{Binding BotonesHabilitados}" Margin="5">
-                <TextBlock Style="{StaticResource TitleTextBlockStyle}" Padding="30 0">
-                    <Run Text="CONSULTAR" Foreground="{StaticResource PrimaryBrush}" FontSize="18" />
-                </TextBlock>
+                <StackPanel Style="{StaticResource PrimaryButtonContentStyle}">
+                    <iconPacks:PackIconLucide Kind="Search" Width="18" Height="18" Foreground="{StaticResource PrimaryBrush}" VerticalAlignment="Center" Margin="0 0 10 0" />
+                    <TextBlock Text="CONSULTAR" FontSize="14" FontWeight="SemiBold" Foreground="#E0E0E0" VerticalAlignment="Center" />
+                </StackPanel>
             </Button>
-            <Button Style="{StaticResource ButtonStyleWithBorderRadius}" 
+            <Button Style="{StaticResource PrimaryButtonStyle}"
                     Command="{Binding HistorialRegistrosCommand}"
                     IsEnabled="{Binding BotonesHabilitados}" Margin="5">
-                <TextBlock Style="{StaticResource TitleTextBlockStyle}" Padding="30 0">
-                    <Run Text="HISTORIAL DE REGISTROS" Foreground="{StaticResource PrimaryBrush}" FontSize="18" />
-                </TextBlock>
+                <StackPanel Style="{StaticResource PrimaryButtonContentStyle}">
+                    <iconPacks:PackIconLucide Kind="History" Width="18" Height="18" Foreground="{StaticResource PrimaryBrush}" VerticalAlignment="Center" Margin="0 0 10 0" />
+                    <TextBlock Text="HISTORIAL DE REGISTROS" FontSize="14" FontWeight="SemiBold" Foreground="#E0E0E0" VerticalAlignment="Center" />
+                </StackPanel>
             </Button>
-            <Button Style="{StaticResource ButtonStyleWithBorderRadius}" 
+            <Button Style="{StaticResource PrimaryButtonStyle}"
                     Command="{Binding ExportarJsonCommand}"
                     IsEnabled="True" Margin="5">
-                <TextBlock Style="{StaticResource TitleTextBlockStyle}" Padding="30 0">
-                    <Run Text="EXPORTAR JSON" Foreground="{StaticResource PrimaryBrush}" FontSize="18" />
-                </TextBlock>
+                <StackPanel Style="{StaticResource PrimaryButtonContentStyle}">
+                    <iconPacks:PackIconLucide Kind="FileDown" Width="18" Height="18" Foreground="{StaticResource PrimaryBrush}" VerticalAlignment="Center" Margin="0 0 10 0" />
+                    <TextBlock Text="EXPORTAR JSON" FontSize="14" FontWeight="SemiBold" Foreground="#E0E0E0" VerticalAlignment="Center" />
+                </StackPanel>
             </Button>
         </StackPanel>
 

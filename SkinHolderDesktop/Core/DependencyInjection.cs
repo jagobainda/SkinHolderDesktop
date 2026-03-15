@@ -89,8 +89,8 @@ public static class DependencyInjection
             return new HttpClient(authHandler) { BaseAddress = new Uri("https://shapi.jagoba.dev") };
         });
 
-        services.AddKeyedSingleton<HttpClient>("steam", (_, _) => new HttpClient());
-        services.AddKeyedSingleton<HttpClient>("extsites", (_, _) => new HttpClient());
+        services.AddKeyedSingleton("steam", (_, _) => new HttpClient());
+        services.AddKeyedSingleton("extsites", (_, _) => new HttpClient());
 
         return services.BuildServiceProvider();
     }
