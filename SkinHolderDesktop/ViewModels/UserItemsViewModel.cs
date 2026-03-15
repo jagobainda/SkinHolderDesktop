@@ -3,8 +3,8 @@ using CommunityToolkit.Mvvm.Input;
 using SkinHolderDesktop.Core;
 using SkinHolderDesktop.Models;
 using SkinHolderDesktop.Services;
+using SkinHolderDesktop.Views.Dialogs;
 using System.Collections.ObjectModel;
-using System.Windows;
 
 namespace SkinHolderDesktop.ViewModels;
 
@@ -116,7 +116,7 @@ public partial class UserItemsViewModel : ObservableObject, IDisposable
     {
         if (Items.Count == 0)
         {
-            MessageBox.Show("No hay items disponibles para agregar.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            CustomMessageBox.Show("Error", "No hay items disponibles para agregar.", CustomMessageBoxButton.OK, CustomMessageBoxIcon.Error);
             return;
         }
 
@@ -124,7 +124,7 @@ public partial class UserItemsViewModel : ObservableObject, IDisposable
 
         if (selectedItem == null)
         {
-            MessageBox.Show("Es necesario seleccionar un item.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            CustomMessageBox.Show("Error", "Es necesario seleccionar un item.", CustomMessageBoxButton.OK, CustomMessageBoxIcon.Error);
             return;
         }
 
@@ -132,19 +132,19 @@ public partial class UserItemsViewModel : ObservableObject, IDisposable
 
         if (existingUserItem != null)
         {
-            MessageBox.Show("Ya tienes stock de este item.", "Información", MessageBoxButton.OK, MessageBoxImage.Information);
+            CustomMessageBox.Show("Información", "Ya tienes stock de este item.", CustomMessageBoxButton.OK, CustomMessageBoxIcon.Information);
             return;
         }
 
         if (!int.TryParse(NewItemNum, out int cantidad) || cantidad <= 0)
         {
-            MessageBox.Show("Introduce un cantidad válida", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            CustomMessageBox.Show("Error", "Introduce un cantidad válida", CustomMessageBoxButton.OK, CustomMessageBoxIcon.Error);
             return;
         }
 
         var newUserItem = new UserItem
         {
-            Useritemid = 0, 
+            Useritemid = 0,
             Itemid = selectedItem.ItemId,
             ItemName = selectedItem.Nombre,
             Cantidad = cantidad,
@@ -155,7 +155,7 @@ public partial class UserItemsViewModel : ObservableObject, IDisposable
 
         if (!success)
         {
-            MessageBox.Show("Error al agregar el item.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            CustomMessageBox.Show("Error", "Error al agregar el item.", CustomMessageBoxButton.OK, CustomMessageBoxIcon.Error);
             return;
         }
 

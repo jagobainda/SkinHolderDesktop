@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using SkinHolderDesktop.Enums;
 using SkinHolderDesktop.Services;
+using SkinHolderDesktop.Views.Dialogs;
 using System.IO;
 using System.Text.Json;
 using System.Windows;
@@ -74,7 +75,7 @@ public partial class LoginViewModel : ObservableObject
     [RelayCommand]
     private static void Registrar()
     {
-        MessageBox.Show("De momento el registro de nuevos usuarios es privado. El correo para solicitar un usuario es skinholder@jagoba.dev -> copiado al portapapeles.");
+        CustomMessageBox.Show("Registro privado", "De momento el registro de nuevos usuarios es privado. El correo para solicitar un usuario es skinholder@jagoba.dev -> copiado al portapapeles.", CustomMessageBoxButton.OK, CustomMessageBoxIcon.Information);
 
         Clipboard.SetText("skinholder@jagoba.dev");
     }

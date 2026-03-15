@@ -8,7 +8,7 @@
 
 ## 🚀 Main Features
 
--   **Advanced visualization:** Modern interface with support for WPF and FontAwesome.
+-   **Advanced visualization:** Modern interface with support for WPF and Metro IconPacks.
 -   **Automatic updates:** Integrated with Velopack to keep the app always up to date.
 -   **Sync & backup:** Keep your data safe and synchronized.
 -   **Optimized performance:** Built on .NET 10 and modern technologies.
