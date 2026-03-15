@@ -8,5 +8,9 @@
     <SolidColorBrush x:Key="SteamBrush" Color="#59BF40" />
     <SolidColorBrush x:Key="CSFloatBrush" Color="#4A4A4A" />
     <SolidColorBrush x:Key="CSFloatBrushSecondary" Color="#FFFFFF" />
+    <SolidColorBrush x:Key="SurfaceBrush" Color="#252525" />
+    <SolidColorBrush x:Key="HeaderBrush" Color="#1C1C1C" />
+    <SolidColorBrush x:Key="DividerBrush" Color="#333333" />
+    <SolidColorBrush x:Key="MutedForegroundBrush" Color="#888888" />
 
 </ResourceDictionary>
