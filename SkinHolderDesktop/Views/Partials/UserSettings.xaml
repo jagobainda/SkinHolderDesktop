@@ -3,30 +3,141 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:local="clr-namespace:SkinHolderDesktop.Views.Partials"
+             xmlns:viewmodels="clr-namespace:SkinHolderDesktop.ViewModels"
+             d:DataContext="{d:DesignInstance Type=viewmodels:UserSettingsViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="511" 
              d:DesignWidth="834">
-    
-    <UserControl.Resources>
-        <Style x:Key="TitleTextBlockStyle" TargetType="TextBlock">
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="FontSize" Value="30"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Foreground" Value="Gray"/>
-        </Style>
-    </UserControl.Resources>
 
-    <Grid>
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock Style="{StaticResource TitleTextBlockStyle}">
-                AJUSTES DE CUENTA
-            </TextBlock>
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Margin="24 16 24 24">
 
-            <TextBlock Style="{StaticResource TitleTextBlockStyle}">
-                DESACTIVADOS POR EL MOMENTO
-            </TextBlock>
+            <TextBlock Text="AJUSTES DE CUENTA" FontSize="22" FontWeight="Bold" Foreground="{StaticResource PrimaryBrush}" Margin="0 0 0 20" />
+
+            <Border Style="{StaticResource RoundedPanelStyle}" Padding="20" Margin="0 0 0 16">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0 0 0 14">
+                        <iconPacks:PackIconLucide Kind="User" Width="16" Height="16" Foreground="{StaticResource PrimaryBrush}" VerticalAlignment="Center" />
+                        <TextBlock Text="INFORMACIÓN DE CUENTA" FontSize="13" FontWeight="SemiBold" Foreground="#999999" VerticalAlignment="Center" Margin="8 0 0 0" />
+                    </StackPanel>
+
+                    <Grid Margin="0 0 0 8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="140" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Usuario:" FontSize="14" Foreground="{StaticResource MutedForegroundBrush}" VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="1" Text="{Binding Username}" FontSize="14" Foreground="#DDDDDD" FontWeight="SemiBold" VerticalAlignment="Center" />
+                    </Grid>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="140" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Fecha de registro:" FontSize="14" Foreground="{StaticResource MutedForegroundBrush}" VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="1" Text="{Binding CreatedAtText}" FontSize="14" Foreground="#DDDDDD" VerticalAlignment="Center" />
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <Border Style="{StaticResource RoundedPanelStyle}" Padding="20" Margin="0 0 0 16">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0 0 0 14">
+                        <iconPacks:PackIconLucide Kind="Lock" Width="16" Height="16" Foreground="{StaticResource PrimaryBrush}" VerticalAlignment="Center" />
+                        <TextBlock Text="CAMBIAR CONTRASEÑA" FontSize="13" FontWeight="SemiBold" Foreground="#999999" VerticalAlignment="Center" Margin="8 0 0 0" />
+                    </StackPanel>
+
+                    <StackPanel Margin="0 0 0 10">
+                        <TextBlock Text="Contraseña actual" FontSize="12" Foreground="{StaticResource MutedForegroundBrush}" Margin="4 0 0 6" />
+                        <PasswordBox x:Name="CurrentPasswordBox" Style="{StaticResource LoginPasswordBoxStyle}" PasswordChanged="CurrentPasswordBox_PasswordChanged" Width="400" HorizontalAlignment="Left" />
+                    </StackPanel>
+
+                    <StackPanel Margin="0 0 0 10">
+                        <TextBlock Text="Nueva contraseña" FontSize="12" Foreground="{StaticResource MutedForegroundBrush}" Margin="4 0 0 6" />
+                        <PasswordBox x:Name="NewPasswordBox" Style="{StaticResource LoginPasswordBoxStyle}" PasswordChanged="NewPasswordBox_PasswordChanged" Width="400" HorizontalAlignment="Left" />
+                    </StackPanel>
+
+                    <StackPanel Margin="0 0 0 14">
+                        <TextBlock Text="Confirmar nueva contraseña" FontSize="12" Foreground="{StaticResource MutedForegroundBrush}" Margin="4 0 0 6" />
+                        <PasswordBox x:Name="ConfirmNewPasswordBox" Style="{StaticResource LoginPasswordBoxStyle}" PasswordChanged="ConfirmNewPasswordBox_PasswordChanged" Width="400" HorizontalAlignment="Left" />
+                    </StackPanel>
+
+                    <TextBlock Text="{Binding PasswordStatusMessage}" FontSize="12" Margin="4 0 0 8"
+                               Visibility="{Binding PasswordStatusMessage, Converter={StaticResource StringToVisibilityConverter}}">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Foreground" Value="#FF4444" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsPasswordSuccess}" Value="True">
+                                        <Setter Property="Foreground" Value="{StaticResource PrimaryBrush}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+
+                    <Button Command="{Binding ChangePasswordCommand}" Style="{StaticResource PrimaryButtonStyle}" Width="200" HorizontalAlignment="Left" IsEnabled="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}">
+                        <ContentPresenter>
+                            <ContentPresenter.Content>
+                                <StackPanel Style="{StaticResource PrimaryButtonContentStyle}">
+                                    <iconPacks:PackIconLucide Kind="Check" Width="14" Height="14" Foreground="{StaticResource PrimaryBrush}" VerticalAlignment="Center" />
+                                    <TextBlock Text="Cambiar contraseña" FontSize="13" Foreground="#DDDDDD" VerticalAlignment="Center" Margin="6 0 0 0" />
+                                </StackPanel>
+                            </ContentPresenter.Content>
+                        </ContentPresenter>
+                    </Button>
+                </StackPanel>
+            </Border>
+
+            <Border Padding="20" Margin="0 0 0 0" CornerRadius="12" Background="#2C2C2C">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="24" ShadowDepth="4" Opacity="0.3" />
+                </Border.Effect>
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0 0 0 14">
+                        <iconPacks:PackIconLucide Kind="Trash2" Width="16" Height="16" Foreground="#FF4444" VerticalAlignment="Center" />
+                        <TextBlock Text="ELIMINAR CUENTA" FontSize="13" FontWeight="SemiBold" Foreground="#FF4444" VerticalAlignment="Center" Margin="8 0 0 0" />
+                    </StackPanel>
+
+                    <TextBlock Text="Esta acción desactivará tu cuenta permanentemente. No podrás iniciar sesión después de eliminarla." 
+                               FontSize="12" Foreground="{StaticResource MutedForegroundBrush}" TextWrapping="Wrap" Margin="4 0 0 14" />
+
+                    <StackPanel Margin="0 0 0 14">
+                        <TextBlock Text="Contraseña de confirmación" FontSize="12" Foreground="{StaticResource MutedForegroundBrush}" Margin="4 0 0 6" />
+                        <PasswordBox x:Name="DeletePasswordBox" Style="{StaticResource LoginPasswordBoxStyle}" PasswordChanged="DeletePasswordBox_PasswordChanged" Width="400" HorizontalAlignment="Left" />
+                    </StackPanel>
+
+                    <TextBlock Text="{Binding DeleteStatusMessage}" FontSize="12" Margin="4 0 0 8"
+                               Visibility="{Binding DeleteStatusMessage, Converter={StaticResource StringToVisibilityConverter}}">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Foreground" Value="#FF4444" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsDeleteSuccess}" Value="True">
+                                        <Setter Property="Foreground" Value="{StaticResource PrimaryBrush}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+
+                    <Button Command="{Binding DeleteAccountCommand}" Width="200" HorizontalAlignment="Left" Height="52" Margin="0" Cursor="Hand" IsEnabled="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}">
+                        <Button.Style>
+                            <Style TargetType="Button" BasedOn="{StaticResource ButtonStyleWithBorderRadius}">
+                                <Setter Property="BorderBrush" Value="#FF4444" />
+                            </Style>
+                        </Button.Style>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <iconPacks:PackIconLucide Kind="Trash2" Width="14" Height="14" Foreground="#FF4444" VerticalAlignment="Center" />
+                            <TextBlock Text="Eliminar cuenta" FontSize="13" Foreground="#FF4444" VerticalAlignment="Center" Margin="6 0 0 0" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Border>
+
         </StackPanel>
-    </Grid>
+    </ScrollViewer>
 </UserControl>

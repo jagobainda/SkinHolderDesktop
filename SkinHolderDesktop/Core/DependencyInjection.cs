@@ -25,6 +25,7 @@ public static class DependencyInjection
         services.AddSingleton<MainViewModel>();
         services.AddTransient<RegistrosViewModel>();
         services.AddTransient<UserItemsViewModel>();
+        services.AddTransient<UserSettingsViewModel>();
 
         // Shared ViewModels
         services.AddTransient<RegistroDetailsViewModel>();
@@ -43,6 +44,7 @@ public static class DependencyInjection
         services.AddSingleton<IItemPrecioService, ItemPrecioService>();
         services.AddSingleton<IItemsService, ItemsService>();
         services.AddSingleton<IUserItemService, UserItemService>();
+        services.AddSingleton<IUserSettingsService, UserSettingsService>();
 
         // Views
         services.AddSingleton<LoginWindow>();
