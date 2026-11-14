@@ -1,0 +1,97 @@
+name: CI
+
+on:
+    push:
+        branches: [master]
+    pull_request:
+        branches: [master]
+
+# Cancela ejecuciones antiguas de la misma rama/PR cuando llega un push nuevo.
+concurrency:
+    group: ci-${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
+
+# Todos los jobs corren en windows-latest: es una app WPF (net11.0-windows) y
+# el .editorconfig exige CRLF, que es lo que deja el checkout en Windows.
+#
+# No hay job de tests: el proyecto todavía no tiene proyecto de tests.
+jobs:
+    format-check:
+        runs-on: windows-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v7
+
+            - name: Setup .NET
+              uses: actions/setup-dotnet@v6
+              with:
+                  dotnet-version: "11.0.x"
+
+            - name: Restore dependencies
+              run: dotnet restore SkinHolderDesktop.sln
+
+            - name: Check formatting
+              run: dotnet format SkinHolderDesktop.sln --verify-no-changes --verbosity diagnostic
+
+    build:
+        runs-on: windows-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v7
+
+            - name: Setup .NET
+              uses: actions/setup-dotnet@v6
+              with:
+                  dotnet-version: "11.0.x"
+
+            - name: Restore dependencies
+              run: dotnet restore SkinHolderDesktop.sln
+
+            - name: Build
+              run: dotnet build SkinHolderDesktop.sln --no-restore --configuration Release
+
+    vulnerable-dependencies:
+        runs-on: windows-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v7
+
+            - name: Setup .NET
+              uses: actions/setup-dotnet@v6
+              with:
+                  dotnet-version: "11.0.x"
+
+            - name: Restore dependencies
+              run: dotnet restore SkinHolderDesktop.sln
+
+            - name: Check for vulnerable NuGet packages
+              shell: pwsh
+              run: |
+                  $report = dotnet list SkinHolderDesktop.sln package --vulnerable --include-transitive --format json --output-version 1 | Out-String
+                  if ($LASTEXITCODE -ne 0) {
+                      Write-Host $report
+                      Write-Error "dotnet list package failed (exit code $LASTEXITCODE)."
+                      exit 1
+                  }
+                  Write-Host $report
+
+                  $json = $report | ConvertFrom-Json
+                  $vulnerable = @(foreach ($project in $json.projects) {
+                      foreach ($framework in $project.frameworks) {
+                          foreach ($package in @($framework.topLevelPackages) + @($framework.transitivePackages)) {
+                              if (@($package.vulnerabilities | Where-Object { $null -ne $_ }).Count -gt 0) {
+                                  '{0}@{1} ({2})' -f $package.id, $package.resolvedVersion, $framework.framework
+                              }
+                          }
+                      }
+                  })
+
+                  if ($vulnerable.Count -gt 0) {
+                      Write-Error "Vulnerable NuGet packages detected:`n$($vulnerable -join "`n")"
+                      exit 1
+                  }
+
+                  Write-Host 'No vulnerable NuGet packages detected.'
