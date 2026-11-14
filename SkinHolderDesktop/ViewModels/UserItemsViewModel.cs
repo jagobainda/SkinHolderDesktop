@@ -50,19 +50,19 @@ public partial class UserItemsViewModel : ObservableObject, IDisposable
     }
 
     [ObservableProperty]
-    private bool _isLoading;
+    public partial bool IsLoading { get; set; }
 
     [ObservableProperty]
-    private ObservableCollection<UserItemViewModel> _userItems = [];
+    public partial ObservableCollection<UserItemViewModel> UserItems { get; set; } = [];
 
     [ObservableProperty]
-    private ObservableCollection<Item> _items = [];
+    public partial ObservableCollection<Item> Items { get; set; } = [];
 
     [ObservableProperty]
-    public string _newItemNum = string.Empty;
+    public partial string NewItemNum { get; set; } = string.Empty;
 
     [ObservableProperty]
-    public Item? _selectedFilteredItem;
+    public partial Item? SelectedFilteredItem { get; set; }
 
     private List<UserItem> _rawUserItems = [];
 

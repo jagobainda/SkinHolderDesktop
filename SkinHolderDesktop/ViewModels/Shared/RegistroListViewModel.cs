@@ -40,17 +40,17 @@ public partial class RegistroListViewModel : ObservableObject
     private readonly Func<RegistroDetailsViewModel> _detailsViewModelFactory;
     private readonly Func<RegistroDetails> _detailsWindowFactory;
 
-    [ObservableProperty] private ObservableCollection<RegistroItem> registros;
-    [ObservableProperty] private string title = "Historial de Registros";
-    [ObservableProperty] private bool isLoading = false;
+    [ObservableProperty] public partial ObservableCollection<RegistroItem> Registros { get; set; }
+    [ObservableProperty] public partial string Title { get; set; } = "Historial de Registros";
+    [ObservableProperty] public partial bool IsLoading { get; set; } = false;
 
-    [ObservableProperty] private RegistroSortColumn currentSortColumn = RegistroSortColumn.None;
-    [ObservableProperty] private ListSortDirection currentSortDirection = ListSortDirection.Descending;
+    [ObservableProperty] public partial RegistroSortColumn CurrentSortColumn { get; set; } = RegistroSortColumn.None;
+    [ObservableProperty] public partial ListSortDirection CurrentSortDirection { get; set; } = ListSortDirection.Descending;
 
-    [ObservableProperty] private string fechaSortIndicator = "▼";
-    [ObservableProperty] private string steamSortIndicator = "";
-    [ObservableProperty] private string gamerPaySortIndicator = "";
-    [ObservableProperty] private string csFloatSortIndicator = "";
+    [ObservableProperty] public partial string FechaSortIndicator { get; set; } = "▼";
+    [ObservableProperty] public partial string SteamSortIndicator { get; set; } = "";
+    [ObservableProperty] public partial string GamerPaySortIndicator { get; set; } = "";
+    [ObservableProperty] public partial string CsFloatSortIndicator { get; set; } = "";
 
     private ICollectionView? _registrosView;
     private List<Registro> _fullRegistros = [];

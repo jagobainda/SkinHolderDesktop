@@ -6,14 +6,14 @@ namespace SkinHolderDesktop.ViewModels;
 public partial class GlobalViewModel : ObservableObject, IAuthSession
 {
     [ObservableProperty]
-    private string? currentUsername;
+    public partial string? CurrentUsername { get; set; }
 
     [ObservableProperty]
-    private string? token;
+    public partial string? Token { get; set; }
 
     [ObservableProperty] 
-    private int userId;
+    public partial int UserId { get; set; }
 
     [ObservableProperty]
-    private bool isAuthenticated;
+    public partial bool IsAuthenticated { get; set; }
 }

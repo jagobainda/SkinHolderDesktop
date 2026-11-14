@@ -25,21 +25,21 @@ public partial class RegistrosViewModel(IRegistroService registroService, IItemP
 
     private bool _disposed;
 
-    [ObservableProperty] private decimal totalSteam = 0.0m;
-    [ObservableProperty] private decimal totalGamerPay = 0.0m;
-    [ObservableProperty] private decimal totalCSFloat = 0.0m;
-    [ObservableProperty] private int progresoSteam = 0;
-    [ObservableProperty] private int progresoGamerPay = 0;
-    [ObservableProperty] private int progresoCSFloat = 0;
-    [ObservableProperty] private int totalItems = 0;
-    [ObservableProperty] private int itemsNoListadosGamerPay = 0;
-    [ObservableProperty] private int itemsWarningSteam = 0;
-    [ObservableProperty] private int itemsErrorSteam = 0;
+    [ObservableProperty] public partial decimal TotalSteam { get; set; } = 0.0m;
+    [ObservableProperty] public partial decimal TotalGamerPay { get; set; } = 0.0m;
+    [ObservableProperty] public partial decimal TotalCSFloat { get; set; } = 0.0m;
+    [ObservableProperty] public partial int ProgresoSteam { get; set; } = 0;
+    [ObservableProperty] public partial int ProgresoGamerPay { get; set; } = 0;
+    [ObservableProperty] public partial int ProgresoCSFloat { get; set; } = 0;
+    [ObservableProperty] public partial int TotalItems { get; set; } = 0;
+    [ObservableProperty] public partial int ItemsNoListadosGamerPay { get; set; } = 0;
+    [ObservableProperty] public partial int ItemsWarningSteam { get; set; } = 0;
+    [ObservableProperty] public partial int ItemsErrorSteam { get; set; } = 0;
 
-    [ObservableProperty] private bool detallesSteamEnabled = false;
-    [ObservableProperty] private bool detallesGamerPayEnabled = false;
-    [ObservableProperty] private bool detallesCSFloatEnabled = false;
-    [ObservableProperty] private bool botonesHabilitados = true;
+    [ObservableProperty] public partial bool DetallesSteamEnabled { get; set; } = false;
+    [ObservableProperty] public partial bool DetallesGamerPayEnabled { get; set; } = false;
+    [ObservableProperty] public partial bool DetallesCSFloatEnabled { get; set; } = false;
+    [ObservableProperty] public partial bool BotonesHabilitados { get; set; } = true;
 
     [RelayCommand]
     private async Task ConsultarAsync()

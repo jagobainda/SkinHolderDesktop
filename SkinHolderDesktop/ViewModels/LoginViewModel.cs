@@ -16,16 +16,16 @@ public partial class LoginViewModel : ObservableObject
     private readonly ILoggerService _loggerService;
 
     [ObservableProperty]
-    private string userName = "";
+    public partial string UserName { get; set; } = "";
 
     [ObservableProperty]
-    private string password = "";
+    public partial string Password { get; set; } = "";
 
     [ObservableProperty]
-    private string? errorText;
+    public partial string? ErrorText { get; set; }
 
     [ObservableProperty]
-    private bool guardarPassword;
+    public partial bool GuardarPassword { get; set; }
 
     public LoginViewModel(ILoginService loginService, IWindowService windowService, ILoggerService loggerService)
     {

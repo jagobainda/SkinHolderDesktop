@@ -14,20 +14,20 @@ public class RefreshLastRegistroMessage { }
 
 public partial class MainViewModel : ObservableObject, IRecipient<RefreshLastRegistroMessage>, IDisposable
 {
-    [ObservableProperty] private string steamPing = "-";
-    [ObservableProperty] private string gamerPayPing = "-";
-    [ObservableProperty] private string skinHolderDbPing = "-";
-    [ObservableProperty] private string estadoSkinHolderDb = "-";
-    [ObservableProperty] private string steamLast = "0.00";
-    [ObservableProperty] private string gamerPayLast = "0.00";
-    [ObservableProperty] private string csFloatLast = "0.00";
+    [ObservableProperty] public partial string SteamPing { get; set; } = "-";
+    [ObservableProperty] public partial string GamerPayPing { get; set; } = "-";
+    [ObservableProperty] public partial string SkinHolderDbPing { get; set; } = "-";
+    [ObservableProperty] public partial string EstadoSkinHolderDb { get; set; } = "-";
+    [ObservableProperty] public partial string SteamLast { get; set; } = "0.00";
+    [ObservableProperty] public partial string GamerPayLast { get; set; } = "0.00";
+    [ObservableProperty] public partial string CsFloatLast { get; set; } = "0.00";
 
-    [ObservableProperty] private Brush steamPingBrush = Brushes.White;
-    [ObservableProperty] private Brush gamerPayPingBrush = Brushes.White;
-    [ObservableProperty] private Brush skinHolderDbPingBrush = Brushes.White;
-    [ObservableProperty] private Brush estadoSkinHolderDbBrush = Brushes.White;
+    [ObservableProperty] public partial Brush SteamPingBrush { get; set; } = Brushes.White;
+    [ObservableProperty] public partial Brush GamerPayPingBrush { get; set; } = Brushes.White;
+    [ObservableProperty] public partial Brush SkinHolderDbPingBrush { get; set; } = Brushes.White;
+    [ObservableProperty] public partial Brush EstadoSkinHolderDbBrush { get; set; } = Brushes.White;
 
-    [ObservableProperty] private object? currentContent;
+    [ObservableProperty] public partial object? CurrentContent { get; set; }
     private readonly IMessenger _messenger;
 
     private readonly Brush _failBrush = new SolidColorBrush(Colors.DarkRed);

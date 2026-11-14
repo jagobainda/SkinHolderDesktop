@@ -9,11 +9,11 @@ namespace SkinHolderDesktop.ViewModels;
 
 public partial class UserItemViewModel : ObservableObject
 {
-    [ObservableProperty] private string _nombre;
-    [ObservableProperty] private int _cantidad;
+    [ObservableProperty] public partial string Nombre { get; set; }
+    [ObservableProperty] public partial int Cantidad { get; set; }
 
-    [ObservableProperty] private bool _isBusy;
-    [ObservableProperty] private Brush _nombreForeground = Brushes.WhiteSmoke;
+    [ObservableProperty] public partial bool IsBusy { get; set; }
+    [ObservableProperty] public partial Brush NombreForeground { get; set; } = Brushes.WhiteSmoke;
 
     private readonly IUserItemService _userItemService;
 
@@ -23,8 +23,8 @@ public partial class UserItemViewModel : ObservableObject
 
     public UserItemViewModel(UserItem model, IUserItemService userItemService)
     {
-        _nombre = model.ItemName;
-        _cantidad = model.Cantidad;
+        Nombre = model.ItemName;
+        Cantidad = model.Cantidad;
         _userItemService = userItemService;
 
         IncrementarCommand = new RelayCommand(() => Cantidad++, () => !IsBusy);

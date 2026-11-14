@@ -13,21 +13,21 @@ public partial class UserSettingsViewModel(IUserSettingsService userSettingsServ
     private readonly IAuthSession _authSession = authSession;
     private readonly ILoggerService _loggerService = loggerService;
 
-    [ObservableProperty] private string username = string.Empty;
-    [ObservableProperty] private string createdAtText = string.Empty;
-    [ObservableProperty] private bool isLoading;
+    [ObservableProperty] public partial string Username { get; set; } = string.Empty;
+    [ObservableProperty] public partial string CreatedAtText { get; set; } = string.Empty;
+    [ObservableProperty] public partial bool IsLoading { get; set; }
 
     // Change password
-    [ObservableProperty] private string currentPassword = string.Empty;
-    [ObservableProperty] private string newPassword = string.Empty;
-    [ObservableProperty] private string confirmNewPassword = string.Empty;
-    [ObservableProperty] private string passwordStatusMessage = string.Empty;
-    [ObservableProperty] private bool isPasswordSuccess;
+    [ObservableProperty] public partial string CurrentPassword { get; set; } = string.Empty;
+    [ObservableProperty] public partial string NewPassword { get; set; } = string.Empty;
+    [ObservableProperty] public partial string ConfirmNewPassword { get; set; } = string.Empty;
+    [ObservableProperty] public partial string PasswordStatusMessage { get; set; } = string.Empty;
+    [ObservableProperty] public partial bool IsPasswordSuccess { get; set; }
 
     // Delete account
-    [ObservableProperty] private string deletePassword = string.Empty;
-    [ObservableProperty] private string deleteStatusMessage = string.Empty;
-    [ObservableProperty] private bool isDeleteSuccess;
+    [ObservableProperty] public partial string DeletePassword { get; set; } = string.Empty;
+    [ObservableProperty] public partial string DeleteStatusMessage { get; set; } = string.Empty;
+    [ObservableProperty] public partial bool IsDeleteSuccess { get; set; }
 
     [RelayCommand]
     private async Task InitializeAsync()

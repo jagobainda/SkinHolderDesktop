@@ -38,22 +38,22 @@ public enum SortColumn
 
 public partial class RegistroDetailsViewModel : ObservableObject
 {
-    [ObservableProperty] private Registro registro;
-    [ObservableProperty] private ObservableCollection<ItemDetalle> itemsDetalle;
-    [ObservableProperty] private string title;
-    [ObservableProperty] private string fechaRegistro = string.Empty;
-    [ObservableProperty] private string totalSteamFormatted = "0.00€";
-    [ObservableProperty] private string totalGamerPayFormatted = "0.00€";
-    [ObservableProperty] private string totalCSFloatFormatted = "0.00€";
+    [ObservableProperty] public partial Registro Registro { get; set; }
+    [ObservableProperty] public partial ObservableCollection<ItemDetalle> ItemsDetalle { get; set; }
+    [ObservableProperty] public partial string Title { get; set; }
+    [ObservableProperty] public partial string FechaRegistro { get; set; } = string.Empty;
+    [ObservableProperty] public partial string TotalSteamFormatted { get; set; } = "0.00€";
+    [ObservableProperty] public partial string TotalGamerPayFormatted { get; set; } = "0.00€";
+    [ObservableProperty] public partial string TotalCSFloatFormatted { get; set; } = "0.00€";
 
-    [ObservableProperty] private SortColumn currentSortColumn = SortColumn.None;
-    [ObservableProperty] private ListSortDirection currentSortDirection = ListSortDirection.Ascending;
+    [ObservableProperty] public partial SortColumn CurrentSortColumn { get; set; } = SortColumn.None;
+    [ObservableProperty] public partial ListSortDirection CurrentSortDirection { get; set; } = ListSortDirection.Ascending;
 
-    [ObservableProperty] private string nombreSortIndicator = "";
-    [ObservableProperty] private string cantidadSortIndicator = "";
-    [ObservableProperty] private string steamSortIndicator = "";
-    [ObservableProperty] private string gamerPaySortIndicator = "";
-    [ObservableProperty] private string csFloatSortIndicator = "";
+    [ObservableProperty] public partial string NombreSortIndicator { get; set; } = "";
+    [ObservableProperty] public partial string CantidadSortIndicator { get; set; } = "";
+    [ObservableProperty] public partial string SteamSortIndicator { get; set; } = "";
+    [ObservableProperty] public partial string GamerPaySortIndicator { get; set; } = "";
+    [ObservableProperty] public partial string CsFloatSortIndicator { get; set; } = "";
 
     private ICollectionView? _itemsView;
     private List<ItemDetalle> _originalItems = [];
