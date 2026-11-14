@@ -1,4 +1,4 @@
-﻿namespace SkinHolderDesktop.Models.Auth;
+namespace SkinHolderDesktop.Models.Auth;
 
 public class LoginResponse
 {

@@ -1,4 +1,4 @@
-﻿using SkinHolderDesktop.Enums;
+using SkinHolderDesktop.Enums;
 using SkinHolderDesktop.Models;
 using System.Net.Http;
 using System.Text.Json;
@@ -7,7 +7,7 @@ namespace SkinHolderDesktop.Services;
 
 public interface IItemsService
 {
-    Task<List<Item>> GetItemsAsync();
+    public Task<List<Item>> GetItemsAsync();
 }
 
 public class ItemsService(HttpClient httpClient, JsonSerializerOptions jsonOptions, ILoggerService loggerService) : BaseService(httpClient, jsonOptions), IItemsService

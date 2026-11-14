@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SkinHolderDesktop.Models;
 using SkinHolderDesktop.Services;
@@ -86,7 +86,7 @@ public partial class RegistroListViewModel : ObservableObject
             Registros = new ObservableCollection<RegistroItem>(registroItems);
 
             _registrosView = CollectionViewSource.GetDefaultView(Registros);
-            
+
             _registrosView.SortDescriptions.Add(new SortDescription(nameof(RegistroItem.Fechahora), ListSortDirection.Descending));
             CurrentSortColumn = RegistroSortColumn.Fecha;
             UpdateSortIndicators();
@@ -98,28 +98,16 @@ public partial class RegistroListViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void SortByFecha()
-    {
-        SortByColumn(RegistroSortColumn.Fecha, nameof(RegistroItem.Fechahora));
-    }
+    private void SortByFecha() => SortByColumn(RegistroSortColumn.Fecha, nameof(RegistroItem.Fechahora));
 
     [RelayCommand]
-    private void SortBySteam()
-    {
-        SortByColumn(RegistroSortColumn.Steam, nameof(RegistroItem.Totalsteam));
-    }
+    private void SortBySteam() => SortByColumn(RegistroSortColumn.Steam, nameof(RegistroItem.Totalsteam));
 
     [RelayCommand]
-    private void SortByGamerPay()
-    {
-        SortByColumn(RegistroSortColumn.GamerPay, nameof(RegistroItem.Totalgamerpay));
-    }
+    private void SortByGamerPay() => SortByColumn(RegistroSortColumn.GamerPay, nameof(RegistroItem.Totalgamerpay));
 
     [RelayCommand]
-    private void SortByCSFloat()
-    {
-        SortByColumn(RegistroSortColumn.CSFloat, nameof(RegistroItem.Totalcsfloat));
-    }
+    private void SortByCSFloat() => SortByColumn(RegistroSortColumn.CSFloat, nameof(RegistroItem.Totalcsfloat));
 
     private void SortByColumn(RegistroSortColumn column, string propertyName)
     {

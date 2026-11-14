@@ -1,4 +1,4 @@
-﻿using SkinHolderDesktop.ViewModels;
+using SkinHolderDesktop.ViewModels;
 using System.ComponentModel;
 using System.IO;
 using System.Net.Http;

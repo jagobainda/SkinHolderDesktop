@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SkinHolderDesktop.Models;
 using System.Collections.ObjectModel;
@@ -94,34 +94,19 @@ public partial class RegistroDetailsViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void SortByNombre()
-    {
-        SortByColumn(SortColumn.ItemName, nameof(ItemDetalle.ItemName));
-    }
+    private void SortByNombre() => SortByColumn(SortColumn.ItemName, nameof(ItemDetalle.ItemName));
 
     [RelayCommand]
-    private void SortByCantidad()
-    {
-        SortByColumn(SortColumn.Cantidad, nameof(ItemDetalle.Cantidad));
-    }
+    private void SortByCantidad() => SortByColumn(SortColumn.Cantidad, nameof(ItemDetalle.Cantidad));
 
     [RelayCommand]
-    private void SortBySteam()
-    {
-        SortByColumn(SortColumn.PrecioSteam, nameof(ItemDetalle.PrecioSteam));
-    }
+    private void SortBySteam() => SortByColumn(SortColumn.PrecioSteam, nameof(ItemDetalle.PrecioSteam));
 
     [RelayCommand]
-    private void SortByGamerPay()
-    {
-        SortByColumn(SortColumn.PrecioGamerPay, nameof(ItemDetalle.PrecioGamerPay));
-    }
+    private void SortByGamerPay() => SortByColumn(SortColumn.PrecioGamerPay, nameof(ItemDetalle.PrecioGamerPay));
 
     [RelayCommand]
-    private void SortByCSFloat()
-    {
-        SortByColumn(SortColumn.PrecioCSFloat, nameof(ItemDetalle.PrecioCSFloat));
-    }
+    private void SortByCSFloat() => SortByColumn(SortColumn.PrecioCSFloat, nameof(ItemDetalle.PrecioCSFloat));
 
     private void SortByColumn(SortColumn column, string propertyName)
     {

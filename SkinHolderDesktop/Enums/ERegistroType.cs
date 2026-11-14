@@ -1,4 +1,4 @@
-﻿namespace SkinHolderDesktop.Enums;
+namespace SkinHolderDesktop.Enums;
 
 public enum ERegistroType
 {

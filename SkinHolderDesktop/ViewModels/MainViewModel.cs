@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using SkinHolderDesktop.Core;
@@ -125,10 +125,7 @@ public partial class MainViewModel : ObservableObject, IRecipient<RefreshLastReg
         CsFloatLast = lastRegistro.Totalcsfloat.ToString();
     }
 
-    public void Receive(RefreshLastRegistroMessage message)
-    {
-        _ = Task.Run(GetLastRegistroPrecioTotalAsync, _cts.Token);
-    }
+    public void Receive(RefreshLastRegistroMessage message) => _ = Task.Run(GetLastRegistroPrecioTotalAsync, _cts.Token);
 
     private void CargarVista<T>(Func<T> factory) where T : class
     {

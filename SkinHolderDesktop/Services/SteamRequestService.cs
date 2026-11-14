@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using SkinHolderDesktop.Enums;
 using SkinHolderDesktop.Models;
 using System.Net.Http;
@@ -8,7 +8,7 @@ namespace SkinHolderDesktop.Services;
 
 public interface ISteamRequestService
 {
-    Task<SteamItemInfo> MakeRequestAsync(string marketHashName, string country = "ES", int currency = 3, int appId = 730);
+    public Task<SteamItemInfo> MakeRequestAsync(string marketHashName, string country = "ES", int currency = 3, int appId = 730);
 }
 
 public class SteamRequestService([FromKeyedServices("steam")] HttpClient httpClient, ILoggerService loggerService) : ISteamRequestService

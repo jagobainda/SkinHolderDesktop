@@ -13,19 +13,13 @@ public static class TextBoxSelectAllBehavior
             typeof(TextBoxSelectAllBehavior),
             new PropertyMetadata(false, OnSelectAllOnFocusChanged));
 
-    public static bool GetSelectAllOnFocus(DependencyObject obj)
-    {
-        return (bool)obj.GetValue(SelectAllOnFocusProperty);
-    }
+    public static bool GetSelectAllOnFocus(DependencyObject obj) => (bool)obj.GetValue(SelectAllOnFocusProperty);
 
-    public static void SetSelectAllOnFocus(DependencyObject obj, bool value)
-    {
-        obj.SetValue(SelectAllOnFocusProperty, value);
-    }
+    public static void SetSelectAllOnFocus(DependencyObject obj, bool value) => obj.SetValue(SelectAllOnFocusProperty, value);
 
     private static void OnSelectAllOnFocusChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        bool newValue = (bool)e.NewValue;
+        var newValue = (bool)e.NewValue;
 
         if (d is TextBox textBox)
         {
@@ -40,7 +34,7 @@ public static class TextBoxSelectAllBehavior
                 textBox.PreviewMouseLeftButtonDown -= TextBox_PreviewMouseLeftButtonDown;
             }
         }
-        
+
         if (d is PasswordBox passwordBox)
         {
             if (newValue)

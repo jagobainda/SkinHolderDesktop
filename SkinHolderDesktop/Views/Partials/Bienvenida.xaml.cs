@@ -1,11 +1,8 @@
-﻿using System.Windows.Controls;
+using System.Windows.Controls;
 
 namespace SkinHolderDesktop.Views.Partials;
 
 public partial class Bienvenida : UserControl
 {
-    public Bienvenida()
-    {
-        InitializeComponent();
-    }
+    public Bienvenida() => InitializeComponent();
 }

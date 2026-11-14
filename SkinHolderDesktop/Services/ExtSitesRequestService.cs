@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using SkinHolderDesktop.Enums;
 using SkinHolderDesktop.Models;
 using System.Net.Http;
@@ -8,7 +8,7 @@ namespace SkinHolderDesktop.Services;
 
 public interface IExtSitesRequestService
 {
-    Task<GamerPayItemInfo[]> MakeGamerPayRequestAsync();
+    public Task<GamerPayItemInfo[]> MakeGamerPayRequestAsync();
 }
 
 public class ExtSitesRequestService([FromKeyedServices("extsites")] HttpClient httpClient, ILoggerService loggerService) : IExtSitesRequestService

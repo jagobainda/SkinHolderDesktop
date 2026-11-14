@@ -2,8 +2,8 @@ namespace SkinHolderDesktop.Core;
 
 public interface IAuthSession : ITokenProvider
 {
-    new string? Token { get; set; }
-    string? CurrentUsername { get; set; }
-    int UserId { get; set; }
-    bool IsAuthenticated { get; set; }
+    public new string? Token { get; set; }
+    public string? CurrentUsername { get; set; }
+    public int UserId { get; set; }
+    public bool IsAuthenticated { get; set; }
 }

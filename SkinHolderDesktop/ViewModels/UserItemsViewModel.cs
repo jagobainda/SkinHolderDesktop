@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SkinHolderDesktop.Core;
 using SkinHolderDesktop.Models;
@@ -136,7 +136,7 @@ public partial class UserItemsViewModel : ObservableObject, IDisposable
             return;
         }
 
-        if (!int.TryParse(NewItemNum, out int cantidad) || cantidad <= 0)
+        if (!int.TryParse(NewItemNum, out var cantidad) || cantidad <= 0)
         {
             CustomMessageBox.Show("Error", "Introduce un cantidad válida", CustomMessageBoxButton.OK, CustomMessageBoxIcon.Error);
             return;

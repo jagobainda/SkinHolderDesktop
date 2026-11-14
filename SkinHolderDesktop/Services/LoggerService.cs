@@ -1,4 +1,4 @@
-﻿using SkinHolderDesktop.Core;
+using SkinHolderDesktop.Core;
 using SkinHolderDesktop.Enums;
 using SkinHolderDesktop.Models;
 using System.Diagnostics;
@@ -9,7 +9,7 @@ namespace SkinHolderDesktop.Services;
 
 public interface ILoggerService
 {
-    Task SendLog(string message, ELogType logType);
+    public Task SendLog(string message, ELogType logType);
 }
 
 public class LoggerService(HttpClient httpClient, JsonSerializerOptions jsonOptions, IAuthSession authSession) : BaseService(httpClient, jsonOptions), ILoggerService

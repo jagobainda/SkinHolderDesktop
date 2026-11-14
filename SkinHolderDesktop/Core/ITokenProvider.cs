@@ -2,5 +2,5 @@ namespace SkinHolderDesktop.Core;
 
 public interface ITokenProvider
 {
-    string? Token { get; }
+    public string? Token { get; }
 }

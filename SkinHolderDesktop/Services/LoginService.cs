@@ -1,4 +1,4 @@
-﻿using SkinHolderDesktop.Core;
+using SkinHolderDesktop.Core;
 using SkinHolderDesktop.Enums;
 using SkinHolderDesktop.Models.Auth;
 using System.Net.Http;
@@ -8,8 +8,8 @@ namespace SkinHolderDesktop.Services;
 
 public interface ILoginService
 {
-    Task<(bool Success, string? ErrorMessage)> LoginAsync(string username, string password);
-    Task<bool> ValidateToken(string token);
+    public Task<(bool Success, string? ErrorMessage)> LoginAsync(string username, string password);
+    public Task<bool> ValidateToken(string token);
 }
 
 public class LoginService(HttpClient httpClient, JsonSerializerOptions jsonOptions, IAuthSession authSession, ILoggerService loggerService) : BaseService(httpClient, jsonOptions), ILoginService

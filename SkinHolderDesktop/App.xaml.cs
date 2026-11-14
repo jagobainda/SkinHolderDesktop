@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using SkinHolderDesktop.Core;
 using SkinHolderDesktop.Views;
 using SkinHolderDesktop.Views.Dialogs;
@@ -52,8 +52,5 @@ public partial class App : Application
         }
     }
 
-    protected override void OnExit(ExitEventArgs e)
-    {
-        base.OnExit(e);
-    }
+    protected override void OnExit(ExitEventArgs e) => base.OnExit(e);
 }

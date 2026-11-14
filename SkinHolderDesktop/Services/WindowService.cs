@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using SkinHolderDesktop.Enums;
 using SkinHolderDesktop.Views;
 using System.Windows;
@@ -7,8 +7,8 @@ namespace SkinHolderDesktop.Services;
 
 public interface IWindowService
 {
-    void ShowMainWindow();
-    void CloseLoginWindow();
+    public void ShowMainWindow();
+    public void CloseLoginWindow();
 }
 
 public class WindowService(ILoggerService loggerService) : IWindowService

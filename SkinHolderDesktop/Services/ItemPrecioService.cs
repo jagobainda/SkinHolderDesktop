@@ -1,16 +1,16 @@
-﻿using SkinHolderDesktop.Models;
+using SkinHolderDesktop.Enums;
+using SkinHolderDesktop.Models;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
-using SkinHolderDesktop.Enums;
 
 namespace SkinHolderDesktop.Services;
 
 public interface IItemPrecioService
 {
-    Task<List<ItemPrecio>> GetItemPreciosAsync(long registroId);
-    Task<bool> CreateItemPreciosAsync(List<ItemPrecio> itemPrecios);
-    Task<bool> DeleteItemPreciosAsync(long registroId);
+    public Task<List<ItemPrecio>> GetItemPreciosAsync(long registroId);
+    public Task<bool> CreateItemPreciosAsync(List<ItemPrecio> itemPrecios);
+    public Task<bool> DeleteItemPreciosAsync(long registroId);
 }
 
 public class ItemPrecioService(HttpClient httpClient, JsonSerializerOptions jsonOptions, ILoggerService loggerService) : BaseService(httpClient, jsonOptions), IItemPrecioService

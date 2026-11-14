@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using SkinHolderDesktop.Core;
@@ -13,8 +13,8 @@ using System.Text.Json;
 
 namespace SkinHolderDesktop.ViewModels;
 
-public partial class RegistrosViewModel(IRegistroService registroService, IItemPrecioService itemPrecioService, IUserItemService userItemService, ISteamRequestService steamRequestService, 
-    IExtSitesRequestService extSitesRequestService, ILoggerService loggerService, IAuthSession authSession, IMessenger messenger, 
+public partial class RegistrosViewModel(IRegistroService registroService, IItemPrecioService itemPrecioService, IUserItemService userItemService, ISteamRequestService steamRequestService,
+    IExtSitesRequestService extSitesRequestService, ILoggerService loggerService, IAuthSession authSession, IMessenger messenger,
     Func<RegistroDetailsViewModel> detailsViewModelFactory, Func<RegistroDetails> detailsWindowFactory, Func<RegistroListViewModel> listViewModelFactory, Func<RegistroList> listWindowFactory) : ObservableObject, IDisposable
 {
     private List<UserItem> _userItems = [];
@@ -42,17 +42,14 @@ public partial class RegistrosViewModel(IRegistroService registroService, IItemP
     [ObservableProperty] public partial bool BotonesHabilitados { get; set; } = true;
 
     [RelayCommand]
-    private async Task ConsultarAsync()
-    {
-        await EjecutarConsulta(async () =>
-        {
-            await ObtenerUserItems();
+    private async Task ConsultarAsync() => await EjecutarConsulta(async () =>
+                                                {
+                                                    await ObtenerUserItems();
 
-            TotalItems = _userItems.Count;
+                                                    TotalItems = _userItems.Count;
 
-            await ObtenerPrecios();
-        });
-    }
+                                                    await ObtenerPrecios();
+                                                });
 
     private async Task EjecutarConsulta(Func<Task> accion)
     {
@@ -96,10 +93,7 @@ public partial class RegistrosViewModel(IRegistroService registroService, IItemP
         _registro = new Registro();
     }
 
-    private async Task ObtenerUserItems()
-    {
-        _userItems = await userItemService.GetUserItemsAsync();
-    }
+    private async Task ObtenerUserItems() => _userItems = await userItemService.GetUserItemsAsync();
 
     private async Task ObtenerPrecios()
     {

@@ -1,15 +1,11 @@
-﻿using System.Windows.Controls;
+using System.Windows.Controls;
 
-namespace SkinHolderDesktop.Views.Partials.UserItemPartials
+namespace SkinHolderDesktop.Views.Partials.UserItemPartials;
+
+/// <summary>
+/// Lógica de interacción para _UserItem.xaml
+/// </summary>
+public partial class _UserItem : UserControl
 {
-    /// <summary>
-    /// Lógica de interacción para _UserItem.xaml
-    /// </summary>
-    public partial class _UserItem : UserControl
-    {
-        public _UserItem()
-        {
-            InitializeComponent();
-        }
-    }
+    public _UserItem() => InitializeComponent();
 }

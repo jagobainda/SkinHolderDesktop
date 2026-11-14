@@ -1,4 +1,4 @@
-﻿using SkinHolderDesktop.Utils;
+using SkinHolderDesktop.Utils;
 using System.Net;
 using System.Net.Http;
 

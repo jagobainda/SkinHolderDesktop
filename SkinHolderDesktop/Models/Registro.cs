@@ -1,4 +1,4 @@
-﻿namespace SkinHolderDesktop.Models;
+namespace SkinHolderDesktop.Models;
 
 public class Registro
 {

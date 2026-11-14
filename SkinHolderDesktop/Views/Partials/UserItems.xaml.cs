@@ -1,4 +1,4 @@
-﻿using SkinHolderDesktop.ViewModels;
+using SkinHolderDesktop.ViewModels;
 using System.Windows.Controls;
 
 namespace SkinHolderDesktop.Views.Partials;

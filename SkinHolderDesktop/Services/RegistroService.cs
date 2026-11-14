@@ -1,16 +1,16 @@
-﻿using SkinHolderDesktop.Models;
+using SkinHolderDesktop.Enums;
+using SkinHolderDesktop.Models;
 using System.Net.Http;
 using System.Text.Json;
-using SkinHolderDesktop.Enums;
 
 namespace SkinHolderDesktop.Services;
 
 public interface IRegistroService
 {
-    Task<Registro> GetLastRegistroAsync();
-    Task<List<Registro>> GetRegistrosAsync();
-    Task<long> CreateRegistroAsync(Registro registroDto);
-    Task<bool> DeleteRegistroAsync(long registroId);
+    public Task<Registro> GetLastRegistroAsync();
+    public Task<List<Registro>> GetRegistrosAsync();
+    public Task<long> CreateRegistroAsync(Registro registroDto);
+    public Task<bool> DeleteRegistroAsync(long registroId);
 }
 
 public class RegistroService(HttpClient httpClient, JsonSerializerOptions jsonOptions, ILoggerService loggerService) : BaseService(httpClient, jsonOptions), IRegistroService

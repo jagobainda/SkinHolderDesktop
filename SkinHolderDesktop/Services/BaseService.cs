@@ -1,4 +1,4 @@
-﻿using System.Net.Http;
+using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 
@@ -9,12 +9,9 @@ public abstract class BaseService(HttpClient httpClient, JsonSerializerOptions j
     protected readonly HttpClient HttpClient = httpClient;
     protected readonly JsonSerializerOptions JsonOptions = jsonOptions;
 
-    protected StringContent CreateJsonContent<T>(T payload)
-    {
-        return new StringContent(
+    protected StringContent CreateJsonContent<T>(T payload) => new StringContent(
             JsonSerializer.Serialize(payload, JsonOptions),
             Encoding.UTF8,
             "application/json"
         );
-    }
 }

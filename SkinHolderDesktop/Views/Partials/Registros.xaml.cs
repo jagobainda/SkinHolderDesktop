@@ -1,18 +1,17 @@
-﻿using SkinHolderDesktop.ViewModels;
+using SkinHolderDesktop.ViewModels;
 using System.Windows.Controls;
 
-namespace SkinHolderDesktop.Views.Partials
-{
-    /// <summary>
-    /// Lógica de interacción para Registros.xaml
-    /// </summary>
-    public partial class Registros : UserControl
-    {
-        public Registros(RegistrosViewModel registrosViewModel)
-        {
-            InitializeComponent();
+namespace SkinHolderDesktop.Views.Partials;
 
-            DataContext = registrosViewModel;
-        }
+/// <summary>
+/// Lógica de interacción para Registros.xaml
+/// </summary>
+public partial class Registros : UserControl
+{
+    public Registros(RegistrosViewModel registrosViewModel)
+    {
+        InitializeComponent();
+
+        DataContext = registrosViewModel;
     }
 }

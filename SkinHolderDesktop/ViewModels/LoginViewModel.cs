@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SkinHolderDesktop.Enums;
 using SkinHolderDesktop.Services;
@@ -38,10 +38,7 @@ public partial class LoginViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void ToggleGuardarPassword()
-    {
-        GuardarPassword = !GuardarPassword;
-    }
+    private void ToggleGuardarPassword() => GuardarPassword = !GuardarPassword;
 
 
     [RelayCommand]

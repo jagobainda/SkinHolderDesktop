@@ -7,9 +7,9 @@ namespace SkinHolderDesktop.Services;
 
 public interface IUserSettingsService
 {
-    Task<UserInfoResponse?> GetUserInfoAsync();
-    Task<(bool Success, string? ErrorMessage)> ChangePasswordAsync(string currentPassword, string newPassword);
-    Task<(bool Success, string? ErrorMessage)> DeleteAccountAsync(string currentPassword);
+    public Task<UserInfoResponse?> GetUserInfoAsync();
+    public Task<(bool Success, string? ErrorMessage)> ChangePasswordAsync(string currentPassword, string newPassword);
+    public Task<(bool Success, string? ErrorMessage)> DeleteAccountAsync(string currentPassword);
 }
 
 public class UserSettingsService(HttpClient httpClient, JsonSerializerOptions jsonOptions, ILoggerService loggerService) : BaseService(httpClient, jsonOptions), IUserSettingsService
